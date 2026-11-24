@@ -1,0 +1,39 @@
+// Zostaví web a nasadí ho na Cloudflare (Worker + statické súbory na rozvrh.dvoriste.xyz), potom pošle
+// zmenené stránky vyhľadávačom cez IndexNow (Bing, Yandex, Seznam…; Google číta sitemap).
+//   bun web/nasad.ts            zostavenie + nasadenie + IndexNow
+//   bun web/nasad.ts --skus     len zostavenie a wrangler deploy --dry-run
+// Token: ~/.config/rozvrh/cloudflare.env (CLOUDFLARE_API_TOKEN, CLOUDFLARE_ACCOUNT_ID), mimo repa, práva 600.
+import { rename, stat } from "node:fs/promises";
+import { ADRESA } from "./stranky";
+
+const skus = process.argv.includes("--skus");
+const spusti = (prikaz: string[], cwd = ".", env: Record<string, string> = {}) => {
+  const r = Bun.spawnSync(prikaz, { cwd, env: { ...process.env, ...env, WRANGLER_SEND_METRICS: "false" }, stdout: "inherit", stderr: "inherit" });
+  if (r.exitCode !== 0) throw new Error(`${prikaz.join(" ")} skončil s kódom ${r.exitCode}`);
+};
+
+const tajne = `${process.env.HOME}/.config/rozvrh/cloudflare.env`;
+// Token čítajú len súbory s právami 600 (iný účet na stroji ho nesmie vidieť).
+const prava = await stat(tajne).then((s) => s.mode & 0o777).catch(() => null);
+if (prava !== null && prava !== 0o600) throw new Error(`${tajne} má práva ${prava.toString(8)}, treba chmod 600.`);
+const env = Object.fromEntries(((await Bun.file(tajne).text().catch(() => "")).split("\n"))
+  .map((r) => r.match(/^\s*([A-Z_]+)\s*=\s*"?([^"\n]*)"?\s*$/)).filter((m) => m !== null).map((m) => [m[1]!, m[2]!]));
+if (!skus && (!env.CLOUDFLARE_API_TOKEN || !env.CLOUDFLARE_ACCOUNT_ID)) throw new Error(`Chýba ${tajne} s CLOUDFLARE_API_TOKEN a CLOUDFLARE_ACCOUNT_ID.`);
+
+spusti(["bun", "web/build.ts"]);
+
+spusti(["../node_modules/.bin/wrangler", "deploy", ...(skus ? ["--dry-run"] : [])], "site", skus ? {} : env);
+if (skus) process.exit(0);
+
+// Až po úspešnom nasadení: zmenené stránky do IndexNow a odtlačky ako nový základ.
+const { kluc, cesty } = (await Bun.file("site/indexnow.json").json()) as { kluc: string; cesty: string[] };
+const host = new URL(ADRESA).host;
+for (let i = 0; i < cesty.length; i += 10_000) {
+  const r = await fetch("https://api.indexnow.org/indexnow", {
+    method: "POST", headers: { "content-type": "application/json; charset=utf-8" },
+    body: JSON.stringify({ host, key: kluc, keyLocation: `${ADRESA}/${kluc}.txt`, urlList: cesty.slice(i, i + 10_000).map((c) => ADRESA + c) }),
+  });
+  console.log(`IndexNow: ${Math.min(10_000, cesty.length - i)} adries, HTTP ${r.status}`);
+}
+await rename("site/zmeny.novy.json", "site/zmeny.json");
+console.log(`nasadené: ${ADRESA}, zmenených stránok ${cesty.length}`);

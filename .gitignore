@@ -1,0 +1,17 @@
+node_modules/
+data/raw/
+data/prieskum*.log
+overenie/
+data/tmp/
+site/public/
+site/indexnow.json
+.wrangler/
+site/.port
+site/dev.log
+site/zmeny.json
+site/zmeny.novy.json
+*.predosly
+data/obnova/
+data/.zber.lock
+data/prieskum/
+data/zs/prieskum/

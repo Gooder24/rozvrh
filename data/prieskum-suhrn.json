@@ -1,0 +1,5616 @@
+{
+ "vytvorene": "2026-11-24T21:58:14.081Z",
+ "zozbierane": {
+  "SŠ": "734 z 734",
+  "ZŠ": "2013 z 2013"
+ },
+ "celkom": {
+  "SŠ": {
+   "spolu": 734,
+   "verejný rozvrh": 329,
+   "len zvonenie": 215,
+   "nenájdené": 190,
+   "predvolene": 2,
+   "pokrytie": 542
+  },
+  "ZŠ": {
+   "spolu": 2013,
+   "verejný rozvrh": 1134,
+   "len zvonenie": 478,
+   "nenájdené": 401,
+   "predvolene": 50,
+   "pokrytie": 1562
+  },
+  "spolu": {
+   "spolu": 2747,
+   "verejný rozvrh": 1463,
+   "len zvonenie": 693,
+   "nenájdené": 591,
+   "predvolene": 52,
+   "pokrytie": 2104
+  }
+ },
+ "poKrajoch": [
+  {
+   "kraj": "Žilinský",
+   "SŠ": {
+    "spolu": 90,
+    "verejný rozvrh": 55,
+    "len zvonenie": 22,
+    "nenájdené": 13,
+    "predvolene": 0,
+    "pokrytie": 77
+   },
+   "ZŠ": {
+    "spolu": 254,
+    "verejný rozvrh": 174,
+    "len zvonenie": 57,
+    "nenájdené": 23,
+    "predvolene": 2,
+    "pokrytie": 229
+   },
+   "spolu": {
+    "spolu": 344,
+    "verejný rozvrh": 229,
+    "len zvonenie": 79,
+    "nenájdené": 36,
+    "predvolene": 2,
+    "pokrytie": 306
+   }
+  },
+  {
+   "kraj": "Trenčiansky",
+   "SŠ": {
+    "spolu": 62,
+    "verejný rozvrh": 33,
+    "len zvonenie": 17,
+    "nenájdené": 12,
+    "predvolene": 0,
+    "pokrytie": 50
+   },
+   "ZŠ": {
+    "spolu": 183,
+    "verejný rozvrh": 128,
+    "len zvonenie": 32,
+    "nenájdené": 23,
+    "predvolene": 0,
+    "pokrytie": 160
+   },
+   "spolu": {
+    "spolu": 245,
+    "verejný rozvrh": 161,
+    "len zvonenie": 49,
+    "nenájdené": 35,
+    "predvolene": 0,
+    "pokrytie": 210
+   }
+  },
+  {
+   "kraj": "Prešovský",
+   "SŠ": {
+    "spolu": 128,
+    "verejný rozvrh": 53,
+    "len zvonenie": 41,
+    "nenájdené": 34,
+    "predvolene": 0,
+    "pokrytie": 94
+   },
+   "ZŠ": {
+    "spolu": 369,
+    "verejný rozvrh": 208,
+    "len zvonenie": 97,
+    "nenájdené": 64,
+    "predvolene": 10,
+    "pokrytie": 295
+   },
+   "spolu": {
+    "spolu": 497,
+    "verejný rozvrh": 261,
+    "len zvonenie": 138,
+    "nenájdené": 98,
+    "predvolene": 10,
+    "pokrytie": 389
+   }
+  },
+  {
+   "kraj": "Nitriansky",
+   "SŠ": {
+    "spolu": 81,
+    "verejný rozvrh": 41,
+    "len zvonenie": 23,
+    "nenájdené": 17,
+    "predvolene": 1,
+    "pokrytie": 63
+   },
+   "ZŠ": {
+    "spolu": 272,
+    "verejný rozvrh": 151,
+    "len zvonenie": 60,
+    "nenájdené": 61,
+    "predvolene": 7,
+    "pokrytie": 204
+   },
+   "spolu": {
+    "spolu": 353,
+    "verejný rozvrh": 192,
+    "len zvonenie": 83,
+    "nenájdené": 78,
+    "predvolene": 8,
+    "pokrytie": 267
+   }
+  },
+  {
+   "kraj": "Trnavský",
+   "SŠ": {
+    "spolu": 71,
+    "verejný rozvrh": 31,
+    "len zvonenie": 22,
+    "nenájdené": 18,
+    "predvolene": 0,
+    "pokrytie": 53
+   },
+   "ZŠ": {
+    "spolu": 203,
+    "verejný rozvrh": 96,
+    "len zvonenie": 62,
+    "nenájdené": 45,
+    "predvolene": 4,
+    "pokrytie": 154
+   },
+   "spolu": {
+    "spolu": 274,
+    "verejný rozvrh": 127,
+    "len zvonenie": 84,
+    "nenájdené": 63,
+    "predvolene": 4,
+    "pokrytie": 207
+   }
+  },
+  {
+   "kraj": "Košický",
+   "SŠ": {
+    "spolu": 108,
+    "verejný rozvrh": 31,
+    "len zvonenie": 45,
+    "nenájdené": 32,
+    "predvolene": 0,
+    "pokrytie": 76
+   },
+   "ZŠ": {
+    "spolu": 290,
+    "verejný rozvrh": 156,
+    "len zvonenie": 72,
+    "nenájdené": 62,
+    "predvolene": 15,
+    "pokrytie": 213
+   },
+   "spolu": {
+    "spolu": 398,
+    "verejný rozvrh": 187,
+    "len zvonenie": 117,
+    "nenájdené": 94,
+    "predvolene": 15,
+    "pokrytie": 289
+   }
+  },
+  {
+   "kraj": "Banskobystrický",
+   "SŠ": {
+    "spolu": 81,
+    "verejný rozvrh": 42,
+    "len zvonenie": 18,
+    "nenájdené": 21,
+    "predvolene": 1,
+    "pokrytie": 59
+   },
+   "ZŠ": {
+    "spolu": 256,
+    "verejný rozvrh": 141,
+    "len zvonenie": 48,
+    "nenájdené": 67,
+    "predvolene": 12,
+    "pokrytie": 177
+   },
+   "spolu": {
+    "spolu": 337,
+    "verejný rozvrh": 183,
+    "len zvonenie": 66,
+    "nenájdené": 88,
+    "predvolene": 13,
+    "pokrytie": 236
+   }
+  },
+  {
+   "kraj": "Bratislavský",
+   "SŠ": {
+    "spolu": 113,
+    "verejný rozvrh": 43,
+    "len zvonenie": 27,
+    "nenájdené": 43,
+    "predvolene": 0,
+    "pokrytie": 70
+   },
+   "ZŠ": {
+    "spolu": 186,
+    "verejný rozvrh": 80,
+    "len zvonenie": 50,
+    "nenájdené": 56,
+    "predvolene": 0,
+    "pokrytie": 130
+   },
+   "spolu": {
+    "spolu": 299,
+    "verejný rozvrh": 123,
+    "len zvonenie": 77,
+    "nenájdené": 99,
+    "predvolene": 0,
+    "pokrytie": 200
+   }
+  }
+ ],
+ "poTypoch": {
+  "ZŠ základná": {
+   "spolu": 2013,
+   "verejný rozvrh": 1134,
+   "len zvonenie": 478,
+   "nenájdené": 401,
+   "predvolene": 50,
+   "pokrytie": 1562
+  },
+  "SŠ odborná": {
+   "spolu": 385,
+   "verejný rozvrh": 200,
+   "len zvonenie": 103,
+   "nenájdené": 82,
+   "predvolene": 0,
+   "pokrytie": 303
+  },
+  "SŠ gymnázium / športová": {
+   "spolu": 220,
+   "verejný rozvrh": 85,
+   "len zvonenie": 71,
+   "nenájdené": 64,
+   "predvolene": 0,
+   "pokrytie": 156
+  },
+  "SŠ špeciálna": {
+   "spolu": 113,
+   "verejný rozvrh": 39,
+   "len zvonenie": 36,
+   "nenájdené": 38,
+   "predvolene": 2,
+   "pokrytie": 73
+  },
+  "SŠ konzervatórium": {
+   "spolu": 16,
+   "verejný rozvrh": 5,
+   "len zvonenie": 5,
+   "nenájdené": 6,
+   "predvolene": 0,
+   "pokrytie": 10
+  }
+ },
+ "zriadovatel": {
+  "ZŠ obecná": {
+   "spolu": 1776,
+   "verejný rozvrh": 1021,
+   "len zvonenie": 438,
+   "nenájdené": 317,
+   "predvolene": 47,
+   "pokrytie": 1412
+  },
+  "SŠ krajská": {
+   "spolu": 397,
+   "verejný rozvrh": 200,
+   "len zvonenie": 119,
+   "nenájdené": 78,
+   "predvolene": 0,
+   "pokrytie": 319
+  },
+  "SŠ súkromná": {
+   "spolu": 133,
+   "verejný rozvrh": 50,
+   "len zvonenie": 28,
+   "nenájdené": 55,
+   "predvolene": 1,
+   "pokrytie": 77
+  },
+  "SŠ štátna": {
+   "spolu": 119,
+   "verejný rozvrh": 42,
+   "len zvonenie": 42,
+   "nenájdené": 35,
+   "predvolene": 1,
+   "pokrytie": 83
+  },
+  "ZŠ cirkevná": {
+   "spolu": 118,
+   "verejný rozvrh": 70,
+   "len zvonenie": 24,
+   "nenájdené": 24,
+   "predvolene": 2,
+   "pokrytie": 92
+  },
+  "ZŠ súkromná": {
+   "spolu": 108,
+   "verejný rozvrh": 39,
+   "len zvonenie": 12,
+   "nenájdené": 57,
+   "predvolene": 1,
+   "pokrytie": 50
+  },
+  "SŠ cirkevná": {
+   "spolu": 74,
+   "verejný rozvrh": 28,
+   "len zvonenie": 25,
+   "nenájdené": 21,
+   "predvolene": 0,
+   "pokrytie": 53
+  },
+  "SŠ obecná": {
+   "spolu": 10,
+   "verejný rozvrh": 8,
+   "len zvonenie": 1,
+   "nenájdené": 1,
+   "predvolene": 0,
+   "pokrytie": 9
+  },
+  "ZŠ krajská": {
+   "spolu": 7,
+   "verejný rozvrh": 3,
+   "len zvonenie": 2,
+   "nenájdené": 2,
+   "predvolene": 0,
+   "pokrytie": 5
+  },
+  "ZŠ štátna": {
+   "spolu": 4,
+   "verejný rozvrh": 1,
+   "len zvonenie": 2,
+   "nenájdené": 1,
+   "predvolene": 0,
+   "pokrytie": 3
+  },
+  "SŠ iná": {
+   "spolu": 1,
+   "verejný rozvrh": 1,
+   "len zvonenie": 0,
+   "nenájdené": 0,
+   "predvolene": 0,
+   "pokrytie": 1
+  }
+ },
+ "zdrojeZvonenia": {
+  "EduPage API (rozvrh)": {
+   "spolu": 1463,
+   "verejný rozvrh": 1463,
+   "len zvonenie": 0,
+   "nenájdené": 0,
+   "predvolene": 52,
+   "pokrytie": 1411
+  },
+  "nenájdené": {
+   "spolu": 591,
+   "verejný rozvrh": 0,
+   "len zvonenie": 0,
+   "nenájdené": 591,
+   "predvolene": 0,
+   "pokrytie": 0
+  },
+  "EduPage widget na titulke": {
+   "spolu": 492,
+   "verejný rozvrh": 0,
+   "len zvonenie": 492,
+   "nenájdené": 0,
+   "predvolene": 0,
+   "pokrytie": 492
+  },
+  "text stránky na EduPage (súbor)": {
+   "spolu": 107,
+   "verejný rozvrh": 0,
+   "len zvonenie": 107,
+   "nenájdené": 0,
+   "predvolene": 0,
+   "pokrytie": 107
+  },
+  "text stránky na EduPage": {
+   "spolu": 52,
+   "verejný rozvrh": 0,
+   "len zvonenie": 52,
+   "nenájdené": 0,
+   "predvolene": 0,
+   "pokrytie": 52
+  },
+  "web školy": {
+   "spolu": 12,
+   "verejný rozvrh": 0,
+   "len zvonenie": 12,
+   "nenájdené": 0,
+   "predvolene": 0,
+   "pokrytie": 12
+  },
+  "text podstránky webu školy (súbor)": {
+   "spolu": 11,
+   "verejný rozvrh": 0,
+   "len zvonenie": 11,
+   "nenájdené": 0,
+   "predvolene": 0,
+   "pokrytie": 11
+  },
+  "web školy (súbor)": {
+   "spolu": 9,
+   "verejný rozvrh": 0,
+   "len zvonenie": 9,
+   "nenájdené": 0,
+   "predvolene": 0,
+   "pokrytie": 9
+  },
+  "text podstránky webu školy": {
+   "spolu": 6,
+   "verejný rozvrh": 0,
+   "len zvonenie": 6,
+   "nenájdené": 0,
+   "predvolene": 0,
+   "pokrytie": 6
+  },
+  "text webu školy": {
+   "spolu": 3,
+   "verejný rozvrh": 0,
+   "len zvonenie": 3,
+   "nenájdené": 0,
+   "predvolene": 0,
+   "pokrytie": 3
+  },
+  "widget na webe školy": {
+   "spolu": 1,
+   "verejný rozvrh": 0,
+   "len zvonenie": 1,
+   "nenájdené": 0,
+   "predvolene": 0,
+   "pokrytie": 1
+  }
+ },
+ "stavy": {
+  "verejny": {
+   "spolu": 1463,
+   "verejný rozvrh": 1463,
+   "len zvonenie": 0,
+   "nenájdené": 0,
+   "predvolene": 52,
+   "pokrytie": 1411
+  },
+  "len_prihlasenie": {
+   "spolu": 998,
+   "verejný rozvrh": 0,
+   "len zvonenie": 617,
+   "nenájdené": 381,
+   "predvolene": 0,
+   "pokrytie": 617
+  },
+  "bez_rozvrhu": {
+   "spolu": 155,
+   "verejný rozvrh": 0,
+   "len zvonenie": 53,
+   "nenájdené": 102,
+   "predvolene": 0,
+   "pokrytie": 53
+  },
+  "bez_edupage": {
+   "spolu": 121,
+   "verejný rozvrh": 0,
+   "len zvonenie": 17,
+   "nenájdené": 104,
+   "predvolene": 0,
+   "pokrytie": 17
+  },
+  "prazdny_rozvrh": {
+   "spolu": 9,
+   "verejný rozvrh": 0,
+   "len zvonenie": 5,
+   "nenájdené": 4,
+   "predvolene": 0,
+   "pokrytie": 5
+  },
+  "chyba": {
+   "spolu": 1,
+   "verejný rozvrh": 0,
+   "len zvonenie": 1,
+   "nenájdené": 0,
+   "predvolene": 0,
+   "pokrytie": 1
+  }
+ },
+ "inySystem": {
+  "rozvrh v PDF": 7,
+  "aSc Rozvrhy (export)": 6
+ },
+ "nesparovane": [
+  {
+   "stupen": "SŠ",
+   "eduid": "100009384",
+   "nazov": "Gymnázium Mikuláša Kováča",
+   "miesto": "Banská Bystrica",
+   "kraj": "Banskobystrický",
+   "web": "https://gmkbb.sk",
+   "web_stav": 200,
+   "zamietnute": [
+    {
+     "sub": "gmkbb",
+     "zdroj": "odkaz z webu",
+     "dovod": "adresa nesedí"
+    }
+   ]
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100010987",
+   "nazov": "Súkromná škola umeleckého priemyslu",
+   "miesto": "Hodruša-Hámre",
+   "kraj": "Banskobystrický",
+   "web": "https://ssushh.sk",
+   "web_stav": 200
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100010049",
+   "nazov": "Súkromné gymnázium",
+   "miesto": "Lučenec",
+   "kraj": "Banskobystrický",
+   "web": "www.sslc.sk",
+   "web_stav": 200,
+   "zamietnute": [
+    {
+     "sub": "2fsukromnazslc",
+     "zdroj": "odkaz z webu",
+     "dovod": "HTTP 404"
+    }
+   ]
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100020679",
+   "nazov": "Spojená škola internátna",
+   "miesto": "Valaská",
+   "kraj": "Banskobystrický",
+   "web": null
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100000680",
+   "nazov": "Súkromné gymnázium British International School Bratislava, ako organizačná zložka Súkromnej spojenej školy British Inte",
+   "miesto": "Bratislava-Dúbravka",
+   "kraj": "Bratislavský",
+   "web": "www.bis.sk",
+   "web_stav": 200
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100000661",
+   "nazov": "Praktická škola, ako organizačná zložka Spojenej školy",
+   "miesto": "Bratislava-Dúbravka",
+   "kraj": "Bratislavský",
+   "web": "www.szsdolba.szm.sk",
+   "web_stav": 404
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100000747",
+   "nazov": "Súkromné gymnázium ESPRIT",
+   "miesto": "Bratislava-Karlova Ves",
+   "kraj": "Bratislavský",
+   "web": "www.sgesprit.sk",
+   "web_stav": 200
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100000338",
+   "nazov": "Súkromná stredná odborná škola pedagogická a sociálna",
+   "miesto": "Bratislava-Karlova Ves",
+   "kraj": "Bratislavský",
+   "web": "https://paneuropasa.sk/",
+   "web_stav": 200
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100000705",
+   "nazov": "Praktická škola, ako organizačná zložka Spojenej školy",
+   "miesto": "Bratislava-Karlova Ves",
+   "kraj": "Bratislavský",
+   "web": "www.dubravska.sk",
+   "web_stav": 200
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100000986",
+   "nazov": "Súkromné bulharské gymnázium Christa Boteva",
+   "miesto": "Bratislava-Petržalka",
+   "kraj": "Bratislavský",
+   "web": "bsu-bratislava.com",
+   "web_stav": 200
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100000898",
+   "nazov": "Súkromná stredná odborná škola Johannes Senio Service",
+   "miesto": "Bratislava-Petržalka",
+   "kraj": "Bratislavský",
+   "web": "www.jss.sk",
+   "web_stav": 200
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100000975",
+   "nazov": "Stredná odborná škola technická",
+   "miesto": "Bratislava-Petržalka",
+   "kraj": "Bratislavský",
+   "web": "www.sosvranovska.sk",
+   "web_stav": 0
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100000182",
+   "nazov": "Súkromná stredná športová škola GAUDEAMUS",
+   "miesto": "Bratislava-Podunajské Bis",
+   "kraj": "Bratislavský",
+   "web": "www.dudva.sk",
+   "web_stav": 200
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100020248",
+   "nazov": "Stredná priemyselná škola informačných technológií a umelej inteligencie Skyro",
+   "miesto": "Bratislava-Podunajské Bis",
+   "kraj": "Bratislavský",
+   "web": "https://skyro.ai",
+   "web_stav": 200
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100000183",
+   "nazov": "Súkromná obchodná akadémia Profi - Kamo",
+   "miesto": "Bratislava-Podunajské Bis",
+   "kraj": "Bratislavský",
+   "web": "www.dudva.sk",
+   "web_stav": 200
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100001144",
+   "nazov": "Odborné učilište pri reedukačnom centre",
+   "miesto": "Veľké Leváre",
+   "kraj": "Bratislavský",
+   "web": "https://42290049.edupage.org/",
+   "zamietnute": [
+    {
+     "sub": "42290049",
+     "zdroj": "register",
+     "dovod": "HTTP 404"
+    }
+   ]
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100020734",
+   "nazov": "Gymnázium a Stredná odborná škola techniky a služieb",
+   "miesto": "Gelnica",
+   "kraj": "Košický",
+   "web": null
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100020690",
+   "nazov": "Súkromné gymnázium ako organizačná zložka Súkromnej spojenej školy",
+   "miesto": "Košice-Košická Nová Ves",
+   "kraj": "Košický",
+   "web": "https://www.keis.sk",
+   "web_stav": 200
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100014610",
+   "nazov": "Stredná priemyselná škola elektrotechnická",
+   "miesto": "Košice-Sever",
+   "kraj": "Košický",
+   "web": "https://www.spseke.sk",
+   "web_stav": 0
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100014729",
+   "nazov": "Evanjelické gymnázium Jana Amosa Komenského",
+   "miesto": "Košice-Staré Mesto",
+   "kraj": "Košický",
+   "web": "https://egjak.com",
+   "web_stav": 404
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100017527",
+   "nazov": "Spojená škola",
+   "miesto": "Košice-Vyšné Opátske",
+   "kraj": "Košický",
+   "web": "www.stpke.sk",
+   "web_stav": 200
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100005416",
+   "nazov": "Cirkevné gymnázium Marianum s vyučovacím jazykom maďarským - Marianum Egyházi Gimnázium",
+   "miesto": "Komárno",
+   "kraj": "Nitriansky",
+   "web": "https://www.marianum.eu",
+   "web_stav": 200,
+   "zamietnute": [
+    {
+     "sub": "marianum",
+     "zdroj": "odkaz z webu",
+     "dovod": "adresa nesedí"
+    }
+   ]
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100005820",
+   "nazov": "Piaristické gymnázium sv. Jozefa Kalazanského ako organizačná zložka Piaristickej spojenej školy sv. Jozefa Kalazanského",
+   "miesto": "Nitra",
+   "kraj": "Nitriansky",
+   "web": "https://piarko.sk/",
+   "web_stav": 200
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100005783",
+   "nazov": "Súkromná stredná odborná škola ANIMUS",
+   "miesto": "Nitra",
+   "kraj": "Nitriansky",
+   "web": "https://animus.sk",
+   "web_stav": 200,
+   "zamietnute": [
+    {
+     "sub": "ssosanimus",
+     "zdroj": "odkaz z webu",
+     "dovod": "adresa nesedí"
+    }
+   ]
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100020776",
+   "nazov": "Obchodná akadémia a Stredná odborná škola obchodu a služieb, SNP 5, Zlaté Moravce",
+   "miesto": "Zlaté Moravce",
+   "kraj": "Nitriansky",
+   "web": null
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100012259",
+   "nazov": "Praktická škola internátna ako organizačná zložka Spojenej školy internátnej",
+   "miesto": "Levoča",
+   "kraj": "Prešovský",
+   "web": "www.skola.nevidiaci.sk",
+   "web_stav": 200
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100006906",
+   "nazov": "Súkromné konzervatórium Prešov",
+   "miesto": "Prešov",
+   "kraj": "Prešovský",
+   "web": "https://www.skpo.sk/",
+   "web_stav": 200
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100019024",
+   "nazov": "Spojená škola",
+   "miesto": "Stará Ľubovňa",
+   "kraj": "Prešovský",
+   "web": "http://www.ssjsl.sk/",
+   "web_stav": 200
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100003472",
+   "nazov": "Odborné učilište internátne",
+   "miesto": "Ladce",
+   "kraj": "Trenčiansky",
+   "web": "https://42066249.edupage.org/",
+   "zamietnute": [
+    {
+     "sub": "42066249",
+     "zdroj": "register",
+     "dovod": "HTTP 404"
+    }
+   ]
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100017414",
+   "nazov": "Spojená škola",
+   "miesto": "Prievidza",
+   "kraj": "Trenčiansky",
+   "web": "www.oupd.edu.sk",
+   "web_stav": 200
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100017418",
+   "nazov": "Spojená škola internátna",
+   "miesto": "Trenčín",
+   "kraj": "Trenčiansky",
+   "web": "www.szsitrencin.edupage.orh",
+   "web_stav": 0
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100001611",
+   "nazov": "Súkromné gymnázium s vyučovacím jazykom maďarským - Magyar Tanítási Nyelvu Magángimnázium",
+   "miesto": "Dunajská Streda",
+   "kraj": "Trnavský",
+   "web": "www.mgds.eu",
+   "web_stav": 200
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100001962",
+   "nazov": "Súkromné bilingválne gymnázium",
+   "miesto": "Galanta",
+   "kraj": "Trnavský",
+   "web": "https://www.sbggalanta.sk",
+   "web_stav": 200
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100018901",
+   "nazov": "Súkromné gymnázium Quality Schools International ako organizačná zložka Súkromnej spojenej školy Quality Schools Interna",
+   "miesto": "Šamorín",
+   "kraj": "Trnavský",
+   "web": "https://bratislava.qsi.org/",
+   "web_stav": 200
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100002567",
+   "nazov": "Praktická škola internátna ako organizačná zložka Spojenej školy",
+   "miesto": "Senica",
+   "kraj": "Trnavský",
+   "web": "spojenaskolase.edupage.org",
+   "zamietnute": [
+    {
+     "sub": "spojenaskolase",
+     "zdroj": "register",
+     "dovod": "HTTP 404"
+    }
+   ]
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100002108",
+   "nazov": "Praktická škola - Készségfejlesztő Iskola ako organizačná zložka Spojenej školy",
+   "miesto": "Sládkovičovo",
+   "kraj": "Trnavský",
+   "web": "https://www.spojenaskolasladkovicovo.sk/",
+   "web_stav": 200,
+   "zamietnute": [
+    {
+     "sub": "cloud-b",
+     "zdroj": "odkaz z webu",
+     "dovod": "HTTP 404"
+    },
+    {
+     "sub": "cloud-5",
+     "zdroj": "odkaz z webu",
+     "dovod": "HTTP 404"
+    }
+   ]
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100002928",
+   "nazov": "Praktická škola ako organizačná zložka Spojenej školy",
+   "miesto": "Trnava",
+   "kraj": "Trnavský",
+   "web": "www.spojenaskolatt.sk",
+   "web_stav": 200
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100002467",
+   "nazov": "Gymnázium Jána Baltazára Magina",
+   "miesto": "Vrbové",
+   "kraj": "Trnavský",
+   "web": "https://gvrbove.sk/",
+   "web_stav": 200,
+   "zamietnute": [
+    {
+     "sub": "gvrbove",
+     "zdroj": "odkaz z webu",
+     "dovod": "adresa nesedí"
+    }
+   ]
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100020781",
+   "nazov": "Stredná odborná škola stavebná a Stredná odborná škola agropotravinárska a technická",
+   "miesto": "Liptovský Mikuláš",
+   "kraj": "Žilinský",
+   "web": null
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100008026",
+   "nazov": "Praktická škola ako organizačná zložka Spojenej školy",
+   "miesto": "Martin",
+   "kraj": "Žilinský",
+   "web": "www.spzmt.sk",
+   "web_stav": 200
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100020780",
+   "nazov": "Stredná priemyselná škola informačných technológií Ignáca Gessaya, Stredná odborná škola lesnícka a Gymnázium",
+   "miesto": "Tvrdošín",
+   "kraj": "Žilinský",
+   "web": null
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100009101",
+   "nazov": "Súkromná praktická škola",
+   "miesto": "Žilina",
+   "kraj": "Žilinský",
+   "web": null
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100010646",
+   "nazov": "Základná škola Arnolda Ipolyiho s vyučovacím jazykom maďarským - Ipolyi Arnold Alapiskola",
+   "miesto": "Balog nad Ipľom",
+   "kraj": "Banskobystrický",
+   "web": "https://alapiskola.balognadiplom.sk",
+   "web_stav": 200
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100020037",
+   "nazov": "Súkromná základná škola Banskobystrická",
+   "miesto": "Banská Bystrica",
+   "kraj": "Banskobystrický",
+   "web": "www.sukromnazakladka.sk",
+   "web_stav": 200,
+   "zamietnute": [
+    {
+     "sub": "sukromnazakladka",
+     "zdroj": "odkaz z webu",
+     "dovod": "adresa nesedí"
+    }
+   ]
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100009617",
+   "nazov": "Súkromná základná škola BAKOMI",
+   "miesto": "Banská Štiavnica",
+   "kraj": "Banskobystrický",
+   "web": "https://bakomi.sk/",
+   "web_stav": 200
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021744",
+   "nazov": "Základná škola",
+   "miesto": "Brusno",
+   "kraj": "Banskobystrický",
+   "web": "www.zsbrusno.sk",
+   "web_stav": 200
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021789",
+   "nazov": "Základná škola",
+   "miesto": "Gemerský Jablonec",
+   "kraj": "Banskobystrický",
+   "web": "www.zsgemerskyjablonec.sk",
+   "web_stav": 200
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021778",
+   "nazov": "Základná škola",
+   "miesto": "Lučenec",
+   "kraj": "Banskobystrický",
+   "web": "www.zsmsbratricka.sk",
+   "web_stav": 200
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021805",
+   "nazov": "Základná škola s vyučovacím jazykom slovenským a maďarským - Alapiskola",
+   "miesto": "Nenince",
+   "kraj": "Banskobystrický",
+   "web": "zssmsnenince.webnode.sk",
+   "web_stav": 200
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100011177",
+   "nazov": "Základná škola",
+   "miesto": "Sklené Teplice",
+   "kraj": "Banskobystrický",
+   "web": "www.zs.sklene-teplice.sk",
+   "web_stav": 200
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021806",
+   "nazov": "Základná škola",
+   "miesto": "Vrbovka",
+   "kraj": "Banskobystrický",
+   "web": null
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100000666",
+   "nazov": "Súkromná základná škola s materskou školou British International School Bratislava, ako organizačná zložka Súkromnej spo",
+   "miesto": "Bratislava-Dúbravka",
+   "kraj": "Bratislavský",
+   "web": "www.bis.sk",
+   "web_stav": 200
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100000337",
+   "nazov": "Súkromná základná škola",
+   "miesto": "Bratislava-Karlova Ves",
+   "kraj": "Bratislavský",
+   "web": "https://paneuroszs.sk/",
+   "web_stav": 200
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100000746",
+   "nazov": "Súkromná základná škola Esprit",
+   "miesto": "Bratislava-Karlova Ves",
+   "kraj": "Bratislavský",
+   "web": "www.sgesprit.sk",
+   "web_stav": 200
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100017601",
+   "nazov": "Súkromná základná škola ako organizačná zložka Súkromnej spojenej školy",
+   "miesto": "Bratislava-Petržalka",
+   "kraj": "Bratislavský",
+   "web": "www.brilliantstars.sk",
+   "web_stav": 200
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100000983",
+   "nazov": "Súkromná bulharská základná škola",
+   "miesto": "Bratislava-Petržalka",
+   "kraj": "Bratislavský",
+   "web": "bsu-bratislava.com",
+   "web_stav": 200
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100000461",
+   "nazov": "Súkromná základná škola EISB",
+   "miesto": "Bratislava-Ružinov",
+   "kraj": "Bratislavský",
+   "web": "https://eisbratislava.org/",
+   "web_stav": 200
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100000055",
+   "nazov": "Základná škola Dr. Ivana Dérera",
+   "miesto": "Bratislava-Staré Mesto",
+   "kraj": "Bratislavský",
+   "web": "https://www.zsderera.sk",
+   "web_stav": 200
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100000098",
+   "nazov": "Základná škola Matky Alexie",
+   "miesto": "Bratislava-Staré Mesto",
+   "kraj": "Bratislavský",
+   "web": "https://zsmatkyalexie.eu",
+   "web_stav": 200
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100001013",
+   "nazov": "Základná škola",
+   "miesto": "Gajary",
+   "kraj": "Bratislavský",
+   "web": "www.zsgajary.sk",
+   "web_stav": 200
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100001363",
+   "nazov": "Základná škola s vyučovacím jazykom maďarským - Alapiskola",
+   "miesto": "Hrubý Šúr",
+   "kraj": "Bratislavský",
+   "web": "https://41055770.edupage.org/",
+   "zamietnute": [
+    {
+     "sub": "41055770",
+     "zdroj": "register",
+     "dovod": "HTTP 404"
+    }
+   ]
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100001024",
+   "nazov": "Základná škola",
+   "miesto": "Jakubov",
+   "kraj": "Bratislavský",
+   "web": "http://www.zsjakubov.sk",
+   "web_stav": 429
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100019735",
+   "nazov": "Súkromná základná škola",
+   "miesto": "Pezinok",
+   "kraj": "Bratislavský",
+   "web": null
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100018902",
+   "nazov": "Súkromná základná škola Jolly HOMESCHOOL",
+   "miesto": "Pezinok",
+   "kraj": "Bratislavský",
+   "web": "www.jollyhomeschool.sk",
+   "web_stav": 200
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100016357",
+   "nazov": "Základná škola",
+   "miesto": "Čeľovce",
+   "kraj": "Košický",
+   "web": "skolacelovce.sk",
+   "web_stav": 200
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100015165",
+   "nazov": "Základná škola",
+   "miesto": "Herľany",
+   "kraj": "Košický",
+   "web": "www.zsherlany.webnode.sk",
+   "web_stav": 200
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100020689",
+   "nazov": "Súkromná základná škola International School, ako organizačná zložka Súkromnej spojenej školy",
+   "miesto": "Košice-Košická Nová Ves",
+   "kraj": "Košický",
+   "web": "https://www.keis.sk",
+   "web_stav": 200
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100019199",
+   "nazov": "Súkromná základná škola slobodného demokratického vzdelávania",
+   "miesto": "Košice-Nad jazerom",
+   "kraj": "Košický",
+   "web": "www.slobodnaskola.sk",
+   "web_stav": 200
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100014697",
+   "nazov": "Súkromná základná škola",
+   "miesto": "Košice-Staré Mesto",
+   "kraj": "Košický",
+   "web": "www.sukromnazslermontovova.sk",
+   "web_stav": 200
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100014896",
+   "nazov": "Súkromná základná škola",
+   "miesto": "Košice-Západ",
+   "kraj": "Košický",
+   "web": "www.slobody.sk",
+   "web_stav": 200
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100014881",
+   "nazov": "Základná škola",
+   "miesto": "Košice-Západ",
+   "kraj": "Košický",
+   "web": "https://www.zstrebisovska10.sk/",
+   "web_stav": 200
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021972",
+   "nazov": "Základná škola",
+   "miesto": "Krásnohorské Podhradie",
+   "kraj": "Košický",
+   "web": "zslipkraspod.6f.sk",
+   "web_stav": 200
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100016480",
+   "nazov": "Základná škola",
+   "miesto": "Sečovce",
+   "kraj": "Košický",
+   "web": "www.zskomsec.edulife.sk",
+   "web_stav": 0
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100015936",
+   "nazov": "Základná škola s vyučovacím jazykom maďarským - Alapiskola",
+   "miesto": "Silica",
+   "kraj": "Košický",
+   "web": "https://sziliceisuli.sk",
+   "web_stav": 0
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100016500",
+   "nazov": "Základná škola",
+   "miesto": "Slovenské Nové Mesto",
+   "kraj": "Košický",
+   "web": "www.zsslovenskenovemesto.sk",
+   "web_stav": 200
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100015945",
+   "nazov": "Základná škola",
+   "miesto": "Štítnik",
+   "kraj": "Košický",
+   "web": "www.zsstitnik.sk",
+   "web_stav": 200
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100015375",
+   "nazov": "Základná škola",
+   "miesto": "Štós",
+   "kraj": "Košický",
+   "web": "www.zsstos.sk",
+   "web_stav": 200
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100016538",
+   "nazov": "Základná škola",
+   "miesto": "Trebišov",
+   "kraj": "Košický",
+   "web": "zskraskutv.meu.zoznam.sk",
+   "web_stav": 200
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100015397",
+   "nazov": "Základná škola",
+   "miesto": "Valaliky",
+   "kraj": "Košický",
+   "web": "www.zsvalaliky.sk",
+   "web_stav": 0
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100014596",
+   "nazov": "Základná škola",
+   "miesto": "Závadka",
+   "kraj": "Košický",
+   "web": "http://skolazavadka.webnode.sk",
+   "web_stav": 200
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100016623",
+   "nazov": "Základná škola",
+   "miesto": "Zemplínske Jastrabie",
+   "kraj": "Košický",
+   "web": "http://.zszjastrabie@skolanawebe.sk",
+   "web_stav": 200
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100004931",
+   "nazov": "Základná škola",
+   "miesto": "Bajč",
+   "kraj": "Nitriansky",
+   "web": null
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100005258",
+   "nazov": "Základná škola",
+   "miesto": "Kalná nad Hronom",
+   "kraj": "Nitriansky",
+   "web": "www.zskalna.sk",
+   "web_stav": 0
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100005415",
+   "nazov": "Cirkevná ZŠ s MŠ ako org. zložka Spojenej školy MARIANUM s VJM - MARIANUM Egyházi Alapiskola és Óvoda",
+   "miesto": "Komárno",
+   "kraj": "Nitriansky",
+   "web": "www.marianum.eu",
+   "web_stav": 200,
+   "zamietnute": [
+    {
+     "sub": "marianum",
+     "zdroj": "odkaz z webu",
+     "dovod": "adresa nesedí"
+    }
+   ]
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100005525",
+   "nazov": "Základná škola",
+   "miesto": "Levice",
+   "kraj": "Nitriansky",
+   "web": "www.6zslevice.sk",
+   "web_stav": 200,
+   "zamietnute": [
+    {
+     "sub": "cloud-c",
+     "zdroj": "odkaz z webu",
+     "dovod": "HTTP 404"
+    },
+    {
+     "sub": "cloud-8",
+     "zdroj": "odkaz z webu",
+     "dovod": "HTTP 404"
+    }
+   ]
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100005618",
+   "nazov": "Základná škola s vyučovacím jazykom maďarským - Alapiskola",
+   "miesto": "Marcelová",
+   "kraj": "Nitriansky",
+   "web": "zsmmarcelova.sk",
+   "web_stav": 200
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100005764",
+   "nazov": "Základná škola",
+   "miesto": "Nitra",
+   "kraj": "Nitriansky",
+   "web": "www.zsfatranskanr.sk",
+   "web_stav": 0
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100006888",
+   "nazov": "Piaristická základná škola sv. Jozefa Kalazanského ako organizačná zložka Piaristickej spojenej školy sv. Jozefa Kalazan",
+   "miesto": "Nitra",
+   "kraj": "Nitriansky",
+   "web": "https://piarko.sk/",
+   "web_stav": 200
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021578",
+   "nazov": "Základná škola",
+   "miesto": "Nitra",
+   "kraj": "Nitriansky",
+   "web": "zsgorazdova.sk",
+   "web_stav": 200,
+   "zamietnute": [
+    {
+     "sub": "gorazdnr",
+     "zdroj": "odkaz z webu",
+     "dovod": "adresa nesedí"
+    },
+    {
+     "sub": "cloud-7",
+     "zdroj": "odkaz z webu",
+     "dovod": "HTTP 404"
+    }
+   ]
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100006365",
+   "nazov": "Základná škola Jána Amosa Komenského",
+   "miesto": "Tvrdošovce",
+   "kraj": "Nitriansky",
+   "web": "www.zstvrdosovce.sk",
+   "web_stav": 200
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100006366",
+   "nazov": "Základná škola Károlya Szemerényiho s vyučovacím jazykom maďarským - Szemerényi Károly Magyar Tan. Nyelvű Alapiskola",
+   "miesto": "Tvrdošovce",
+   "kraj": "Nitriansky",
+   "web": "www.zsmtvrdosovce.sk",
+   "web_stav": 200
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100020475",
+   "nazov": "Základná škola",
+   "miesto": "Zbehy",
+   "kraj": "Nitriansky",
+   "web": "https://www.zszbehy.eu/",
+   "web_stav": 200
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100012676",
+   "nazov": "Základná škola",
+   "miesto": "Chmeľov",
+   "kraj": "Prešovský",
+   "web": "chmelovskola.sk",
+   "web_stav": 200
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100013601",
+   "nazov": "Základná škola",
+   "miesto": "Chotča",
+   "kraj": "Prešovský",
+   "web": "www.zschotca.sk",
+   "web_stav": 200
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021845",
+   "nazov": "Základná škola",
+   "miesto": "Holumnica",
+   "kraj": "Prešovský",
+   "web": "www.zsholumnica.sk",
+   "web_stav": 200
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021836",
+   "nazov": "Základná škola",
+   "miesto": "Hrabovec nad Laborcom",
+   "kraj": "Prešovský",
+   "web": "https://zshrabovec.estranky.sk",
+   "web_stav": 200
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100011776",
+   "nazov": "Základná škola",
+   "miesto": "Humenné",
+   "kraj": "Prešovský",
+   "web": "www.zshrnche.edu.sk",
+   "web_stav": 200
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100013028",
+   "nazov": "Základná škola",
+   "miesto": "Ruská Nová Ves",
+   "kraj": "Prešovský",
+   "web": null
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021891",
+   "nazov": "Základná škola",
+   "miesto": "Šarišské Bohdanovce",
+   "kraj": "Prešovský",
+   "web": "www.zmsb.sk",
+   "web_stav": 200
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100011692",
+   "nazov": "Základná škola",
+   "miesto": "Stuľany",
+   "kraj": "Prešovský",
+   "web": "zs-stulany.sk",
+   "web_stav": 200
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100013766",
+   "nazov": "Základná škola - organizačná zložka",
+   "miesto": "Svidník",
+   "kraj": "Prešovský",
+   "web": null
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100003631",
+   "nazov": "Základná škola Štvrtej sednice Tatrína",
+   "miesto": "Čachtice",
+   "kraj": "Trenčiansky",
+   "web": "www.zscachtice.sk",
+   "web_stav": 200
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021529",
+   "nazov": "Základná škola",
+   "miesto": "Dolná Súča",
+   "kraj": "Trenčiansky",
+   "web": "https://www.zsdolnasuca.sk",
+   "web_stav": 200
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021386",
+   "nazov": "Základná škola s Materskou školou s vyučovacím jazykom maďarským - Alapiskola",
+   "miesto": "Čenkovce",
+   "kraj": "Trnavský",
+   "web": "www.zssmscenkovce.sk",
+   "web_stav": 200
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100022009",
+   "nazov": "Základná škola s vyučovacím jazykom maďarským - Alapiskola",
+   "miesto": "Dolné Saliby",
+   "kraj": "Trnavský",
+   "web": "https://sites.google.com/site/alszeliskola/",
+   "web_stav": 200
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100022036",
+   "nazov": "Cirkevná základná škola s materskou školou s vyučovacím jazykom maďarským - Egyházi Alapiskola és Óvoda",
+   "miesto": "Dunajská Streda",
+   "kraj": "Trnavský",
+   "web": "www.szentjanos.sk",
+   "web_stav": 200
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100001659",
+   "nazov": "Základná škola Gyulu Szabóa s vyučovacím jazykom maďarským - Szabó Gyula Alapiskola",
+   "miesto": "Dunajská Streda",
+   "kraj": "Trnavský",
+   "web": "http://www.zsszabo.sk/",
+   "web_stav": 200
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021391",
+   "nazov": "Základná škola s materskou školou",
+   "miesto": "Horné Saliby",
+   "kraj": "Trnavský",
+   "web": "www.zsmshornesaliby.edulife.sk",
+   "web_stav": 0
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021392",
+   "nazov": "Základná škola s VJM - Magyar Tannyelvű Alapiskola és Óvoda",
+   "miesto": "Horné Saliby",
+   "kraj": "Trnavský",
+   "web": "www.sziaszeli.sk",
+   "web_stav": 200
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021387",
+   "nazov": "Základná škola s vyučovacím jazykom maďarským - Alapiskola",
+   "miesto": "Jahodná",
+   "kraj": "Trnavský",
+   "web": "www.zsmjahodna.edu.sk",
+   "web_stav": 404
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100001755",
+   "nazov": "Základná škola s vyučovacím jazykom maďarským - Alapiskola",
+   "miesto": "Mierovo",
+   "kraj": "Trnavský",
+   "web": null
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021424",
+   "nazov": "Základná škola",
+   "miesto": "Plavecký Peter",
+   "kraj": "Trnavský",
+   "web": "https://63703519.edupage.org/",
+   "zamietnute": [
+    {
+     "sub": "63703519",
+     "zdroj": "register",
+     "dovod": "HTTP 404"
+    }
+   ]
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100001803",
+   "nazov": "Základná škola s vyučovacím jazykom maďarským - Alapiskola",
+   "miesto": "Rohovce",
+   "kraj": "Trnavský",
+   "web": "www.zsrohovce.edu.sk",
+   "web_stav": 0
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021395",
+   "nazov": "Základná škola s vyučovacím jazykom maďarským - Alapiskola",
+   "miesto": "Sládkovičovo",
+   "kraj": "Trnavský",
+   "web": "www.zsvjmsladkovicovo.sk",
+   "web_stav": 200
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100002607",
+   "nazov": "Základná škola",
+   "miesto": "Smrdáky",
+   "kraj": "Trnavský",
+   "web": null
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100001852",
+   "nazov": "Základná škola Ferenca Pálffyho s vyučovacím jazykom maďarským - Pálffy Ferenc Alapiskola",
+   "miesto": "Topoľníky",
+   "kraj": "Trnavský",
+   "web": "www.zstopolniky.sk",
+   "web_stav": 200
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021390",
+   "nazov": "Základná škola s vyučovacím jazykom maďarským - Alapiskola",
+   "miesto": "Trhová Hradská",
+   "kraj": "Trnavský",
+   "web": "www.sulinet.eu",
+   "web_stav": 200
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100018957",
+   "nazov": "Základná škola Narnia",
+   "miesto": "Trnava",
+   "kraj": "Trnavský",
+   "web": "https://narniatt.sk",
+   "web_stav": 200
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021400",
+   "nazov": "Základná škola s materskou školou",
+   "miesto": "Trstice",
+   "kraj": "Trnavský",
+   "web": "www.zstrstice.sk",
+   "web_stav": 200
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100022042",
+   "nazov": "Základná škola",
+   "miesto": "Vydrany",
+   "kraj": "Trnavský",
+   "web": null
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100007436",
+   "nazov": "Základná škola Petra Škrabáka ako organizačná zložka Spojenej školy",
+   "miesto": "Dolný Kubín",
+   "kraj": "Žilinský",
+   "web": null
+  }
+ ],
+ "edupageBezZvonenia": [
+  {
+   "stupen": "SŠ",
+   "eduid": "100018658",
+   "nazov": "Gymnázium sv. Uršule ako organizačná zložka Spojenej školy sv. Uršule",
+   "miesto": "Bratislava-Staré Mesto",
+   "sub": "gsurba",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100000180",
+   "nazov": "Súkromné gymnázium GALILEO SCHOOL",
+   "miesto": "Bratislava-Podunajské Bis",
+   "sub": "galileoschool",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100000210",
+   "nazov": "1. súkromné gymnázium v Bratislave",
+   "miesto": "Bratislava-Ružinov",
+   "sub": "1sg",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100000458",
+   "nazov": "Súkromná stredná športová škola EISB",
+   "miesto": "Bratislava-Ružinov",
+   "sub": "eisbratislava",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100019861",
+   "nazov": "Súkromné gymnázium, ako organizačná zložka Súkromnej spojenej školy Kings Schools International",
+   "miesto": "Bratislava-Nové Mesto",
+   "sub": "szskings",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100000568",
+   "nazov": "Súkromné gymnázium FELIX",
+   "miesto": "Bratislava-Karlova Ves",
+   "sub": "gymnaziumfelix",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100000846",
+   "nazov": "Gymnázium Alberta Einsteina",
+   "miesto": "Bratislava-Petržalka",
+   "sub": "einsteinova",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100000820",
+   "nazov": "Bilingválne gymnázium C. S. Lewisa",
+   "miesto": "Bratislava-Petržalka",
+   "sub": "cslewis",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100000894",
+   "nazov": "Súkromné gymnázium",
+   "miesto": "Bratislava-Petržalka",
+   "sub": "kremnickasg",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100018932",
+   "nazov": "Súkromné Gymnázium francúzsko-slovenské ako organizačná zložka Súkromnej spojenej školy francúzsko-slovenskej",
+   "miesto": "Bratislava-Petržalka",
+   "sub": "efibgym",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100000981",
+   "nazov": "Súkromné gymnázium MERCURY",
+   "miesto": "Bratislava-Petržalka",
+   "sub": "sgm",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100001042",
+   "nazov": "Gymnázium",
+   "miesto": "Malacky",
+   "sub": "gymal",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100001480",
+   "nazov": "Gymnázium Antona Bernoláka",
+   "miesto": "Senec",
+   "sub": "gab",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100001827",
+   "nazov": "Gymnázium Imre Madácha s vyučovacím jazykom maďarským - Madách Imre Magyar Tanítási Nyelvű Gimnázium",
+   "miesto": "Šamorín",
+   "sub": "madach",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100020238",
+   "nazov": "Gymnázium M.R. Štefánika ako organizačná zložka Gymnázia M. R. Štefánika a Základnej školy",
+   "miesto": "Šamorín",
+   "sub": "gymmrssam",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100002223",
+   "nazov": "Gymnázium Ivana Kupca",
+   "miesto": "Hlohovec",
+   "sub": "gymhc",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100003255",
+   "nazov": "Súkromné bilingválne gymnázium BESST",
+   "miesto": "Trnava",
+   "sub": "sbgbesst",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100002395",
+   "nazov": "Gymnázium Pierra de Coubertina",
+   "miesto": "Piešťany",
+   "sub": "gypy",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100004589",
+   "nazov": "Súkromná stredná športová škola",
+   "miesto": "Trenčianske Teplice",
+   "sub": "ssg",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100004682",
+   "nazov": "Stredná športová škola",
+   "miesto": "Trenčín",
+   "sub": "sportgymtn",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100004664",
+   "nazov": "Piaristické gymnázium Jozefa Braneckého",
+   "miesto": "Trenčín",
+   "sub": "pgjbtn",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100005530",
+   "nazov": "Gymnázium sv. Vincenta de Paul ako organizačná zložka Katolíckej spojenej školy sv. Vincenta de Paul",
+   "miesto": "Levice",
+   "sub": "zsvle",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100017430",
+   "nazov": "Spojená katolícka škola",
+   "miesto": "Nitra",
+   "sub": "gcm",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100017432",
+   "nazov": "Spojená škola",
+   "miesto": "Nitra",
+   "sub": "hanr",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100005964",
+   "nazov": "Gymnázium Petra Pázmáňa s vyučovacím jazykom maďarským - Pázmány Péter Gimnázium",
+   "miesto": "Nové Zámky",
+   "sub": "pazmangymnz",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100020955",
+   "nazov": "Gymnázium ako organizačná zložka Spojenej školy Juraja Turza",
+   "miesto": "Turzovka",
+   "sub": "gturzovka",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100008009",
+   "nazov": "Evanjelické gymnázium ako organizačná zložka Evanjelickej spojenej školy",
+   "miesto": "Martin",
+   "sub": "essmt",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100009339",
+   "nazov": "Katolícke gymnázium Štefana Moysesa",
+   "miesto": "Banská Bystrica",
+   "sub": "kgsm",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100009347",
+   "nazov": "Gymnázium Jozefa Gregora Tajovského",
+   "miesto": "Banská Bystrica",
+   "sub": "gjgt",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100009598",
+   "nazov": "Gymnázium Andreja Kmeťa",
+   "miesto": "Banská Štiavnica",
+   "sub": "gymbs",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100019440",
+   "nazov": "Gymnázium Mihálya Tompu Reformovanej kresťanskej cirkvi s vyučovacím jazykom maďarským - Tompa Mihály Református Gimnázi",
+   "miesto": "Rimavská Sobota",
+   "sub": "tmrg",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100011121",
+   "nazov": "Súkromné gymnázium",
+   "miesto": "Kremnica",
+   "sub": "sgkca",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100011224",
+   "nazov": "Gymnázium Milana Rúfusa",
+   "miesto": "Žiar nad Hronom",
+   "sub": "gymziar",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100011791",
+   "nazov": "Gymnázium arm. gen. Ludvíka Svobodu",
+   "miesto": "Humenné",
+   "sub": "gaglshe",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100012238",
+   "nazov": "Gymnázium Janka Francisciho - Rimavského",
+   "miesto": "Levoča",
+   "sub": "gymjfrle",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100012223",
+   "nazov": "Gymnázium sv. Františka Assiského",
+   "miesto": "Levoča",
+   "sub": "gsfalev",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100011771",
+   "nazov": "Gymnázium sv. Cyrila a Metoda ako organizačná zložka Cirkevnej spojenej školy",
+   "miesto": "Humenné",
+   "sub": "gymazshe",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100012412",
+   "nazov": "Gymnázium ako organizačná zložka Spojenej školy",
+   "miesto": "Poprad",
+   "sub": "gpdt",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100012434",
+   "nazov": "Gymnázium",
+   "miesto": "Poprad",
+   "sub": "gpuk",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100018560",
+   "nazov": "Súkromné gymnázium ako organizačná zložka Spojenej školy",
+   "miesto": "Poprad",
+   "sub": "lifeacademypp",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100012905",
+   "nazov": "Gymnázium Jána Adama Raymana",
+   "miesto": "Prešov",
+   "sub": "gjar",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100012852",
+   "nazov": "Gymnázium",
+   "miesto": "Prešov",
+   "sub": "gk2-po",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100013374",
+   "nazov": "Gymnázium",
+   "miesto": "Snina",
+   "sub": "gymsnina",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100014710",
+   "nazov": "Gymnázium Milana Rastislava Štefánika",
+   "miesto": "Košice-Staré Mesto",
+   "sub": "gmrske",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100014722",
+   "nazov": "Gymnázium",
+   "miesto": "Košice-Staré Mesto",
+   "sub": "gympos",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100014731",
+   "nazov": "Gymnázium",
+   "miesto": "Košice-Staré Mesto",
+   "sub": "srobarka",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100014838",
+   "nazov": "Súkromné gymnázium",
+   "miesto": "Košice-Západ",
+   "sub": "sgcr",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100014891",
+   "nazov": "Stredná športová škola",
+   "miesto": "Košice-Západ",
+   "sub": "sportgymke",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100014912",
+   "nazov": "Gymnázium sv. Edity Steinovej",
+   "miesto": "Košice-Dargovských hrdino",
+   "sub": "gymes",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100015015",
+   "nazov": "Súkromná stredná športová škola",
+   "miesto": "Košice-Juh",
+   "sub": "sssske",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100015039",
+   "nazov": "Súkromné gymnázium",
+   "miesto": "Košice-Nad jazerom",
+   "sub": "gymbosak",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100015071",
+   "nazov": "Gymnázium",
+   "miesto": "Košice-Vyšné Opátske",
+   "sub": "gymopatke",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100015543",
+   "nazov": "Gymnázium Pavla Horova",
+   "miesto": "Michalovce",
+   "sub": "gphmi",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100000136",
+   "nazov": "Konzervatórium",
+   "miesto": "Bratislava-Staré Mesto",
+   "sub": "konzervatoriumba",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100000629",
+   "nazov": "Súkromné konzervatórium ALKANA",
+   "miesto": "Bratislava-Dúbravka",
+   "sub": "konzervatoriumalkana",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100005778",
+   "nazov": "Súkromné konzervatórium",
+   "miesto": "Nitra",
+   "sub": "konzervatoriumnitra",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100009439",
+   "nazov": "Konzervatórium Jána Levoslava Bellu",
+   "miesto": "Banská Bystrica",
+   "sub": "konzervatoriumbb",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100020729",
+   "nazov": "Konzervatórium Jozefa Adamoviča a Konzervatórium Petra Dvorského",
+   "miesto": "Košice-Staré Mesto",
+   "sub": "konke",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100014685",
+   "nazov": "Súkromné konzervatórium",
+   "miesto": "Košice-Staré Mesto",
+   "sub": "skke",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100000160",
+   "nazov": "Stredná priemyselná škola elektrotechnická",
+   "miesto": "Bratislava-Staré Mesto",
+   "sub": "spsezoska",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100000171",
+   "nazov": "Súkromná stredná odborná škola pedagogická",
+   "miesto": "Bratislava-Podunajské Bis",
+   "sub": "ssospedagogba",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100000347",
+   "nazov": "Stredná odborná škola dopravná",
+   "miesto": "Bratislava-Ružinov",
+   "sub": "sosdba",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100000363",
+   "nazov": "Stredná odborná škola kaderníctva a vizážistiky",
+   "miesto": "Bratislava-Ružinov",
+   "sub": "beautycare",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100020654",
+   "nazov": "Škola umeleckého priemyslu",
+   "miesto": "Bratislava-Ružinov",
+   "sub": "tokajicka",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100000388",
+   "nazov": "Stredná zdravotnícka škola",
+   "miesto": "Bratislava-Ružinov",
+   "sub": "szsbaza",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100000490",
+   "nazov": "Stredná odborná škola polygrafická",
+   "miesto": "Bratislava-Rača",
+   "sub": "polygraficka",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100000498",
+   "nazov": "Súkromná stredná odborná škola HOST",
+   "miesto": "Bratislava-Nové Mesto",
+   "sub": "skolahost",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100019525",
+   "nazov": "Stredná odborná škola lýceum C. S. Lewisa",
+   "miesto": "Bratislava-Petržalka",
+   "sub": "lyceum",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100000870",
+   "nazov": "Stredná priemyselná škola elektrotechnická",
+   "miesto": "Bratislava-Petržalka",
+   "sub": "spsehalova",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100000891",
+   "nazov": "Súkromná obchodná akadémia",
+   "miesto": "Bratislava-Petržalka",
+   "sub": "kremnickasoa",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100000972",
+   "nazov": "Súkromná stredná odborná  škola ochrany osôb a majetku",
+   "miesto": "Bratislava-Petržalka",
+   "sub": "ssosoom",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100001212",
+   "nazov": "Stredná odborná škola pedagogická",
+   "miesto": "Modra",
+   "sub": "pakamodra",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100001473",
+   "nazov": "Stredná odborná škola automobilová a podnikania",
+   "miesto": "Senec",
+   "sub": "sossenec",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100002101",
+   "nazov": "Súkromná stredná odborná škola - Magán Szakközépiskola",
+   "miesto": "Sládkovičovo",
+   "sub": "ssossladkovicovo",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100001990",
+   "nazov": "Stredná odborná škola obchodu a služieb",
+   "miesto": "Galanta",
+   "sub": "sosoasga",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100019117",
+   "nazov": "Stredná odborná škola regionálneho rozvoja a Stredná odborná škola záhradnícka",
+   "miesto": "Rakovice",
+   "sub": "sosrakovice",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100002595",
+   "nazov": "Stredná odborná škola podnikania v remeslách a službách",
+   "miesto": "Senica",
+   "sub": "sosse",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100019127",
+   "nazov": "Spojená škola",
+   "miesto": "Holíč",
+   "sub": "sososholic",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100002728",
+   "nazov": "Stredná zdravotnícka škola",
+   "miesto": "Skalica",
+   "sub": "szsskalica",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100002966",
+   "nazov": "Súkromná stredná odborná škola DSA",
+   "miesto": "Trnava",
+   "sub": "sospolytechnicka-tt",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100003502",
+   "nazov": "Stredná odborná škola",
+   "miesto": "Pruské",
+   "sub": "sospruske",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100003575",
+   "nazov": "Stredná priemyselná škola",
+   "miesto": "Myjava",
+   "sub": "spsmyj",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100003425",
+   "nazov": "Stredná priemyselná škola",
+   "miesto": "Dubnica nad Váhom",
+   "sub": "spsdub",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100018693",
+   "nazov": "Stredná odborná škola",
+   "miesto": "Nováky",
+   "sub": "sosnovaky",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100018691",
+   "nazov": "Stredná zdravotnícka škola",
+   "miesto": "Prievidza",
+   "sub": "szspd",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100004685",
+   "nazov": "Škola umeleckého priemyslu",
+   "miesto": "Trenčín",
+   "sub": "suptn",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100005181",
+   "nazov": "Stredná priemyselná škola stavebná - Építőipari Szakközépiskola",
+   "miesto": "Hurbanovo",
+   "sub": "spsstav",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100019954",
+   "nazov": "Súkromná spojená škola",
+   "miesto": "Kolárovo",
+   "sub": "scholaprivata",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100005803",
+   "nazov": "Stredná odborná škola stavebná",
+   "miesto": "Nitra",
+   "sub": "sosnabrmladezenr",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100005868",
+   "nazov": "Súkromná škola umeleckého priemyslu",
+   "miesto": "Nitra",
+   "sub": "ssusnitra",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100006829",
+   "nazov": "Stredná odborná škola technická",
+   "miesto": "Šurany",
+   "sub": "sostsurany",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100007021",
+   "nazov": "Súkromná stredná odborná škola",
+   "miesto": "Bytča",
+   "sub": "sukromnasos",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100017454",
+   "nazov": "Súkromná spojená škola",
+   "miesto": "Martin",
+   "sub": "ssusmartin",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100008508",
+   "nazov": "Stredná zdravotnícka škola M. T. Schererovej",
+   "miesto": "Ružomberok",
+   "sub": "szsmtsrbk",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100007396",
+   "nazov": "Súkromná stredná odborná škola podnikania",
+   "miesto": "Ružomberok",
+   "sub": "skola-podnikania",
+   "stav": "prazdny_rozvrh"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100017459",
+   "nazov": "Spojená škola",
+   "miesto": "Ružomberok",
+   "sub": "zssos",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100009419",
+   "nazov": "Stredná odborná škola",
+   "miesto": "Banská Bystrica",
+   "sub": "sosbanbb",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100017473",
+   "nazov": "Katolícka spojená škola sv. Františka Assiského",
+   "miesto": "Banská Štiavnica",
+   "sub": "katgymbs",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100010078",
+   "nazov": "Stredná zdravotnícka škola",
+   "miesto": "Lučenec",
+   "sub": "szslc",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100003191",
+   "nazov": "Súkromná stredná odborná škola  Magán Szakkozépiskola",
+   "miesto": "Rimavská Sobota",
+   "sub": "ssosrs",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100020774",
+   "nazov": "Gymnázium Augusta Horislava Škultétyho, Obchodná akadémia a Stredná odborná škola",
+   "miesto": "Veľký Krtíš",
+   "sub": "ssmk",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100010905",
+   "nazov": "Stredná zdravotnícka škola",
+   "miesto": "Zvolen",
+   "sub": "szszvolen",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100010940",
+   "nazov": "Súkromná škola umeleckého priemyslu a vizuálneho umenia",
+   "miesto": "Zvolen",
+   "sub": "ssuszv",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100012031",
+   "nazov": "Hotelová akadémia Otta Brucknera",
+   "miesto": "Kežmarok",
+   "sub": "haobkk",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100011811",
+   "nazov": "Stredná zdravotnícka škola",
+   "miesto": "Humenné",
+   "sub": "szshe",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100012044",
+   "nazov": "Škola umeleckého priemyslu",
+   "miesto": "Kežmarok",
+   "sub": "gpohsupkk",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100011842",
+   "nazov": "Hotelová akadémia",
+   "miesto": "Humenné",
+   "sub": "hahe",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100012237",
+   "nazov": "Stredná zdravotnícka škola Štefana Kluberta",
+   "miesto": "Levoča",
+   "sub": "szslevoca",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100012488",
+   "nazov": "Stredná odborná škola elektrotechnická",
+   "miesto": "Poprad",
+   "sub": "sosematej",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100012473",
+   "nazov": "Súkromná stredná odborná škola",
+   "miesto": "Poprad",
+   "sub": "ssosta",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100012842",
+   "nazov": "Stredná zdravotnícka škola sv. Bazila Veľkého",
+   "miesto": "Prešov",
+   "sub": "szssvbazpo",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100012925",
+   "nazov": "Stredná priemyselná škola elektrotechnická",
+   "miesto": "Prešov",
+   "sub": "spse-po",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100012924",
+   "nazov": "Súkromná obchodná akadémia",
+   "miesto": "Prešov",
+   "sub": "soapo",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100013366",
+   "nazov": "Stredná odborná škola",
+   "miesto": "Snina",
+   "sub": "zsssnina",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100013636",
+   "nazov": "Stredná odborná škola elektrotechnická",
+   "miesto": "Stropkov",
+   "sub": "sosesp",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100013759",
+   "nazov": "Stredná odborná škola polytechnická a služieb arm. gen. L. Svobodu",
+   "miesto": "Svidník",
+   "sub": "sossvidnik",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100013679",
+   "nazov": "Súkromná stredná odborná škola",
+   "miesto": "Giraltovce",
+   "sub": "ssosgiraltovce",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100014641",
+   "nazov": "Obchodná akadémia",
+   "miesto": "Košice-Sever",
+   "sub": "oake",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100014686",
+   "nazov": "Stredná priemyselná škola strojnícka",
+   "miesto": "Košice-Staré Mesto",
+   "sub": "priemyslovka",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100014960",
+   "nazov": "Stredná odborná škola veterinárna",
+   "miesto": "Košice-Barca",
+   "sub": "sosvet",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100014976",
+   "nazov": "Stredná odborná škola pedagogická sv. Cyrila a Metoda",
+   "miesto": "Košice-Juh",
+   "sub": "kspgs",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100014977",
+   "nazov": "Súkromná stredná odborná škola PAMIKO",
+   "miesto": "Košice-Juh",
+   "sub": "sukromnasospamiko",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100020735",
+   "nazov": "Gymnázium Štefana Moysesa a Stredná odborná škola agrotechnická - Agrotechnikai Szakközépiskola",
+   "miesto": "Moldava nad Bodvou",
+   "sub": "gymmoldava",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100015531",
+   "nazov": "Súkromná hotelová akadémia - Dufincova",
+   "miesto": "Michalovce",
+   "sub": "sha-dufincova",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100015040",
+   "nazov": "Súkromná stredná odborná škola",
+   "miesto": "Košice-Nad jazerom",
+   "sub": "ssoske",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100020731",
+   "nazov": "Obchodná akadémia a Stredná odborná škola obchodu a služieb",
+   "miesto": "Rožňava",
+   "sub": "oarv",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100015563",
+   "nazov": "Stredná odborná škola technická",
+   "miesto": "Michalovce",
+   "sub": "sostmi",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100016186",
+   "nazov": "Stredná odborná škola drevárska",
+   "miesto": "Spišská Nová Ves",
+   "sub": "sosdsnv",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100017377",
+   "nazov": "Spojená škola internátna",
+   "miesto": "Bratislava-Nové Mesto",
+   "sub": "ssihrdlickova",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100000505",
+   "nazov": "Elokované pracovisko ako súčasť Školy pre mimoriadne nadané deti a GYMNÁZIUM",
+   "miesto": "Bratislava-Nové Mesto",
+   "sub": "smnd",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100001500",
+   "nazov": "Praktická škola, ako organizačná zložka Spojenej školy",
+   "miesto": "Senec",
+   "sub": "sstrnavska",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100002416",
+   "nazov": "Praktická škola ako organizačná zložka Spojenej školy",
+   "miesto": "Piešťany",
+   "sub": "spojenaskolapn",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100002262",
+   "nazov": "Reedukačné centrum",
+   "miesto": "Hlohovec",
+   "sub": "rchlohovec",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100017427",
+   "nazov": "Spojená škola internátna",
+   "miesto": "Šahy",
+   "sub": "ssisahy",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100020119",
+   "nazov": "Praktická škola ako organizačná zložka Spojenej školy",
+   "miesto": "Komárno",
+   "sub": "spojenaskolakn",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100005972",
+   "nazov": "Odborné učilište internátne",
+   "miesto": "Nová Ves nad Žitavou",
+   "sub": "ouinvnz",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100017456",
+   "nazov": "Spojená škola internátna",
+   "miesto": "Námestovo",
+   "sub": "ssino",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100009494",
+   "nazov": "Odborné učilište internátne Viliama Gaňu",
+   "miesto": "Banská Bystrica",
+   "sub": "ouivg",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100010117",
+   "nazov": "Praktická škola ako súčasť Špeciálnej základnej školy",
+   "miesto": "Lučenec",
+   "sub": "szszvolenskalc",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100017464",
+   "nazov": "Spojená škola internátna",
+   "miesto": "Žilina",
+   "sub": "ssi",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100017480",
+   "nazov": "Spojená škola",
+   "miesto": "Nová Baňa",
+   "sub": "ssnovabana",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100017485",
+   "nazov": "Spojená škola",
+   "miesto": "Bardejov",
+   "sub": "ssbj",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100017487",
+   "nazov": "Spojená škola internátna",
+   "miesto": "Humenné",
+   "sub": "spojskolahe",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100012628",
+   "nazov": "Evanjelická praktická škola internátna ako organizačná zložka Evanjelickej spojenej školy internátnej",
+   "miesto": "Červenica",
+   "sub": "essicervenica",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100017510",
+   "nazov": "Spojená škola",
+   "miesto": "Sabinov",
+   "sub": "spojenasb",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100017827",
+   "nazov": "Súkromná praktická škola ako organizačná zložka Súkromnej spojenej školy",
+   "miesto": "Prešov",
+   "sub": "autistipresov",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100017290",
+   "nazov": "Súkromné odborné učilište ELBA",
+   "miesto": "Svinia",
+   "sub": "souelba",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100017521",
+   "nazov": "Spojená škola internátna",
+   "miesto": "Vranov nad Topľou",
+   "sub": "szsivt",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100014763",
+   "nazov": "Súkromná praktická škola",
+   "miesto": "Košice-Myslava",
+   "sub": "rubikonps",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100013626",
+   "nazov": "Súkromné odborné učilište",
+   "miesto": "Stropkov",
+   "sub": "sukromneousp",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100016628",
+   "nazov": "Praktická škola ako organizačná zložka Spojenej školy",
+   "miesto": "Pavlovce nad Uhom",
+   "sub": "szspavlovce",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100020362",
+   "nazov": "Praktická škola",
+   "miesto": "Sečovce",
+   "sub": "pssecovce",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "SŠ",
+   "eduid": "100017544",
+   "nazov": "Spojená škola",
+   "miesto": "Rudňany",
+   "sub": "ssrudnany",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100018711",
+   "nazov": "Základná škola ako organizačná zložka Základnej školy s materskou školou",
+   "miesto": "Bratislava-Staré Mesto",
+   "sub": "zsdubova",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100019439",
+   "nazov": "Základná škola Reformovanej kresťanskej cirkvi s vyučovacím jazykom maďarským - Református Alapiskola ako organizačná zl",
+   "miesto": "Rimavská Sobota",
+   "sub": "tmrg",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100015695",
+   "nazov": "Základná škola Istvána Dobóa s vyučovacím jazykom maďarským - Dobó István Alapiskola",
+   "miesto": "Veľké Slemence",
+   "sub": "zsvslemence",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100011792",
+   "nazov": "Základná škola",
+   "miesto": "Humenné",
+   "sub": "zskudhe",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100016167",
+   "nazov": "Základná škola",
+   "miesto": "Slovinky",
+   "sub": "zsslovinky",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100019402",
+   "nazov": "Súkromná základná škola Fantastická",
+   "miesto": "Bratislava-Staré Mesto",
+   "sub": "szsfan",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100020473",
+   "nazov": "Základná škola DOBROdružstvo",
+   "miesto": "Bratislava-Staré Mesto",
+   "sub": "dobrodruzstvo",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100019209",
+   "nazov": "Súkromná základná škola Edulienka",
+   "miesto": "Bratislava-Staré Mesto",
+   "sub": "edulienka",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100019730",
+   "nazov": "Základná škola Citadela ako organizačná zložka Spojenej školy Kolégia Antona Neuwirtha",
+   "miesto": "Bratislava-Staré Mesto",
+   "sub": "citadela",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100019636",
+   "nazov": "Súkromná základná škola",
+   "miesto": "Bratislava-Staré Mesto",
+   "sub": "skolicka",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100000177",
+   "nazov": "Základná škola",
+   "miesto": "Bratislava-Podunajské Bis",
+   "sub": "b21",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100000155",
+   "nazov": "Základná škola",
+   "miesto": "Bratislava-Staré Mesto",
+   "sub": "zsvazovova",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100000181",
+   "nazov": "Súkromná základná škola GALILEO SCHOOL",
+   "miesto": "Bratislava-Podunajské Bis",
+   "sub": "galileoschool",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100000197",
+   "nazov": "Základná škola",
+   "miesto": "Bratislava-Podunajské Bis",
+   "sub": "zspodzaba",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100019947",
+   "nazov": "Súkromná základná škola",
+   "miesto": "Bratislava-Ružinov",
+   "sub": "skolasvmichala",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100000320",
+   "nazov": "Základná škola Slovenského národného povstania",
+   "miesto": "Bratislava-Ružinov",
+   "sub": "zsostredkova",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100000384",
+   "nazov": "Základná škola",
+   "miesto": "Bratislava-Ružinov",
+   "sub": "zsvrutocka58",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100020471",
+   "nazov": "Súkromná základná škola Rozmanita",
+   "miesto": "Bratislava-Ružinov",
+   "sub": "rozmanita",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100019859",
+   "nazov": "Súkromná základná škola, ako organizačná zložka Súkromnej spojenej školy Kings Schools International",
+   "miesto": "Bratislava-Nové Mesto",
+   "sub": "szskings",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100020029",
+   "nazov": "Súkromná základná škola Ako doma, ako organizačná zložka Spojenej školy",
+   "miesto": "Bratislava-Dúbravka",
+   "sub": "skolaakodoma",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100000583",
+   "nazov": "Základná škola Kataríny Brúderovej",
+   "miesto": "Bratislava-Vajnory",
+   "sub": "zsvajnory",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100000671",
+   "nazov": "Základná škola",
+   "miesto": "Bratislava-Dúbravka",
+   "sub": "zsnejedleho",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021367",
+   "nazov": "Súkromná základná škola Marie Montessori",
+   "miesto": "Bratislava-Lamač",
+   "sub": "montessorisk",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100000876",
+   "nazov": "Základná škola",
+   "miesto": "Bratislava-Petržalka",
+   "sub": "zsholicska",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100017964",
+   "nazov": "Súkromná základná škola, ??????? oc?????? ?????",
+   "miesto": "Bratislava-Petržalka",
+   "sub": "rs70877079",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100000842",
+   "nazov": "Základná škola",
+   "miesto": "Bratislava-Petržalka",
+   "sub": "www",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100018931",
+   "nazov": "Súkromná základná škola s materskou školou francúzsko-slovenská ako organizačná zložka  Súkromnej spojenej školy francúz",
+   "miesto": "Bratislava-Petržalka",
+   "sub": "efib",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100000856",
+   "nazov": "Základná škola",
+   "miesto": "Bratislava-Petržalka",
+   "sub": "zsgessayova",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100018960",
+   "nazov": "Súkromná základná škola Quality Schools Internationa",
+   "miesto": "Bratislava-Petržalka",
+   "sub": "qsib",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100000979",
+   "nazov": "Súkromná základná škola",
+   "miesto": "Bratislava-Petržalka",
+   "sub": "mercury",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100020251",
+   "nazov": "Súkromná základná škola",
+   "miesto": "Bratislava-Petržalka",
+   "sub": "skolaneskola",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100000956",
+   "nazov": "Základná škola",
+   "miesto": "Bratislava-Petržalka",
+   "sub": "zstuba",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100000910",
+   "nazov": "Základná škola",
+   "miesto": "Bratislava-Petržalka",
+   "sub": "zsnobel",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100000837",
+   "nazov": "Základná škola",
+   "miesto": "Bratislava-Petržalka",
+   "sub": "zscerba",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021036",
+   "nazov": "Súkromná základná škola",
+   "miesto": "Kostolište",
+   "sub": "monte",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100001045",
+   "nazov": "Základná škola Dr. Jozefa Dérera",
+   "miesto": "Malacky",
+   "sub": "dererka",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100001082",
+   "nazov": "Základná škola",
+   "miesto": "Marianka",
+   "sub": "zsmarianka",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100001073",
+   "nazov": "Základná škola",
+   "miesto": "Malacky",
+   "sub": "zs4malacky",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021375",
+   "nazov": "Základná škola",
+   "miesto": "Vysoká pri Morave",
+   "sub": "zsvysmor",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100019758",
+   "nazov": "Súkromná základná škola GREENWILL",
+   "miesto": "Limbach",
+   "sub": "szsgw",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100020398",
+   "nazov": "Základná škola ako organizačná zložka Spojenej školy",
+   "miesto": "Rohožník",
+   "sub": "zsrohoznik",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100018296",
+   "nazov": "Súkromná základná škola",
+   "miesto": "Pezinok",
+   "sub": "szspezinok",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100001351",
+   "nazov": "Základná škola",
+   "miesto": "Dunajská Lužná",
+   "sub": "zsdunajskaluzna",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100022044",
+   "nazov": "Základná škola",
+   "miesto": "Chorvátsky Grob",
+   "sub": "skolajavorka",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100020672",
+   "nazov": "Základná škola",
+   "miesto": "Malinovo",
+   "sub": "zsmalinovo",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100017334",
+   "nazov": "Súkromná základná škola",
+   "miesto": "Senec",
+   "sub": "skolasenec",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100001455",
+   "nazov": "Základná škola",
+   "miesto": "Rovinka",
+   "sub": "zsrovinka",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100001560",
+   "nazov": "Základná škola s vyučovacím jazykom maďarským - Alapiskola",
+   "miesto": "Blatná na Ostrove",
+   "sub": "zsvjmblatna",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100001499",
+   "nazov": "Základná škola J. G. Tajovského",
+   "miesto": "Senec",
+   "sub": "zstajovskehosenec",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100001594",
+   "nazov": "Reformovaná základná cirkevná škola s vyučovacím jazykom maďarským - Magyar Tannyelvű Református Alapiskola",
+   "miesto": "Dolný Štál",
+   "sub": "area",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100001484",
+   "nazov": "Základná škola",
+   "miesto": "Senec",
+   "sub": "zssenecmlynska",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100001622",
+   "nazov": "Základná škola Zoltána Kodálya s vyučovacím jazykom maďarským - Kodály Zoltán Alapiskola",
+   "miesto": "Dunajská Streda",
+   "sub": "kzai",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100001774",
+   "nazov": "Základná škola s vyučovacím jazykom maďarským - Alapiskola",
+   "miesto": "Ohrady",
+   "sub": "zsohrady",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100001870",
+   "nazov": "Základná škola s vyučovacím jazykom maďarským - Alapiskola",
+   "miesto": "Veľké Blahovo",
+   "sub": "zsvelkeblahovo",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100001824",
+   "nazov": "Základná škola Mátyása Korvína s vyučovacím jazykom maďarským - Corvin Mátyás Alapiskola",
+   "miesto": "Šamorín",
+   "sub": "zscorvin",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100020237",
+   "nazov": "Základná škola ako organizačná zložka Gymnázia M. R. Štefánika a Základnej školy",
+   "miesto": "Šamorín",
+   "sub": "gymmrssam",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100001965",
+   "nazov": "Základná škola Gejzu Dusíka",
+   "miesto": "Galanta",
+   "sub": "zsdusikaga",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100001986",
+   "nazov": "Základná škola Zoltána Kodálya s vyučovacím jazykom maďarským - Kodály Zoltán Alapiskola",
+   "miesto": "Galanta",
+   "sub": "kodaly",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021393",
+   "nazov": "Základná škola s materskou školou s vyučovacím jazykom maďarským - Alapiskola és Óvoda",
+   "miesto": "Kráľov Brod",
+   "sub": "zskbrod",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100001981",
+   "nazov": "Základná škola",
+   "miesto": "Galanta",
+   "sub": "zssnpga",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100002072",
+   "nazov": "Cirkevná základná škola sv. Cyrila a Metoda",
+   "miesto": "Sereď",
+   "sub": "czssered",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100002085",
+   "nazov": "Základná škola Jana Amosa Komenského",
+   "miesto": "Sereď",
+   "sub": "zskomsered",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021407",
+   "nazov": "Základná škola s materskou školou",
+   "miesto": "Dvorníky",
+   "sub": "www",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021409",
+   "nazov": "Základná škola s materskou školou",
+   "miesto": "Kľačany",
+   "sub": "zs-s-ms-klacany",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100022014",
+   "nazov": "Základná škola",
+   "miesto": "Hlohovec",
+   "sub": "zsfelcana",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100002413",
+   "nazov": "Základná škola Milana Rastislava Štefánika",
+   "miesto": "Piešťany",
+   "sub": "www",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100002364",
+   "nazov": "Základná škola",
+   "miesto": "Ostrov",
+   "sub": "skolaostrov",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021419",
+   "nazov": "Základná škola s materskou školou",
+   "miesto": "Borský Svätý Jur",
+   "sub": "zsbsj",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021423",
+   "nazov": "Základná škola s materskou školou",
+   "miesto": "Osuské",
+   "sub": "skolaosuske",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100002613",
+   "nazov": "Základná škola",
+   "miesto": "Sobotište",
+   "sub": "sobotiste",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021425",
+   "nazov": "Základná škola s materskou školou",
+   "miesto": "Smolinské",
+   "sub": "zsmssmolinske",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100002677",
+   "nazov": "Základná škola",
+   "miesto": "Kopčany",
+   "sub": "zskopcany",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100002714",
+   "nazov": "Súkromná základná škola",
+   "miesto": "Skalica",
+   "sub": "zsstvorlistok",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021435",
+   "nazov": "Základná škola s materskou školou",
+   "miesto": "Dobrá Voda",
+   "sub": "zsdvoda",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021437",
+   "nazov": "Základná škola s materskou školou",
+   "miesto": "Dolné Dubové",
+   "sub": "zsddubove",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021439",
+   "nazov": "Základná škola s materskou školou",
+   "miesto": "Horné Orešany",
+   "sub": "zshoresany",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021446",
+   "nazov": "Základná škola s materskou školou",
+   "miesto": "Smolenice",
+   "sub": "zssmolenice",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100002982",
+   "nazov": "Súkromná základná škola BESST",
+   "miesto": "Trnava",
+   "sub": "besst",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021455",
+   "nazov": "Základná škola s materskou školou",
+   "miesto": "Trnava",
+   "sub": "spartakovska",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021454",
+   "nazov": "Základná škola s materskou školou",
+   "miesto": "Trnava",
+   "sub": "zsnamsut",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100018889",
+   "nazov": "Súkromná základná škola Felix",
+   "miesto": "Trnava",
+   "sub": "felixtrnava",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100003319",
+   "nazov": "Základná škola",
+   "miesto": "Bánovce nad Bebravou",
+   "sub": "zskombn",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100003309",
+   "nazov": "Základná škola",
+   "miesto": "Bánovce nad Bebravou",
+   "sub": "duklianska1",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100003445",
+   "nazov": "Základná škola",
+   "miesto": "Dulov",
+   "sub": "zsdulov",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100020031",
+   "nazov": "Súkromná základná škola",
+   "miesto": "Nová Dubnica",
+   "sub": "szsndca",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100003596",
+   "nazov": "Základná škola",
+   "miesto": "Rudník",
+   "sub": "rudnik",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021485",
+   "nazov": "Základná škola",
+   "miesto": "Kálnica",
+   "sub": "zskalnica",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021482",
+   "nazov": "Základná škola",
+   "miesto": "Bzince pod Javorinou",
+   "sub": "zsbzince",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021483",
+   "nazov": "Základná škola",
+   "miesto": "Častkovce",
+   "sub": "zscastkovce",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100022008",
+   "nazov": "Základná škola",
+   "miesto": "Papradno",
+   "sub": "zspapradno",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021502",
+   "nazov": "Základná škola",
+   "miesto": "Cigeľ",
+   "sub": "zsmscigel",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100004245",
+   "nazov": "Základná škola",
+   "miesto": "Prievidza",
+   "sub": "marianskapd",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100004218",
+   "nazov": "Základná škola",
+   "miesto": "Prievidza",
+   "sub": "skolasenergiou",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100004743",
+   "nazov": "Základná škola ako organizačná zložka Súkromnej spojenej školy",
+   "miesto": "Prievidza",
+   "sub": "eskolapd",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100004334",
+   "nazov": "Základná škola",
+   "miesto": "Beluša",
+   "sub": "zsbelusa",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100004363",
+   "nazov": "Základná škola Eduarda Schreibera",
+   "miesto": "Lednické Rovne",
+   "sub": "zsledrovne",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021521",
+   "nazov": "Základná škola",
+   "miesto": "Lazy pod Makytou",
+   "sub": "zmslazypodmakytou",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021535",
+   "nazov": "Základná škola",
+   "miesto": "Ivanovce",
+   "sub": "zsivanovce",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100019968",
+   "nazov": "Súkromná základná škola",
+   "miesto": "Trenčín",
+   "sub": "rodinnaskola-tn",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021545",
+   "nazov": "Základná škola",
+   "miesto": "Veľká Hradná",
+   "sub": "skolavelkahradna",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100022006",
+   "nazov": "Základná škola sv. Andreja-Svorada a Benedikta",
+   "miesto": "Trenčín",
+   "sub": "zsasbtn",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100005005",
+   "nazov": "Základná škola Mihálya Katonu s vyučovacím jazykom maďarským - Katona Mihály Alapiskola",
+   "miesto": "Búč",
+   "sub": "kmaibucs",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100004698",
+   "nazov": "Základná škola",
+   "miesto": "Trenčín",
+   "sub": "zsvelkomoravska",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021566",
+   "nazov": "Základná škola",
+   "miesto": "Kameničná",
+   "sub": "zssmskamenicna",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100005322",
+   "nazov": "Základná škola Mateja Korvína s vyučovacím jazykom maďarským - Corvin Mátyás Alapiskola",
+   "miesto": "Kolárovo",
+   "sub": "skolska6kolarovo",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100005346",
+   "nazov": "Základná škola s vyučovacím jazykom maďarským - Alapiskola",
+   "miesto": "Komárno",
+   "sub": "eotvos",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100005315",
+   "nazov": "Základná škola Jána Amosa Komenského",
+   "miesto": "Kolárovo",
+   "sub": "zsrabskakolarovo",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100005402",
+   "nazov": "Základná škola s vyučovacím jazykom maďarským - Alapiskola",
+   "miesto": "Komárno",
+   "sub": "muai",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100005383",
+   "nazov": "Základná škola Móra Jókaiho s vyučovacím jazykom maďarským - Jókai Mór Alapiskola",
+   "miesto": "Komárno",
+   "sub": "jokaimor",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100006099",
+   "nazov": "Základná škola s vyučovacím jazykom maďarským - Alapiskola",
+   "miesto": "Radvaň nad Dunajom",
+   "sub": "radvandun",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100005320",
+   "nazov": "Základná škola Františka Rákócziho II. s vyučovacím jazykom maďarským - II. Rákóczi Ferenc Alapiskola",
+   "miesto": "Kolárovo",
+   "sub": "rakoczi",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100006390",
+   "nazov": "Základná škola s vyučovacím jazykom maďarským - Alapiskola",
+   "miesto": "Veľké Kosihy",
+   "sub": "velkekosihy",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100006374",
+   "nazov": "Základná škola s vyučovacím jazykom maďarským - Alapiskola",
+   "miesto": "Tôň",
+   "sub": "zsvjmton",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100005053",
+   "nazov": "Základná škola s vyučovacím jazykom maďarským - Alapiskola",
+   "miesto": "Dolné Semerovce",
+   "sub": "zsdolnesemerovce",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100020844",
+   "nazov": "Základná škola - Alapiskola, Farná 151, ako organizačná zložka Spojenej školy, Farná 151",
+   "miesto": "Farná",
+   "sub": "spojenaskolafarna",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100005205",
+   "nazov": "Základná škola",
+   "miesto": "Ipeľský Sokolec",
+   "sub": "skolaipsokolec",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100005967",
+   "nazov": "Cirkevná základná škola sv. Pavla",
+   "miesto": "Nová Dedina",
+   "sub": "czsndedina",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100006157",
+   "nazov": "Základná škola s vyučovacím jazykom maďarským - Alapiskola",
+   "miesto": "Slatina",
+   "sub": "zsslatina",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021565",
+   "nazov": "Základná škola",
+   "miesto": "Jur nad Hronom",
+   "sub": "zsjur",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100006214",
+   "nazov": "Základná škola",
+   "miesto": "Tekovské Lužany",
+   "sub": "zstekluzany",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100005529",
+   "nazov": "Základná škola s materskou školou sv. Vincenta de Paul ako organizačná zložka Katolíckej spojenej školy sv. Vincenta de",
+   "miesto": "Levice",
+   "sub": "zsvle",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100006598",
+   "nazov": "Základná škola s vyučovacím jazykom maďarským - Alapiskola",
+   "miesto": "Želiezovce",
+   "sub": "alapiskolazseliz",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100006437",
+   "nazov": "Základná škola",
+   "miesto": "Veľký Ďur",
+   "sub": "zsvelkydur",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100005047",
+   "nazov": "Základná škola - Alapiskola",
+   "miesto": "Dolné Obdokovce",
+   "sub": "zsadolneobdokovce",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100005241",
+   "nazov": "Základná škola - Alapiskola",
+   "miesto": "Jelenec",
+   "sub": "www",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100005009",
+   "nazov": "Základná škola",
+   "miesto": "Cabaj-Čápor",
+   "sub": "zscabaj",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021092",
+   "nazov": "Súkromná základná škola, Lužianky",
+   "miesto": "Lužianky",
+   "sub": "www",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100005654",
+   "nazov": "Základná škola",
+   "miesto": "Mojmírovce",
+   "sub": "zsmojmirovce",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100005284",
+   "nazov": "Základná škola",
+   "miesto": "Klasov",
+   "sub": "zsklasov",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100005762",
+   "nazov": "Základná škola sv. Svorada a Benedikta ako organizačná zložka Spojenej katolíckej školy",
+   "miesto": "Nitra",
+   "sub": "zsfarskanr",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100005728",
+   "nazov": "Základná škola",
+   "miesto": "Nitra",
+   "sub": "zsbenkova",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100005714",
+   "nazov": "Základná škola kniežaťa Pribinu",
+   "miesto": "Nitra",
+   "sub": "zspribinunr",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021579",
+   "nazov": "Základná škola",
+   "miesto": "Nitra",
+   "sub": "zsmsnovozamocka",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100005840",
+   "nazov": "Základná škola",
+   "miesto": "Nitra",
+   "sub": "zstopolovanr",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100005880",
+   "nazov": "Základná škola",
+   "miesto": "Nitra",
+   "sub": "zsdrazovce",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100005843",
+   "nazov": "Základná škola",
+   "miesto": "Nitra",
+   "sub": "zstulipanova",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100006425",
+   "nazov": "Základná škola - Alapiskola",
+   "miesto": "Veľký Cetín",
+   "sub": "zsvjmcetin",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100006468",
+   "nazov": "Základná škola svätého Vojtecha",
+   "miesto": "Vráble",
+   "sub": "zsvojvrable",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021548",
+   "nazov": "Základná škola",
+   "miesto": "Dedinka",
+   "sub": "zssmsdedinka",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100004951",
+   "nazov": "Základná škola s vyučovacím jazykom maďarským - Alapiskola",
+   "miesto": "Bešeňov",
+   "sub": "zssvjmbesenov",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100005086",
+   "nazov": "Základná škola Adolfa Majthényiho s vyučovacím jazykom maďarským - Majthényi Adolf Alapiskola",
+   "miesto": "Dvory nad Žitavou",
+   "sub": "majthenyi",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100005095",
+   "nazov": "Základná škola",
+   "miesto": "Gbelce",
+   "sub": "szgbelce",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100005078",
+   "nazov": "Základná škola",
+   "miesto": "Dvory nad Žitavou",
+   "sub": "zsdvory",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100005939",
+   "nazov": "Základná škola",
+   "miesto": "Nové Zámky",
+   "sub": "zsnabreznanz",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100005931",
+   "nazov": "Základná škola",
+   "miesto": "Nové Zámky",
+   "sub": "zsmostna",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100005920",
+   "nazov": "Základná škola",
+   "miesto": "Nové Zámky",
+   "sub": "zshradnanz",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100005961",
+   "nazov": "Základná škola Gergelya Czuczora s vyučovacím jazykom maďarským - Czuczor Gergely Alapiskola",
+   "miesto": "Nové Zámky",
+   "sub": "czuczora",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100006187",
+   "nazov": "Základná škola Lajosa Csongrádyho s vyučovacím jazykom maďarským - Csongrády Lajos Alapiskola",
+   "miesto": "Svodín",
+   "sub": "csongrady",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100006796",
+   "nazov": "Základná škola Endre Adyho s vyučovacím jazykom maďarským -  Ady Endre Alapiskola",
+   "miesto": "Štúrovo",
+   "sub": "adysuli",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100019659",
+   "nazov": "Základná škola Józsefa Károlyiho s vyučovacím jazykom maďarským - Károlyi József Alapiskola",
+   "miesto": "Vlčany",
+   "sub": "zssvjmvlcany",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100005454",
+   "nazov": "Základná škola",
+   "miesto": "Kráľová nad Váhom",
+   "sub": "kralovanadvahom322",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100006281",
+   "nazov": "Základná škola svätého Ladislava",
+   "miesto": "Topoľčany",
+   "sub": "zs-ladislava",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100006226",
+   "nazov": "Základná škola",
+   "miesto": "Tesáre",
+   "sub": "zstesare",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100006542",
+   "nazov": "Základná škola",
+   "miesto": "Zlaté Moravce",
+   "sub": "pribinka",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021634",
+   "nazov": "Základná škola",
+   "miesto": "Dunajov",
+   "sub": "zsmsdunajov",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021629",
+   "nazov": "Základná škola",
+   "miesto": "Veľké Rovné",
+   "sub": "zssutvrovne",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100006993",
+   "nazov": "Základná škola",
+   "miesto": "Bytča",
+   "sub": "zselaniho",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100007312",
+   "nazov": "Základná škola",
+   "miesto": "Svrčinovec",
+   "sub": "zssvrcinovec",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100007266",
+   "nazov": "Cirkevná základná škola Jána Palárika",
+   "miesto": "Raková",
+   "sub": "czsrakova",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021653",
+   "nazov": "Základná škola",
+   "miesto": "Žaškov",
+   "sub": "zszaskov",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100007810",
+   "nazov": "Základná škola Janka Kráľa",
+   "miesto": "Liptovský Mikuláš",
+   "sub": "zsjankakralalm",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100007856",
+   "nazov": "Základná škola",
+   "miesto": "Východná",
+   "sub": "zsvychodna",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100019811",
+   "nazov": "Súkromná základná škola ako organizačná zložka Súkromnej spojenej školy",
+   "miesto": "Martin",
+   "sub": "montessorimartin",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100007943",
+   "nazov": "Základná škola Alexandra Dubčeka",
+   "miesto": "Martin",
+   "sub": "zsdubceka",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100007995",
+   "nazov": "Základná škola",
+   "miesto": "Martin",
+   "sub": "zs-kronerovamt",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100008011",
+   "nazov": "Evanjelická základná škola ako organizačná zložka Evanjelickej spojenej školy",
+   "miesto": "Martin",
+   "sub": "essmt",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021691",
+   "nazov": "Základná škola",
+   "miesto": "Rabčice",
+   "sub": "zsrabcice",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021695",
+   "nazov": "Základná škola",
+   "miesto": "Zubrohlava",
+   "sub": "zszubrohlava",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021999",
+   "nazov": "Základná škola",
+   "miesto": "Lúčky",
+   "sub": "zsluckykupele",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100008675",
+   "nazov": "Základná škola",
+   "miesto": "Slovenské Pravno",
+   "sub": "zsslpravno",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021727",
+   "nazov": "Základná škola",
+   "miesto": "Krasňany",
+   "sub": "skolakrasnany",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021734",
+   "nazov": "Základná škola",
+   "miesto": "Varín",
+   "sub": "skola-varin",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100020504",
+   "nazov": "Súkromná základná škola",
+   "miesto": "Žilina",
+   "sub": "montessorischool",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021736",
+   "nazov": "Základná škola",
+   "miesto": "Žilina",
+   "sub": "zsbrodno",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100019296",
+   "nazov": "Súkromná základná škola Felix",
+   "miesto": "Žilina",
+   "sub": "felixzilina",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100009199",
+   "nazov": "Základná škola",
+   "miesto": "Žilina",
+   "sub": "zshajik",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100014295",
+   "nazov": "Súkromná základná škola",
+   "miesto": "Banská Bystrica",
+   "sub": "rodinnaskola",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021748",
+   "nazov": "Základná škola",
+   "miesto": "Medzibrod",
+   "sub": "zsmedzibrod",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021751",
+   "nazov": "Základná škola",
+   "miesto": "Priechod",
+   "sub": "zspriechod",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100019241",
+   "nazov": "Súkromná základná škola Guliver",
+   "miesto": "Banská Štiavnica",
+   "sub": "skolaguliver",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100009612",
+   "nazov": "Cirkevná základná škola sv. Františka Assiského ako organizačná zložka Katolíckej spojenej školy sv. Františka Assiského",
+   "miesto": "Banská Štiavnica",
+   "sub": "katgymbs",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021752",
+   "nazov": "Základná škola",
+   "miesto": "Strelníky",
+   "sub": "zsstrelniky",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021753",
+   "nazov": "Základná škola",
+   "miesto": "Vlkanová",
+   "sub": "zsmsvlkanova",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021746",
+   "nazov": "Základná škola",
+   "miesto": "Ľubietová",
+   "sub": "zslubietova",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021758",
+   "nazov": "Základná škola",
+   "miesto": "Brezno",
+   "sub": "zssmsbreznomazornik",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100009771",
+   "nazov": "Základná škola",
+   "miesto": "Polomka",
+   "sub": "zspolomka",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100009841",
+   "nazov": "Základná škola",
+   "miesto": "Detva",
+   "sub": "3zsdetva",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021772",
+   "nazov": "Základná škola",
+   "miesto": "Hontianske Tesáre",
+   "sub": "skolaht",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021770",
+   "nazov": "Základná škola",
+   "miesto": "Cerovo",
+   "sub": "zscerovo",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021765",
+   "nazov": "Základná škola",
+   "miesto": "Detva",
+   "sub": "zsstudt",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100009972",
+   "nazov": "Základná škola s vyučovacím jazykom maďarským - Alapiskola",
+   "miesto": "Biskupice",
+   "sub": "zsbiskupice",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100009942",
+   "nazov": "Základná škola Jozefa Cígera Hronského",
+   "miesto": "Krupina",
+   "sub": "zskrupina",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100020113",
+   "nazov": "Základná škola ako organizačná zložka Spojenej školy",
+   "miesto": "Hontianske Moravce",
+   "sub": "zssmshmoravce",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100009976",
+   "nazov": "Základná škola s vyučovacím jazykom maďarským - Alapiskola",
+   "miesto": "Bulhary",
+   "sub": "zsbulhary",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100009995",
+   "nazov": "Základná škola",
+   "miesto": "Dobroč",
+   "sub": "dobroczs",
+   "stav": "prazdny_rozvrh"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021773",
+   "nazov": "Základná škola",
+   "miesto": "Sebechleby",
+   "sub": "zssebechleby",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100010052",
+   "nazov": "Základná škola M. R. Štefánika",
+   "miesto": "Lučenec",
+   "sub": "zsstefanikalc",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100019277",
+   "nazov": "Súkromná základná škola",
+   "miesto": "Lučenec",
+   "sub": "szsoskar",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100010162",
+   "nazov": "Základná škola",
+   "miesto": "Tomášovce",
+   "sub": "skolatomasovce",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100010145",
+   "nazov": "Základná škola - Alapiskola",
+   "miesto": "Rapovce",
+   "sub": "zsrapovce",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100010157",
+   "nazov": "Základná škola s vyučovacím jazykom maďarským - Alapiskola",
+   "miesto": "Šíd",
+   "sub": "zssid",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100009987",
+   "nazov": "Základná škola - Alapiskola",
+   "miesto": "Čamovce",
+   "sub": "zscamovce",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100010155",
+   "nazov": "Základná škola s vyučovacím jazykom maďarským - Alapiskola",
+   "miesto": "Šávoľ",
+   "sub": "zssavol",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021783",
+   "nazov": "Základná škola",
+   "miesto": "Utekáč",
+   "sub": "zsutekac",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100010259",
+   "nazov": "Základná škola - Alapiskola",
+   "miesto": "Hucín",
+   "sub": "zshucin",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100010247",
+   "nazov": "Základná škola s vyučovacím jazykom maďarským - Alapiskola",
+   "miesto": "Držkovce",
+   "sub": "zsvjmdrzkovce",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100010253",
+   "nazov": "Základná škola - Alapiskola",
+   "miesto": "Gemerská Ves",
+   "sub": "zsgemerskaves",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100010270",
+   "nazov": "Základná škola",
+   "miesto": "Kameňany",
+   "sub": "zskamenany",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100010249",
+   "nazov": "Základná škola s vyučovacím jazykom maďarským - Alapiskola",
+   "miesto": "Gemer",
+   "sub": "mtasajogomor",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021787",
+   "nazov": "Základná škola s vyučovacím jazykom maďarským - Alapiskola",
+   "miesto": "Abovce",
+   "sub": "zsabovce",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100010320",
+   "nazov": "Základná škola Ivana Branislava Zocha",
+   "miesto": "Revúca",
+   "sub": "zsibzochare",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100010372",
+   "nazov": "Základná škola s vyučovacím jazykom maďarským - Magyar Tanításs Nyelvü Alapiskola",
+   "miesto": "Blhovce",
+   "sub": "zssvjmblhovce",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100010453",
+   "nazov": "Základná škola s vyučovacím jazykom maďarským",
+   "miesto": "Chanava",
+   "sub": "zschanava",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100010394",
+   "nazov": "Základná škola - Alapiskola",
+   "miesto": "Figa",
+   "sub": "zsaifiga",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100010449",
+   "nazov": "Základná škola - Alapiskola",
+   "miesto": "Husiná",
+   "sub": "zshusina",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021794",
+   "nazov": "Základná škola s VJM",
+   "miesto": "Nová Bašta",
+   "sub": "ujbastai",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021798",
+   "nazov": "Základná škola s VJM",
+   "miesto": "Tachty",
+   "sub": "zstajti",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100010595",
+   "nazov": "Základná škola s vyučovacím jazykom maďarským",
+   "miesto": "Šimonovce",
+   "sub": "zsimonovce",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100010577",
+   "nazov": "Základná škola Mihálya Tompu s vyučovacím jazykom maďarským - Tompa Mihály Alapiskola",
+   "miesto": "Rimavská Sobota",
+   "sub": "zstompamihaly",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021799",
+   "nazov": "Základná škola",
+   "miesto": "Teplý Vrch",
+   "sub": "zstvrch",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100010387",
+   "nazov": "Základná škola s vyučovacím jazykom maďarským - Alapiskola",
+   "miesto": "Číž",
+   "sub": "zssvjmciz",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100010597",
+   "nazov": "Základná škola s vyučovacím jazykom maďarským Magyar Tannyelvü Alapiskola",
+   "miesto": "Širkovce",
+   "sub": "zssirkovce",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100010705",
+   "nazov": "Základná škola",
+   "miesto": "Muľa",
+   "sub": "zsmula68",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100010756",
+   "nazov": "Základná škola Vsevoloda Čechoviča",
+   "miesto": "Veľký Krtíš",
+   "sub": "skolakom",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021807",
+   "nazov": "Základná škola",
+   "miesto": "Želovce",
+   "sub": "zszelovce",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100010851",
+   "nazov": "Súkromná základná škola",
+   "miesto": "Pliešovce",
+   "sub": "zajezovskaskola",
+   "stav": "prazdny_rozvrh"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100010817",
+   "nazov": "Základná škola Adely Ostrolúckej",
+   "miesto": "Budča",
+   "sub": "zsbudca",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100010935",
+   "nazov": "Základná škola",
+   "miesto": "Zvolen",
+   "sub": "6zs",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021818",
+   "nazov": "Základná škola",
+   "miesto": "Veľká Lehota",
+   "sub": "zsvelkalehota",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100010861",
+   "nazov": "Základná škola Andreja Sládkoviča",
+   "miesto": "Sliač",
+   "sub": "zssliac",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021815",
+   "nazov": "Základná škola",
+   "miesto": "Hronský Beňadik",
+   "sub": "zshronbenadik",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100011112",
+   "nazov": "Súkromná základná škola s materskou školou ako organizačná zložka Súkromnej spojenej školy",
+   "miesto": "Kremnica",
+   "sub": "szssmskca",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021820",
+   "nazov": "Základná škola",
+   "miesto": "Lutila",
+   "sub": "zslutila",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100020485",
+   "nazov": "Súkromná základná škola Aves",
+   "miesto": "Bardejov",
+   "sub": "aves",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100011185",
+   "nazov": "Základná škola",
+   "miesto": "Trnavá Hora",
+   "sub": "zstrnavahora",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100011547",
+   "nazov": "Základná škola",
+   "miesto": "Hankovce",
+   "sub": "76476892",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021827",
+   "nazov": "Základná škola",
+   "miesto": "Gaboltov",
+   "sub": "zsmsgaboltov",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100011613",
+   "nazov": "Základná škola",
+   "miesto": "Lascov",
+   "sub": "zslascov11",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100011626",
+   "nazov": "Základná škola",
+   "miesto": "Lukov",
+   "sub": "skolalukov",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021833",
+   "nazov": "Základná škola",
+   "miesto": "Rokytov",
+   "sub": "zssms-rokytov",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100011688",
+   "nazov": "Základná škola Emila Kubeka",
+   "miesto": "Snakov",
+   "sub": "zssnakov",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021835",
+   "nazov": "Základná škola",
+   "miesto": "Zlaté",
+   "sub": "zszlate",
+   "stav": "prazdny_rozvrh"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021837",
+   "nazov": "Základná škola",
+   "miesto": "Humenné",
+   "sub": "zspodskalka",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100011831",
+   "nazov": "Základná škola",
+   "miesto": "Humenné",
+   "sub": "zspugacevhe",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100011770",
+   "nazov": "Základná škola sv. Cyrila a Metoda ako organizačná zložka Cirkevnej spojenej školy",
+   "miesto": "Humenné",
+   "sub": "gymazshe",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100011960",
+   "nazov": "Základná škola",
+   "miesto": "Vyšná Sitnica",
+   "sub": "zsvysnasitnica1",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100011996",
+   "nazov": "Základná škola",
+   "miesto": "Ihľany",
+   "sub": "zsihlany127",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100017608",
+   "nazov": "Základná škola",
+   "miesto": "Mlynčeky",
+   "sub": "zsmlynceky",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100020579",
+   "nazov": "Základná škola ako organizačná zložka Spojenej školy",
+   "miesto": "Vrbov",
+   "sub": "zsvrbov",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100012191",
+   "nazov": "Základná škola",
+   "miesto": "Granč-Petrovce",
+   "sub": "zsgrancpetrovce",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021852",
+   "nazov": "Základná škola",
+   "miesto": "Veľká Lomnica",
+   "sub": "zsvlomnica",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100012217",
+   "nazov": "Základná škola",
+   "miesto": "Levoča",
+   "sub": "zsfranlv",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100012345",
+   "nazov": "Základná škola",
+   "miesto": "Medzilaborce",
+   "sub": "zskomenme",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100018561",
+   "nazov": "Súkromná základná škola ako organizačná zložka Súkromnej spojenej školy",
+   "miesto": "Poprad",
+   "sub": "lifeacademypp",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100012477",
+   "nazov": "Základná škola ako organizačná zložka Spojenej školy",
+   "miesto": "Poprad",
+   "sub": "gpdt",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100012438",
+   "nazov": "Základná škola - organizačná zložka",
+   "miesto": "Poprad",
+   "sub": "spojenaskolapoprad",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021877",
+   "nazov": "Základná škola",
+   "miesto": "Vydrník",
+   "sub": "zsvydrnik",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021880",
+   "nazov": "Základná škola",
+   "miesto": "Ždiar",
+   "sub": "zszdiar",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100012722",
+   "nazov": "Základná škola",
+   "miesto": "Lesíček",
+   "sub": "zslesicek",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100012701",
+   "nazov": "Cirkevná základná škola sv. Michala",
+   "miesto": "Kendice",
+   "sub": "czskendice",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100019754",
+   "nazov": "Súkromná základná škola Montessori cesta",
+   "miesto": "Prešov",
+   "sub": "szsmontessoricesta",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100012857",
+   "nazov": "Základná škola",
+   "miesto": "Prešov",
+   "sub": "zskupelna",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100012981",
+   "nazov": "Základná škola",
+   "miesto": "Prešov",
+   "sub": "zsspo",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021890",
+   "nazov": "Základná škola",
+   "miesto": "Svinia",
+   "sub": "zssvinia",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021889",
+   "nazov": "Základná škola",
+   "miesto": "Sedlice",
+   "sub": "zasedlice",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100013080",
+   "nazov": "Základná škola",
+   "miesto": "Veľký Šariš",
+   "sub": "zsvsaris",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100013294",
+   "nazov": "Základná škola",
+   "miesto": "Uzovské Pekľany",
+   "sub": "uzpeklanyskola",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100022028",
+   "nazov": "Súkromná základná škola",
+   "miesto": "Sabinov",
+   "sub": "primaskola",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100013242",
+   "nazov": "Cirkevná základná škola sv. Jána Krstiteľa",
+   "miesto": "Sabinov",
+   "sub": "czssab",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021925",
+   "nazov": "Základná škola",
+   "miesto": "Kyjov",
+   "sub": "zskyjov",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021919",
+   "nazov": "Základná škola",
+   "miesto": "Hromoš",
+   "sub": "zshromos",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021930",
+   "nazov": "Základná škola",
+   "miesto": "Nižné Ružbachy",
+   "sub": "zsnizneruzbachy",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021929",
+   "nazov": "Základná škola",
+   "miesto": "Malý Lipník",
+   "sub": "zsmalylipnik",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100013578",
+   "nazov": "Základná škola",
+   "miesto": "Breznica",
+   "sub": "66464409",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100013617",
+   "nazov": "Základná škola",
+   "miesto": "Nižná Olšava",
+   "sub": "zsniznaolsava",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021942",
+   "nazov": "Základná škola",
+   "miesto": "Kolbovce",
+   "sub": "zssmskolbovce",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100013630",
+   "nazov": "Cirkevná základná škola sv. Petra a Pavla",
+   "miesto": "Stropkov",
+   "sub": "czsstropkov",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100013721",
+   "nazov": "Základná škola",
+   "miesto": "Ladomirová",
+   "sub": "zsladomirova",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100020711",
+   "nazov": "Základná škola",
+   "miesto": "Roztoky",
+   "sub": "zsroztoky",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100013815",
+   "nazov": "Základná škola",
+   "miesto": "Vyšný Orlík",
+   "sub": "zsvysnyorlik",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100013828",
+   "nazov": "Základná škola",
+   "miesto": "Banské",
+   "sub": "zsbanske1",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100013870",
+   "nazov": "Základná škola",
+   "miesto": "Davidov",
+   "sub": "zsdavidovvt",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100013923",
+   "nazov": "Základná škola",
+   "miesto": "Kladzany",
+   "sub": "zskladzany1",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100013954",
+   "nazov": "Základná škola",
+   "miesto": "Nová Kelča",
+   "sub": "novakelca",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100013896",
+   "nazov": "Základná škola",
+   "miesto": "Hlinné",
+   "sub": "zshlinne",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021200",
+   "nazov": "Súkromná základná škola Felix Vranov",
+   "miesto": "Vranov nad Topľou",
+   "sub": "felixvranov",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021943",
+   "nazov": "Základná škola",
+   "miesto": "Sedliská",
+   "sub": "zssedliska",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100014021",
+   "nazov": "Základná škola",
+   "miesto": "Vranov nad Topľou",
+   "sub": "zsbervv",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100013864",
+   "nazov": "Základná škola",
+   "miesto": "Ďapalovce",
+   "sub": "dapalovce",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100014072",
+   "nazov": "Základná škola",
+   "miesto": "Vranov nad Topľou",
+   "sub": "zssidlisko2vt",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100014518",
+   "nazov": "Základná škola",
+   "miesto": "Gelnica",
+   "sub": "zsgl",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100014719",
+   "nazov": "Základná škola",
+   "miesto": "Košice-Staré Mesto",
+   "sub": "zspa",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100014625",
+   "nazov": "Základná škola",
+   "miesto": "Košice-Sever",
+   "sub": "zspolianska",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100014725",
+   "nazov": "Súkromná základná škola",
+   "miesto": "Košice-Staré Mesto",
+   "sub": "didacticus",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100019994",
+   "nazov": "Súkromná základná škola FUTURUM",
+   "miesto": "Košice-Staré Mesto",
+   "sub": "szsfuturumke",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100019236",
+   "nazov": "Súkromná základná škola Splash International",
+   "miesto": "Košice-Sídlisko KVP",
+   "sub": "szssplash3",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100014840",
+   "nazov": "Základná škola",
+   "miesto": "Košice-Západ",
+   "sub": "zske28",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100014803",
+   "nazov": "Základná škola",
+   "miesto": "Košice-Sídlisko KVP",
+   "sub": "zsstarozagorska",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100014824",
+   "nazov": "Základná škola sv. Cyrila a Metoda",
+   "miesto": "Košice-Západ",
+   "sub": "zscamke",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021953",
+   "nazov": "Cirkevná základná škola sv. Gorazda, org.zložka",
+   "miesto": "Košice-Sídlisko Ťahanovce",
+   "sub": "zsmssvgorazd",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100014813",
+   "nazov": "Základná škola",
+   "miesto": "Košice-Šaca",
+   "sub": "zssaca",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100014999",
+   "nazov": "Základná škola",
+   "miesto": "Košice-Juh",
+   "sub": "zspoziarnickake",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100014955",
+   "nazov": "Základná škola",
+   "miesto": "Košice-Barca",
+   "sub": "zsabovke",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100014971",
+   "nazov": "Základná škola",
+   "miesto": "Košice-Juh",
+   "sub": "zsgemerska",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100001548",
+   "nazov": "Súkromná základná škola waldorfská",
+   "miesto": "Košice-Nad jazerom",
+   "sub": "waldorfskaskolake",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100015038",
+   "nazov": "Súkromná základná škola",
+   "miesto": "Košice-Nad jazerom",
+   "sub": "szsdneperska",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021957",
+   "nazov": "Základná škola",
+   "miesto": "Budimír",
+   "sub": "www",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100015154",
+   "nazov": "Cirkevná základná škola sv. Štefana - Szent István Egyházi Alapiskola",
+   "miesto": "Dvorníky-Včeláre",
+   "sub": "sziea",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100015160",
+   "nazov": "Základná škola",
+   "miesto": "Haniska",
+   "sub": "haniskaskola",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100015194",
+   "nazov": "Základná škola",
+   "miesto": "Kokšov-Bakša",
+   "sub": "zskoksovbaksa",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100015300",
+   "nazov": "Základná škola",
+   "miesto": "Paňovce",
+   "sub": "zspanovce",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100015227",
+   "nazov": "Základná škola",
+   "miesto": "Malá Ida",
+   "sub": "zsmida",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100015362",
+   "nazov": "Základná škola",
+   "miesto": "Sokoľany",
+   "sub": "zssokolany",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100015477",
+   "nazov": "Základná škola s vyučovacím jazykom maďarským - Alapiskola",
+   "miesto": "Kapušianske Kľačany",
+   "sub": "zskapklacany",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100015550",
+   "nazov": "Základná škola",
+   "miesto": "Michalovce",
+   "sub": "zsmosmi",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100015621",
+   "nazov": "Základná škola",
+   "miesto": "Petrovce nad Laborcom",
+   "sub": "zspnl",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021964",
+   "nazov": "Základná škola",
+   "miesto": "Rakovec nad Ondavou",
+   "sub": "zsrakovec",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100015778",
+   "nazov": "Základná škola s vyučovacím jazykom maďarským - Alapiskola",
+   "miesto": "Gemerská Hôrka",
+   "sub": "zsmgemhorka",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100016031",
+   "nazov": "Základná škola",
+   "miesto": "Veľké Revištia",
+   "sub": "zsvelkerevistia",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100015745",
+   "nazov": "Základná škola  s  vyučovacím jazykom maďarským - Alapiskola",
+   "miesto": "Čoltovo",
+   "sub": "zscoltovo",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021978",
+   "nazov": "Základná škola",
+   "miesto": "Úbrež",
+   "sub": "zsubrez",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021980",
+   "nazov": "Základná škola",
+   "miesto": "Hrabušice",
+   "sub": "zshrabusice",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100016320",
+   "nazov": "Základná škola s vyučovacím jazykom maďarským - Alapiskola",
+   "miesto": "Bačka",
+   "sub": "zssvjmbacka67",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100016282",
+   "nazov": "Základná škola",
+   "miesto": "Spišské Vlachy",
+   "sub": "zskomspv",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100016230",
+   "nazov": "Základná škola",
+   "miesto": "Spišská Nová Ves",
+   "sub": "zslipovasnv",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100016342",
+   "nazov": "Základná škola s vyučovacím jazykom maďarským -  Alapiskola",
+   "miesto": "Boťany",
+   "sub": "zsbotany",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100016331",
+   "nazov": "Základná škola s vyučovacím jazykom maďarským -  Alapiskola",
+   "miesto": "Biel",
+   "sub": "zsbiel",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100016395",
+   "nazov": "Základná škola Mihálya Helmeczyho s vyučovacím jazykom maďarským - Helmeczy Mihály Alapiskola",
+   "miesto": "Kráľovský Chlmec",
+   "sub": "helmeczy",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100016432",
+   "nazov": "Základná škola  s vyučovacím jazykom maďarským - Alapiskola",
+   "miesto": "Malý Horeš",
+   "sub": "malyhoreszs",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100021992",
+   "nazov": "Základná škola",
+   "miesto": "Plechotice",
+   "sub": "zsplechotice",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100016418",
+   "nazov": "Základná škola",
+   "miesto": "Lastovce",
+   "sub": "zslastovce",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100016465",
+   "nazov": "Základná škola - Alapiskola",
+   "miesto": "Pribeník",
+   "sub": "zspribenik",
+   "stav": "bez_rozvrhu"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100016502",
+   "nazov": "Základná škola",
+   "miesto": "Somotor",
+   "sub": "zssomotor",
+   "stav": "len_prihlasenie"
+  },
+  {
+   "stupen": "ZŠ",
+   "eduid": "100016615",
+   "nazov": "Základná škola",
+   "miesto": "Zemplínska Teplica",
+   "sub": "zszteplica",
+   "stav": "len_prihlasenie"
+  }
+ ]
+}

@@ -1,0 +1,11 @@
+# Každú stredu o 16:00; obnova.ts sama preskočí nepárny týždeň, takže beží raz za dva týždne.
+# Bez Persistent: zmeškaný beh sa nedobieha (nikdy nebeží v noci po zapnutí stroja).
+[Unit]
+Description=Obnova rozvrhov škôl každý druhý týždeň v stredu o 16:00
+
+[Timer]
+OnCalendar=Wed *-*-* 16:00:00
+Persistent=false
+
+[Install]
+WantedBy=timers.target

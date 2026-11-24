@@ -1,0 +1,13 @@
+# Obnova údajov o rozvrhoch škôl (prieskum/obnova.ts). Inštalácia a odinštalácia: systemd/README.md.
+[Unit]
+Description=Obnova rozvrhov a zvonení škôl SR
+After=network-online.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=%h/projects/rozvrh
+ExecStart=/usr/local/bin/reboot-when-idle hold %h/.local/share/vite-plus/bin/bun prieskum/obnova.ts
+Nice=10
+# Cudzí web (obrovský súbor, PDF, na ktorom pdftotext uviazne) nesmie zobrať pamäť stroja ani zaseknúť obnovu navždy.
+MemoryMax=2G
+TimeoutStartSec=10h
