@@ -28,7 +28,7 @@ async function ciselnik(harok: string) {
 }
 
 /** Rozvrhy tried zo surových dát EduPage, bez osôb. `ucitelia`: slová zo skratiek učiteľov, len na hľadanie mien. */
-function triedyZRaw(raw: string): { triedy: Trieda[]; dni: string[]; ucitelia: Set<string> } {
+export function triedyZRaw(raw: string): { triedy: Trieda[]; dni: string[]; ucitelia: Set<string> } {
   const tables = (JSON.parse(raw) as { r: { dbiAccessorRes: { tables: { id: string; data_rows: Row[] }[] } } }).r.dbiAccessorRes.tables;
   const T = Object.fromEntries(tables.map((t) => [t.id, t.data_rows]));
   const podla = (t: string) => new Map((T[t] ?? []).map((r) => [String(r.id), r]));
