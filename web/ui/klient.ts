@@ -152,13 +152,15 @@ if (os) {
   });
 }
 
-// Čiara „teraz“ na osiach a veta o práve prebiehajúcej hodine -------------------------------------------------
+// Čiara „teraz“ na osiach obce; na stránke školy veta a zvýraznená práve prebiehajúca hodina či prestávka ------
 const osi = [...document.querySelectorAll<HTMLElement>(".os")];
-if (osi.length) {
+const zvon = [...document.querySelectorAll<HTMLElement>(".zvon li")];
+if (osi.length || zvon.length) {
   const hodiny = new Intl.DateTimeFormat("en-GB", { timeZone: "Europe/Bratislava", weekday: "short", hour: "2-digit", minute: "2-digit", hourCycle: "h23" });
   const veta = document.querySelector<HTMLElement>("#teraz");
-  const bloky = veta ? [...document.querySelectorAll<HTMLElement>(".os-jedna .trat i:not(.n)")].map((i) => ({
-    n: i.textContent ?? "", od: Number(i.style.getPropertyValue("--s")), do: Number(i.style.getPropertyValue("--e")),
+  const cislo = (n: string) => (n.length <= 2 ? n.replace(/\.$/, "") : "");
+  const bloky = veta ? zvon.filter((li) => li.matches(".hod:not(.n)")).map((li) => ({
+    n: cislo(li.dataset.n ?? ""), od: Number(li.dataset.od), do: Number(li.dataset.do),
   })) : [];
   const hm = (m: number) => `${Math.floor(m / 60)}:${String(m % 60).padStart(2, "0")}`;
   const obnov = () => {
@@ -177,6 +179,10 @@ if (osi.length) {
         delete o.dataset.teraz;
         cisla?.removeAttribute("data-teraz");
       }
+    }
+    for (const li of zvon) {
+      const je = pracovnyDen && teraz >= Number(li.dataset.od) && teraz < Number(li.dataset.do);
+      if (je) li.setAttribute("aria-current", "time"); else li.removeAttribute("aria-current");
     }
     if (!veta) return;
     const prva = bloky[0];
@@ -235,30 +241,48 @@ if (sekcia && zoznamTried && mriezka) {
       const a = stlpce[miesto(b)];
       const z = stlpce[Math.min(miesto(b) + Math.max(b.trvanie, 1) - 1, stlpce.length - 1)];
       const hodina = a === z || !z ? cisloHodiny(a?.n ?? b.hodina) : `${cisloHodiny(a?.n ?? b.hodina)}–${cisloHodiny(z.n)}`;
-      return `<span class="kedy"><b>${esc(hodina)}</b><span class="vh"> hodina</span>${a?.od && z?.do ? ` ${esc(cas(a.od))}–${esc(cas(z.do))}` : ""}</span>`;
+      return `<span class="kedy"><b>${esc(hodina)}</b><span class="vh"> hodina</span>${a?.od && z?.do ? ` <span class="t">${esc(cas(a.od))}–${esc(cas(z.do))}</span>` : ""}</span>`;
     };
     const dni = s.rozvrh?.dni.length ? s.rozvrh.dni : ["Pondelok", "Utorok", "Streda", "Štvrtok", "Piatok"];
     const pocetDni = Math.max(dni.length, ...trieda.bloky.map((b) => b.den + 1));
-    const info = (b: Blok) => s.predmety?.[b.predmet];
-    const nazovP = (b: Blok) => info(b)?.nazov ?? b.predmet;
-    const farba = (b: Blok) => (info(b)?.h !== undefined ? ` class="f${info(b)!.t ? " t1" : ""}" style="--h:${info(b)!.h};` : ` style="`);
+    const odhad = (b: Blok) => s.predmety?.[b.predmet];
+    const nazovP = (b: Blok) => odhad(b)?.nazov ?? b.predmet;
     const ODHAD = `<abbr class="odhad" title="Názov doplnený podľa iných škôl (beta)">≈</abbr>`;
-    const pohlavie = (x: string) => (/chlap|boys|fiú/i.test(x) ? " sk-ch" : /dievč|dievc|girls|lány/i.test(x) ? " sk-dv" : "");
+    const bezNazvu = (b: Blok) => !odhad(b) && b.predmet.trim().toUpperCase() === b.skratka.trim().toUpperCase();
+    // Skupiny píšu školy rôzne („TSVch“, „1.sk“); ukážeme ich jednotne. Samotné „D“ či „CH“ môže byť aj skupina D, ostane.
+    const skupina = (x: string) => {
+      const t = x.trim();
+      if (/^(?:(?:tsv|tv)\s*(?:ch|chl|chlapci)|chl|chlapci)$/i.test(t)) return "chlapci";
+      if (/^(?:(?:tsv|tv)\s*(?:d|dv|dievčatá)|dv|dievčatá)$/i.test(t)) return "dievčatá";
+      return t.replace(/^(\d+)\s*\.?\s*sk\.?$/i, "$1. skupina");
+    };
+    const blok = (b: Blok) => {
+      const dalsie = [b.skupina ? skupina(b.skupina) : null, b.tyzden ? `týždeň ${b.tyzden}` : null].filter(Boolean).join(", ");
+      return `<li><span class="sk" aria-hidden="true" title="${esc(nazovP(b))}${odhad(b) ? " (odhad podľa iných škôl)" : ""}">${esc(b.skratka)}</span> <span class="pr">${esc(nazovP(b))}${odhad(b) ? ` ${ODHAD}` : ""}</span>${b.ucebna ? ` <span class="uc"><span class="vh">učebňa </span>${esc(b.ucebna)}</span>` : ""}${dalsie ? ` <span class="dalsie">${esc(dalsie)}</span>` : ""}</li>`;
+    };
+    // Bloky, ktoré sa začínajú v tú istú hodinu a trvajú rovnako (skupiny, semináre), sú jedna bunka:
+    // na počítači pod sebou v stĺpci hodiny, na mobile vedľa seba v jednom riadku.
+    const bunky = (bloky: Blok[]) => {
+      const m = new Map<string, Blok[]>();
+      for (const b of bloky) { const k = `${miesto(b)}|${Math.max(b.trvanie, 1)}`; (m.get(k) ?? m.set(k, []).get(k)!).push(b); }
+      return [...m.values()].sort((x, y) => miesto(x[0]!) - miesto(y[0]!));
+    };
     const predmety = new Map(trieda.bloky.map((b) => [b.skratka, b]));
+    const odhady = [...predmety.values()].some((b) => odhad(b));
+    const vlastne = [...predmety.values()].some((b) => !odhad(b) && !bezNazvu(b));
+    const pozn = odhady
+      ? `<p class="odhad-pozn"><span class="beta-znak">beta</span> Názvy so znakom ≈ škola v rozvrhu neuvádza, píše len skratku. Doplnili sme ich podľa toho, ako tú skratku píše väčšina ostatných škôl, a môžu sa mýliť.${vlastne ? " Ostatné názvy uvádza škola." : ""}</p>`
+      : vlastne ? `<p class="odhad-pozn">Názvy predmetov uvádza škola v rozvrhu.</p>` : "";
     return `<div class="mr-obal"><div class="mr" style="--n:${vidno.length}"><h3 class="vh">Rozvrh triedy ${esc(nazov)}</h3>
 <div class="mr-hlava" aria-hidden="true"><span></span><ol>${vidno.map((h) => `<li><b>${esc(h.n)}</b>${h.od && h.do ? `${esc(cas(h.od))}–${esc(cas(h.do))}` : ""}</li>`).join("")}</ol></div>
 ${Array.from({ length: pocetDni }, (_, den) => {
       const bloky = trieda.bloky.filter((b) => b.den === den);
-      return `<section class="mr-den"><h3>${esc(dni[den] ?? `Deň ${den + 1}`)}</h3><ul>${bloky.length ? bloky.map((b) => {
-        const dalsie = [b.skupina, b.tyzden ? `týždeň ${b.tyzden}` : null].filter(Boolean).join(", ");
-        return `<li${farba(b)}--c:${miesto(b) - prvy + 1};--w:${Math.max(b.trvanie, 1)}">${kedy(b)} <span class="sk" aria-hidden="true" title="${esc(nazovP(b))}">${esc(b.skratka)}</span> <span class="pr">${esc(nazovP(b))}${info(b)?.odhad ? ` ${ODHAD}` : ""}</span>${b.ucebna ? ` <span class="uc"><span class="vh">učebňa </span>${esc(b.ucebna)}</span>` : ""}${dalsie ? ` <span class="dalsie${pohlavie(b.skupina ?? "")}">${esc(dalsie)}</span>` : ""}</li>`;
-      }).join("") : `<li class="volno">bez vyučovania</li>`}</ul></section>`;
+      return `<section class="mr-den"><h3>${esc(dni[den] ?? `Deň ${den + 1}`)}</h3><ul>${bloky.length ? bunky(bloky).map((g) =>
+        `<li class="g${g.length > 2 ? " vela" : ""}" style="--c:${miesto(g[0]!) - prvy + 1};--w:${Math.max(g[0]!.trvanie, 1)}">${kedy(g[0]!)}<ul>${g.map(blok).join("")}</ul></li>`).join("")
+        : `<li class="volno">bez vyučovania</li>`}</ul></section>`;
     }).join("")}</div></div>
-<ul class="predmety" aria-label="Skratky predmetov">${[...predmety].sort((a, b) => a[0].localeCompare(b[0], "sk")).map(([sk, b]) => {
-      const n = nazovP(b);
-      const text = n.trim().toUpperCase() === sk.trim().toUpperCase() ? `<span class="bez">škola názov neuvádza</span>` : `${esc(n)}${info(b)?.odhad ? ` ${ODHAD}` : ""}`;
-      return `<li${info(b)?.h !== undefined ? ` class="f${info(b)!.t ? " t1" : ""}" style="--h:${info(b)!.h}"` : ""}><b>${esc(sk)}</b>${text}</li>`;
-    }).join("")}</ul>${[...predmety.values()].some((b) => info(b)?.odhad) ? `<p class="odhad-pozn"><span class="beta-znak">beta</span> ≈ Škola v rozvrhu píše len skratku; názov sme doplnili podľa toho, ako tú skratku píše väčšina ostatných škôl. Môže sa mýliť.</p>` : ""}`;
+<ul class="predmety" aria-label="Skratky predmetov">${[...predmety].sort((a, b) => a[0].localeCompare(b[0], "sk")).map(([sk, b]) =>
+      `<li><b>${esc(sk)}</b>${bezNazvu(b) ? `<span class="bez">škola názov neuvádza</span>` : `${esc(nazovP(b))}${odhad(b) ? ` ${ODHAD}` : ""}`}</li>`).join("")}</ul>${pozn}`;
   };
 
   let vybrana = "";

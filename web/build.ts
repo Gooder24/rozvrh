@@ -5,7 +5,7 @@ import { kratko, nacitajSkoly, slug, type Skola } from "./data";
 import { ADRESA, type Hlava, type Pocty, type Render, type VsProgram } from "./stranky";
 import * as ui from "./ui/render";
 import { vObci } from "./obce";
-import { doplnFarby, predmetySkoly, slovnik } from "./predmety";
+import { predmetySkoly, slovnik } from "./predmety";
 import { openapi } from "./openapi";
 import { meno } from "./sukromie";
 
@@ -46,14 +46,10 @@ const skoly = await nacitajSkoly();
     .filter((x) => x && meno(x, prazdny, false)).map((x) => `${s.id}: ${x}`));
   if (nalezy.length) throw new Error(`mená v údajoch (${nalezy.length}):\n${[...new Set(nalezy)].slice(0, 30).join("\n")}`);
 }
-// Predmety: odhad názvu pri školách, ktoré píšu len skratku, a rovnaká farba rovnakého predmetu na každej škole.
+// Predmety: odhad názvu pri školách, ktoré píšu len skratku.
 {
   const sl = slovnik(skoly);
-  const FARBY = "data/predmety-farby.json";
-  const poradie = doplnFarby(await Bun.file(FARBY).json().catch(() => []) as string[], sl);
-  await Bun.write(FARBY, JSON.stringify(poradie, null, 0).replaceAll('","', '",\n"') + "\n");
-  const farby = new Map(poradie.map((k, i) => [k, i]));
-  for (const s of skoly) if (s.triedy.length) s.predmety = predmetySkoly(s, sl, farby);
+  for (const s of skoly) if (s.triedy.length) s.predmety = predmetySkoly(s, sl);
 }
 const cestaSkoly = (s: { slug: string }) => `/skola/${s.slug}/`;
 const cestaMesta = (s: { mestoSlug: string }) => `/mesto/${s.mestoSlug}/`;

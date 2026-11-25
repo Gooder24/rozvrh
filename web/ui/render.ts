@@ -134,8 +134,6 @@ export const skola = (d: StrankaSkoly) => {
   const s = d.skola;
   const hodiny: HodinaOsi[] = citatelne(s.zvonenie?.hodiny ?? []).map((h) => ({ ...h, pouzita: h.pouzita !== false }));
   const rp = rozpatie(hodiny);
-  const naOsi = platne(hodiny);
-  const r = naOsi.length ? rozsah(naOsi) : null;
   const pouzite = hodiny.filter((h) => h.pouzita);
   const dlzky = new Set(pouzite.map((h) => minuty(h.do) - minuty(h.od)));
   const edupage = s.edupage ? `https://${s.edupage}.edupage.org/` : null;
@@ -143,12 +141,16 @@ export const skola = (d: StrankaSkoly) => {
     ? `Vyučovanie sa začína o <b>${cas(rp.od)}</b> a posledná hodina sa končí o <b>${cas(rp.do)}</b>. Zvonenie má ${hodin(rp.pocet)}${dlzky.size === 1 ? ` po ${[...dlzky][0]} minút` : ""}.`
     : s.stav === "verejny_rozvrh" ? "Rozvrh tried je verejný, skutočné zvonenie však nepoznáme: škola má v EduPage len predvolené časy (8:00, 9:00, 10:00…)."
     : `Verejný rozvrh ani zvonenie tejto školy sme zatiaľ nenašli.${edupage ? " Škola používa EduPage, rozvrh tam môže byť dostupný po prihlásení." : ""} Ak ich škola zverejňuje, <a href="${GITHUB}/issues">napíšte nám, kde</a>.`;
-  const zvonenie = s.zvonenie ? `<section><h2>Zvonenie</h2>${r ? `<div class="tabula os os-jedna" style="${stylOsi(r)}"><div class="os-hlava" aria-hidden="true">${cislaOsi(r)}</div>${trat(naOsi, popisTrate(naOsi))}</div><p class="teraz" id="teraz" role="status"></p>` : ""}
-<div class="dvoje"><table class="zvonenie"><thead><tr><th scope="col">Hodina</th><th scope="col">Začiatok</th><th scope="col">Koniec</th><th scope="col">Prestávka po hodine</th></tr></thead><tbody>${hodiny.map((h, i) => {
+  // Zvonenie ako deň zhora nadol: každá hodina s presným časom a medzi nimi prestávky, vyššie podľa toho, ako dlho trvajú.
+  const trvanie = (m: number) => (m < 60 ? `${m} min` : `${Math.floor(m / 60)} h${m % 60 ? ` ${m % 60} min` : ""}`);
+  const zvonenie = s.zvonenie ? `<section><h2>Zvonenie</h2><p class="teraz" id="teraz" role="status"></p>
+<div class="dvoje"><ol class="zvon">${hodiny.map((h, i) => {
     const dalsia = hodiny[i + 1];
     const prestavka = dalsia ? minuty(dalsia.od) - minuty(h.do) : 0;
-    return `<tr${h.pouzita ? "" : ` class="n"`}><th scope="row">${esc(/^\d+$/.test(h.n.trim()) ? `${h.n.trim()}.` : h.n)}</th><td>${cas(h.od)}</td><td>${cas(h.do)}</td><td>${h.pouzita ? "" : "rozvrh ju nepoužíva"}${prestavka > 0 && prestavka < 180 ? `${h.pouzita ? "" : ", "}${prestavka} min` : ""}</td></tr>`;
-  }).join("")}</tbody></table>
+    const n = /^\d+$/.test(h.n.trim()) ? `${h.n.trim()}.` : h.n.trim();
+    return `<li class="hod${h.pouzita ? "" : " n"}" data-n="${esc(h.n.trim())}" data-od="${minuty(h.od)}" data-do="${minuty(h.do)}"><b>${esc(n)}<span class="vh"> hodina</span></b><span class="cas">${cas(h.od)} – ${cas(h.do)}</span><small>${h.pouzita ? trvanie(minuty(h.do) - minuty(h.od)) : "rozvrh ju nepoužíva"}</small></li>${
+      prestavka > 0 ? `<li class="pres" style="--m:${Math.min(prestavka, 60)}" data-od="${minuty(h.do)}" data-do="${minuty(dalsia!.od)}"><span>${prestavka < 60 ? "prestávka" : "pauza"} ${trvanie(prestavka)}</span></li>` : ""}`;
+  }).join("")}</ol>
 <dl class="udaje"><dt>Zdroj zvonenia</dt><dd>${s.zvonenie.url ? `<a href="${esc(s.zvonenie.url)}" rel="nofollow noopener ugc">${esc(s.zvonenie.zdroj)}</a>` : esc(s.zvonenie.zdroj)}</dd><dt>Skontrolované</dt><dd>${datum(s.skontrolovane)}</dd>${s.stav === "len_zvonenie" ? `<dt>Rozvrh tried</dt><dd>škola ho verejne neukazuje</dd>` : ""}</dl></div></section>` : "";
   const rz = s.rozvrh;
   const fakt = (co: string, kolko: string | number) => `<div><dt>${co}</dt><dd>${kolko}</dd></div>`;
