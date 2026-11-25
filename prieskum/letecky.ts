@@ -1,4 +1,4 @@
-// Letecký výrez okolo budovy školy pre jej stránku: Ortofotomozaika SR (GKÚ Bratislava, CC BY 4.0, bez poplatkov),
+// Letecký výrez okolo budovy školy pre jej stránku: Ortofotomozaika SR (GKÚ Bratislava a NLC, CC BY 4.0, bez poplatkov),
 // cez verejnú službu WMS, jeden dopyt naraz s pauzou.
 //   bun prieskum/letecky.ts      stiahne výrezy, ktoré v data/letecky/ ešte nie sú (dá sa prerušiť a pustiť znova)
 // Výrez dostane len škola, ktorej bod v data/mapa/adresy-gps.json je budova („a“), nie len ulica.
