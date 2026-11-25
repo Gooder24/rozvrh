@@ -82,19 +82,22 @@ const csvBunka = (v: unknown) => { const t = (v == null ? "" : String(v)).replac
 await zapis("/data/skoly.csv", "\ufeff" + [stlpce.join(","), ...index.map((s) => stlpce.map((k) => csvBunka(s[k])).join(","))].join("\n"));
 // Malý index na hľadanie v prehliadači: [nazov, miesto, cesta, stav, ulica].
 await zapis("/data/hladanie.json", JSON.stringify(index.map((s) => [s.nazov, s.miesto, s.cesta, s.stav === "verejny_rozvrh" ? 2 : s.stav === "len_zvonenie" ? 1 : 0, s.ulica])));
-// Body na mape v poradí hladanie.json. Poloha je zatiaľ stred obce (data/mapa/obce-gps.json, Wikidata, kľúč „obec|okres“,
-// lebo rovnaké názvy obcí sú v rôznych okresoch); viac škôl
-// v jednej obci sa rozloží do špirály okolo stredu, aby sa dali rozkliknúť.
+// Body na mape v poradí hladanie.json. Poloha je adresa školy z data/mapa/adresy-gps.json (prieskum/geokoduj.ts,
+// OpenStreetMap); škola bez nej dostane stred obce (data/mapa/obce-gps.json, Wikidata, kľúč „obec|okres“, lebo rovnaké
+// názvy obcí sú v rôznych okresoch). Viac škôl v jednom bode sa rozloží do malej špirály, aby sa dali rozkliknúť.
 if (MAPA) {
+  const adresy = await Bun.file("data/mapa/adresy-gps.json").json() as Record<string, [number, number, string]>;
   const stredy = await Bun.file("data/mapa/obce-gps.json").json() as Record<string, [number, number]>;
   const poradie = new Map<string, number>();
   await zapis("/data/mapa.json", JSON.stringify(index.map((s) => {
-    const kluc = `${s.miesto}|${s.okres}`, c = stredy[kluc];
+    const a = adresy[s.id];
+    const c = a ? [a[0], a[1]] as const : stredy[`${s.miesto}|${s.okres}`];
     if (!c) return null;
-    const k = poradie.get(kluc) ?? 0;
+    const kluc = c.join(","), k = poradie.get(kluc) ?? 0;
     poradie.set(kluc, k + 1);
-    const r = 0.0035 * Math.sqrt(k), a = k * 2.39996;
-    return [Math.round((c[0] + (r * Math.cos(a)) / Math.cos((c[1] * Math.PI) / 180)) * 1e5) / 1e5, Math.round((c[1] + r * Math.sin(a)) * 1e5) / 1e5];
+    // Na adrese stačí pár metrov (spojené školy v jednej budove), v strede obce treba viac miesta.
+    const r = (a ? 0.00025 : 0.0035) * Math.sqrt(k), u = k * 2.39996;
+    return [Math.round((c[0] + (r * Math.cos(u)) / Math.cos((c[1] * Math.PI) / 180)) * 1e5) / 1e5, Math.round((c[1] + r * Math.sin(u)) * 1e5) / 1e5];
   })));
 }
 
