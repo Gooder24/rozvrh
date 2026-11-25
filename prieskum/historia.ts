@@ -1,6 +1,10 @@
 // Archív starších rozvrhov z EduPage: škola tam drží všetky verzie rozvrhu z minulých rokov.
 //   bun prieskum/historia.ts zoznam    zoznam verzií každej školy s verejným rozvrhom → data/historia/verzie.json
 //   bun prieskum/historia.ts stiahni   stiahne verzie, ktoré ešte nemá → data/historia/raw/<sub>/<tt_num>.json.gz
+//   … --aj-v-noci                      nezastaví sa o 21:00 (Karchi 2026-11-25: aj v noci, kým EduPage neblokuje)
+// Mimo agenta (bez agenta a cez noc) beží ako služba:
+//   systemd-run --user --unit=rozvrh-historia --working-directory=$PWD reboot-when-idle hold bun prieskum/historia.ts stiahni --aj-v-noci
+// stav: journalctl --user -u rozvrh-historia; zastaviť: systemctl --user stop rozvrh-historia.
 // Oba sa dajú prerušiť a pustiť znova; pokračujú tam, kde skončili. Najviac 1 požiadavka za sekundu (sonda.ts),
 // nikdy naraz s obnovou (zámok data/.zber.lock) a len cez deň: o 21:00 sa zastavia samy. Surové údaje obsahujú mená
 // učiteľov: na web smú len cez web/data.ts (bezMien), nikdy priamo. data/historia/ nie je v gite (surové údaje EduPage).
@@ -9,6 +13,7 @@ import { gzipSync } from "node:zlib";
 import { stiahni, zablokovane, zamkni } from "./sonda";
 
 const DIR = "data/historia";
+const AJ_V_NOCI = process.argv.includes("--aj-v-noci");
 const ZOZNAM = `${DIR}/verzie.json`;
 export type Verzia = { tt_num: string; year: number; text: string; datefrom: string };
 
@@ -37,7 +42,7 @@ async function zoznam() {
   const skoly = (await skolyEdupage()).filter((s) => !(s in verzie));
   console.log(`${skoly.length} škôl bez zoznamu`);
   for (const [i, sub] of skoly.entries()) {
-    if (!cezDen()) { console.log("21:00, zastavené"); break; }
+    if (!AJ_V_NOCI && !cezDen()) { console.log("21:00, zastavené"); break; }
     if (zablokovane) { console.log("EduPage blokuje, zastavené"); break; }
     const r = await edupage(sub, "ttviewer", [null, new Date().getFullYear()]);
     let tts: Verzia[] | null = null;
@@ -57,7 +62,7 @@ async function stiahniVerzie() {
   for (const { sub, num } of ulohy) {
     const cesta = `${DIR}/raw/${sub}/${num}.json.gz`;
     if (await Bun.file(cesta).exists()) { mam++; continue; }
-    if (!cezDen()) { console.log("21:00, zastavené"); break; }
+    if (!AJ_V_NOCI && !cezDen()) { console.log("21:00, zastavené"); break; }
     if (zablokovane) { console.log("EduPage blokuje, zastavené"); break; }
     const r = await edupage(sub, "regulartt", [null, num]);
     if (r.ok && r.text.includes("dbiAccessorRes")) {
