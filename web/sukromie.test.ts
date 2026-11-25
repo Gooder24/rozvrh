@@ -3,12 +3,12 @@ import { meno, nazovTriedy, SPECIALNE, type Kontext } from "./sukromie";
 
 // Vymyslené mená v tvaroch, ako ich školy píšu do EduPage. Počty škôl pre bežné slová skupín a učební.
 const vyskyt = new Map(["skupina", "chlapci", "dievcata", "rocnik", "ucebna", "informatiky", "telocvicna", "anglicky", "jazyk", "sportova", "priprava", "csoport", "telesna", "vychova", "ib"].map((w) => [w, 50]));
-const k: Kontext = { ucitelia: new Set(["vzor", "kul", "pa", "ib", "sk"]), vyskyt };
+const k: Kontext = { ucitelia: new Set(["vzor", "kul", "pa", "xy", "sk"]), vyskyt };
 
 test("mená detí a učiteľov v názvoch skupín a učební sa zahodia", () => {
   for (const t of ["Janko Hraško", "ANJ Vzorová", "6.roč.-VZOROVÁ", "STR, Ing. Hraško", "Ema Vzorová", "2.ročník Vzorová", "Mrkvička Hraško",
     "ANJ Vzor", "INF KUL", "Ján Hraško", "Novák", "J.M.Hraško", "J.H.", "J. Hraško", "Hraško J.", "Vzorova sk.", "Vzorová sk.",
-    "ANJ Hra", "Hra skupina", "QZ", "I.K.", "V. S.", "IB.PA", "Nováková ANJ", "Réka"])
+    "ANJ Hra", "Hra skupina", "QZ", "I.K.", "V. S.", "XY.PA", "Nováková ANJ", "Réka"])
     expect(meno(t, k, true, true), t).not.toBeNull();
 });
 
