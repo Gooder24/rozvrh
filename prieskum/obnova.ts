@@ -205,7 +205,12 @@ Bun.spawnSync(["bun", "prieskum/suhrn.ts"]);
 const DATA = ["data/register", "data/skoly-register.json", "data/zs/skoly-register.json", "data/PRIESKUM.md", "data/prieskum-suhrn.json"];
 Bun.spawnSync(["git", "add", "--", ...DATA]);
 const commit = Bun.spawnSync(["git", "commit", "-q", "--only", "-m", `chore(data): obnova ${den(dnes)} (${plna ? "plná" : "lacná"}${problemy.length ? ", poistka nenahradila dáta" : ""})`, "--", ...DATA]);
-if (commit.exitCode === 0 && Bun.spawnSync(["git", "pull", "-q", "--rebase"]).exitCode === 0) Bun.spawnSync(["git", "push", "-q"]);
+// Keď pull alebo push nevyjde (napr. rozrobená práca v checkoute), poistka sa ozve: commit inak ostane potichu lokálny.
+if (commit.exitCode === 0) {
+  const pull = Bun.spawnSync(["git", "pull", "-q", "--rebase"], { stderr: "pipe" });
+  const push = pull.exitCode === 0 ? Bun.spawnSync(["git", "push", "-q"], { stderr: "pipe" }) : null;
+  if (pull.exitCode !== 0 || push?.exitCode !== 0) problemy.push(`register ostal len lokálne, git ${pull.exitCode !== 0 ? "pull" : "push"}: ${(push ?? pull).stderr.toString().trim().slice(0, 120)}`);
+}
 
 if (problemy.length) {
   // Poistka sa ozve: jeden riadok v inboxe (číta ho Hermes), nikdy dvakrát za ten istý deň.

@@ -58,7 +58,10 @@ function triedyZRaw(raw: string): { triedy: Trieda[]; dni: string[]; ucitelia: S
     }
   }
   for (const t of triedy) t.bloky.sort((a, b) => a.den - b.den || Number(a.hodina) - Number(b.hodina) || a.predmet.localeCompare(b.predmet));
-  const ucitelia = new Set((T.teachers ?? []).flatMap((u) => String(u.short ?? "").split(/[^\p{L}]+/u)).map(zlozene).filter((x) => x.length >= 3));
+  // Skratka učiteľa, ktorá je zároveň skratkou predmetu školy (učiteľ „MAT“ aj predmet „MAT“), meno neprezradí.
+  const kody = (t: string, pole: string) => (T[t] ?? []).flatMap((r) => String(r[pole] ?? "").split(/[^\p{L}]+/u)).map(zlozene);
+  const predmetove = new Set(kody("subjects", "short"));
+  const ucitelia = new Set(kody("teachers", "short").filter((x) => x.length >= 2 && !predmetove.has(x)));
   return { triedy: triedy.filter((t) => t.bloky.length).map(({ nazov, bloky }) => ({ nazov, bloky })), dni, ucitelia };
 }
 
@@ -73,8 +76,15 @@ export function bezpecnaUrl(raw: string | null | undefined): string | null {
 }
 
 /** Mená von zo všetkých textov školy, ktoré prišli z EduPage. */
-function bezMien(skola: Skola, k: Kontext) {
+function bezMien(skola: Skola, k: Kontext & { nazvy: Map<string, number> }) {
   const pouzite = new Set<string>();
+  // Skupina alebo učebňa, ktorú tak volá len pár škôl, so začiatkom priezviska („ANJ Hr“, „Hra skupina“)
+  // alebo iniciálami („PS“, kým „CH“ či „NJ“ má veľa škôl).
+  // Učebne z dvoch veľkých písmen („KS“, „PM“) sú bežné označenia miestností, tie ostanú.
+  const skratkaMena = (x: string, druh: "s" | "u") => {
+    const t = x.trim(), inicialy = druh === "s" && /^\p{Lu}{2}$/u.test(t) && !/^[IVX]+$/.test(t);
+    return (k.nazvy.get(`${druh}:${t}`) ?? 0) < (inicialy ? 5 : 3) && (inicialy || t.split(/[^\p{L}]+/u).some((y) => /^\p{Lu}\p{Ll}{1,2}$/u.test(y)));
+  };
   // Špeciálne a praktické školy: skupiny bývajú jednotlivé deti (aj len iniciály), nezverejňujú sa vôbec.
   const specialnaSkola = /špeciáln|internátn|praktick|pre žiakov s|pre deti s/i.test(`${skola.nazov} ${skola.druh} ${skola.typ}`);
   skola.triedy = skola.triedy.map((t, i) => {
@@ -84,12 +94,14 @@ function bezMien(skola: Skola, k: Kontext) {
     pouzite.add(nazov);
     return {
       nazov, bloky: t.bloky.map((b) => {
-        const skratka = meno(b.skratka, k, false) ? "?" : cisty(b.skratka, 20);
+        // V špeciálnej triede býva aj „predmet“ meno dieťaťa (individuálny plán): prísne aj tam.
+        const skratka = meno(b.skratka, k, specialnaTrieda) ? "?" : cisty(b.skratka, 20);
         return {
           ...b, skratka,
-          predmet: meno(b.predmet, k, false) ? skratka : cisty(b.predmet, 100),
-          ucebna: b.ucebna && !meno(b.ucebna, k, true) ? cisty(b.ucebna, 40) : null,
-          skupina: b.skupina && !specialnaTrieda && !SPECIALNE.test(b.predmet) && !meno(b.skupina, k, true) ? cisty(b.skupina, 40) : null,
+          predmet: meno(b.predmet, k, specialnaTrieda) ? skratka : cisty(b.predmet, 100),
+          ucebna: b.ucebna && !meno(b.ucebna, k, true, true) && !skratkaMena(b.ucebna, "u") ? cisty(b.ucebna, 40) : null,
+          skupina: b.skupina && !specialnaTrieda && !SPECIALNE.test(b.predmet) && !meno(b.skupina, k, true, true) && !skratkaMena(b.skupina, "s")
+            ? cisty(b.skupina, 40) : null,
         };
       }),
     };
@@ -153,7 +165,10 @@ export async function nacitajSkoly(): Promise<Skola[]> {
       for (const y of x.split(/[^\p{L}]+/u)) w.add(zlozene(y));
     for (const y of w) vyskyt.set(y, (vyskyt.get(y) ?? 0) + 1);
   }
-  for (const s of skoly) bezMien(s, { ucitelia: ucitelia.get(s.id)!, vyskyt });
+  // V koľkých školách sa celý názov skupiny („s:…“) alebo učebne („u:…“) objaví presne tak.
+  const nazvy = new Map<string, number>();
+  for (const s of skoly) for (const n of new Set(s.triedy.flatMap((t) => t.bloky.flatMap((b) => [`s:${b.skupina?.trim() ?? ""}`, `u:${b.ucebna?.trim() ?? ""}`])))) nazvy.set(n, (nazvy.get(n) ?? 0) + 1);
+  for (const s of skoly) bezMien(s, { ucitelia: ucitelia.get(s.id)!, vyskyt, nazvy });
   return skoly;
 }
 

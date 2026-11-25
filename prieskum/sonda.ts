@@ -70,13 +70,29 @@ export let zablokovane = false;
 
 // Len verejné http(s) adresy: presmerovanie ani odkaz z cudzieho webu nesmie viesť na tento stroj, sieť Tailscale ani súbor.
 // IPv4 rozsahy [začiatok, dĺžka prefixu]: 0/8, 10/8, 100.64/10 (Tailscale), 127/8, 169.254/16, 172.16/12, 192.168/16, 224/3.
-const SUKROMNE_V4 = [["0.0.0.0", 8], ["10.0.0.0", 8], ["100.64.0.0", 10], ["127.0.0.0", 8], ["169.254.0.0", 16], ["172.16.0.0", 12], ["192.168.0.0", 16], ["224.0.0.0", 3]] as const;
+const SUKROMNE_V4 = [["0.0.0.0", 8], ["10.0.0.0", 8], ["100.64.0.0", 10], ["127.0.0.0", 8], ["169.254.0.0", 16], ["172.16.0.0", 12], ["192.168.0.0", 16], ["198.18.0.0", 15], ["224.0.0.0", 3]] as const;
 const v4 = (ip: string) => ip.split(".").reduce((a, b) => a * 256 + Number(b), 0);
+const v4zCisla = (n: number) => [n >>> 24, (n >>> 16) & 255, (n >>> 8) & 255, n & 255].join(".");
+/** IPv6 ako 8 čísel (aj „::“, „0:0:…:1“, vložená IPv4 „::ffff:1.2.3.4“). */
+function skupiny6(ip: string): number[] {
+  let x = ip.toLowerCase().replace(/%.*$/, "");
+  const m = x.match(/(\d+\.\d+\.\d+\.\d+)$/);
+  if (m) { const n = v4(m[1]!); x = x.slice(0, -m[1]!.length) + `${(n >>> 16).toString(16)}:${(n & 0xffff).toString(16)}`; }
+  const [a, b] = x.split("::");
+  const cast = (s?: string) => (s ? s.split(":").map((h) => parseInt(h, 16)) : []);
+  const zac = cast(a), kon = cast(b);
+  return b === undefined ? zac : [...zac, ...Array(8 - zac.length - kon.length).fill(0), ...kon];
+}
 export function sukromnaIp(ip: string): boolean {
   if (isIP(ip) === 4) return SUKROMNE_V4.some(([z, m]) => Math.floor(v4(ip) / 2 ** (32 - m)) === Math.floor(v4(z) / 2 ** (32 - m)));
-  const x = ip.toLowerCase();
-  if (x.startsWith("::ffff:")) return isIP(x.slice(7)) === 4 ? sukromnaIp(x.slice(7)) : true;
-  return x === "::" || x === "::1" || /^f[cd]/.test(x) || /^fe[89ab]/.test(x) || /^ff/.test(x);
+  if (isIP(ip) !== 6) return true;
+  const g = skupiny6(ip);
+  const vnutorna = (h: number, l: number) => sukromnaIp(v4zCisla(h * 65536 + l));
+  // ::, ::1, ::ffff:a.b.c.d a ::a.b.c.d: rozhoduje vložená IPv4.
+  if (g.slice(0, 5).every((x) => x === 0) && (g[5] === 0 || g[5] === 0xffff)) return (g[5] === 0 && g[6] === 0) || vnutorna(g[6]!, g[7]!);
+  if (g[0] === 0x64 && g[1] === 0xff9b) return vnutorna(g[6]!, g[7]!); // NAT64
+  if (g[0] === 0x2002) return vnutorna(g[1]!, g[2]!); // 6to4
+  return (g[0]! & 0xfe00) === 0xfc00 || (g[0]! & 0xffc0) === 0xfe80 || (g[0]! & 0xff00) === 0xff00;
 }
 async function verejnaUrl(url: string) {
   let u: URL;

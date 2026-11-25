@@ -24,6 +24,7 @@ vaclav valentin valentina valeria valeriia vanda vanesa vanessza vavrinec veroni
 yana yaroslav yulia yuliia yurii
 zdenek zdenka zdenko zita zlatica zofia zoltan zsofia zsolt zsuzsanna zaneta zigmund
 adela artur aurelia berta dagmar dalibor darina ervin evelina felix florian frederik gizela herbert jana janka jaromir jasmina johana justin kornel leon linda lorant lujza magda mario marko miriam nikodem nina otakar paula petronela rene sandra sara sergej stefan stefania tina vendelin vlasta xenia zuzana zuzka
+zselyke zsofi zsuzsa zsombor kata gabriella imola izabella jolan lilla luca anett adel aliz dalma dorottya edina greta kamilla leila mira panna rita szandra virag janos marton nandor zalan akos aron balint denes gyorgy lorinc otto szilard zsigmond hunor csongor
 `;
 export const KRATKE = new Set("ada ali ema eva ela ida iva jan leo lea mia max ota oto tom tim".split(" "));
 export const KRSTNE = new Set(MENA.split(/\s+/).filter((m) => m.length >= 4));
