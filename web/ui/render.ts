@@ -83,9 +83,11 @@ const trat = (hodiny: HodinaOsi[], popis: string) =>
     prestavky(hodiny).map((p) => `<b class="pr" style="--s:${p.od};--e:${p.do}"><span>${p.do - p.od}</span></b>`).join("")}</div>`;
 const popisTrate = (hodiny: HodinaOsi[]) => {
   const p = hodiny.filter((h) => h.pouzita);
-  return `${hodin(p.length)}: ${p.map((h, i) => {
-    const dalsia = p[i + 1], pr = dalsia ? minuty(dalsia.od) - minuty(h.do) : 0;
-    return `${/^\d+$/.test(h.n.trim()) ? `${h.n.trim()}.` : h.n.trim()} ${cas(h.od)}–${cas(h.do)}${pr > 0 && pr < 180 ? `, prestávka ${pr} min` : ""}`;
+  // Tie isté prestávky ako na obrázku (prestavky): len medzi susednými používanými hodinami.
+  const po = new Map(prestavky(hodiny).map((x) => [x.od, x.do - x.od]));
+  return `${hodin(p.length)}: ${p.map((h) => {
+    const pr = po.get(minuty(h.do));
+    return `${/^\d+$/.test(h.n.trim()) ? `${h.n.trim()}.` : h.n.trim()} ${cas(h.od)}–${cas(h.do)}${pr ? `, prestávka ${pr} min` : ""}`;
   }).join(", ")}`;
 };
 const cislaOsi = (r: { t0: number; h: number }) =>
