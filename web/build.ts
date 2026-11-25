@@ -82,16 +82,17 @@ const csvBunka = (v: unknown) => { const t = (v == null ? "" : String(v)).replac
 await zapis("/data/skoly.csv", "\ufeff" + [stlpce.join(","), ...index.map((s) => stlpce.map((k) => csvBunka(s[k])).join(","))].join("\n"));
 // Malý index na hľadanie v prehliadači: [nazov, miesto, cesta, stav, ulica].
 await zapis("/data/hladanie.json", JSON.stringify(index.map((s) => [s.nazov, s.miesto, s.cesta, s.stav === "verejny_rozvrh" ? 2 : s.stav === "len_zvonenie" ? 1 : 0, s.ulica])));
-// Body na mape v poradí hladanie.json. Poloha je zatiaľ stred obce (data/mapa/obce-gps.json, Wikidata); viac škôl
+// Body na mape v poradí hladanie.json. Poloha je zatiaľ stred obce (data/mapa/obce-gps.json, Wikidata, kľúč „obec|okres“,
+// lebo rovnaké názvy obcí sú v rôznych okresoch); viac škôl
 // v jednej obci sa rozloží do špirály okolo stredu, aby sa dali rozkliknúť.
 if (MAPA) {
   const stredy = await Bun.file("data/mapa/obce-gps.json").json() as Record<string, [number, number]>;
   const poradie = new Map<string, number>();
   await zapis("/data/mapa.json", JSON.stringify(index.map((s) => {
-    const c = stredy[s.miesto];
+    const kluc = `${s.miesto}|${s.okres}`, c = stredy[kluc];
     if (!c) return null;
-    const k = poradie.get(s.miesto) ?? 0;
-    poradie.set(s.miesto, k + 1);
+    const k = poradie.get(kluc) ?? 0;
+    poradie.set(kluc, k + 1);
     const r = 0.0035 * Math.sqrt(k), a = k * 2.39996;
     return [Math.round((c[0] + (r * Math.cos(a)) / Math.cos((c[1] * Math.PI) / 180)) * 1e5) / 1e5, Math.round((c[1] + r * Math.sin(a)) * 1e5) / 1e5];
   })));

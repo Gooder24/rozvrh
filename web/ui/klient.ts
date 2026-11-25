@@ -84,6 +84,7 @@ if (pole && formular && vysledky && stavHladania) {
     try { localStorage.setItem(PAMAT_ZOBRAZENIA, ako); } catch { /* bez pamäte */ }
     mapaEl.hidden = ako !== "mapa";
     vysledky.hidden = ako === "mapa";
+    if (pole.value.trim().length >= 2) void hladaj(); // veta o počte sa líši pre zoznam a mapu
     if (ako !== "mapa") return;
     mapaSa ??= (async () => {
       const [riadky, body] = await Promise.all([nacitaj(), fetch("/data/mapa.json").then((o) => o.json() as Promise<([number, number] | null)[]>)]);
@@ -123,7 +124,7 @@ if (pole && formular && vysledky && stavHladania) {
     vybrane = zhoda.map((z) => z.i);
     if (naMape()) ukazNaMape?.(vybrane);
     stavHladania.textContent = zhoda.length || zoradeneObce.length
-      ? `${sklonuj(zhoda.length, "škola", "školy", "škôl")}${zhoda.length > ukazane.length ? `, ukazujeme prvých ${ukazane.length}` : ""}${obce.size ? ` a ${sklonuj(obce.size, "obec", "obce", "obcí")}` : ""}. Klávesom Enter otvoríte prvý výsledok.`
+      ? `${sklonuj(zhoda.length, "škola", "školy", "škôl")}${zhoda.length > ukazane.length && !naMape() ? `, ukazujeme prvých ${ukazane.length}` : ""}${obce.size ? ` a ${sklonuj(obce.size, "obec", "obce", "obcí")}` : ""}. Klávesom Enter otvoríte prvý výsledok.`
       : `Pre „${q}“ sme nenašli školu ani obec. Skúste len časť názvu alebo názov obce.`;
     vysledky.innerHTML = zhoda.length || zoradeneObce.length ? `<ul class="najdene">${zoradeneObce.map(([m, n]) =>
       `<li><a href="/mesto/${slug(m)}/"><b>${zv(m)}</b><small>${druhObce(m)}, ${sklonuj(n, "škola", "školy", "škôl")}</small></a></li>`).join("")}${ukazane.map(({ r }) =>
@@ -213,8 +214,10 @@ if (osi.length || zvon.length) {
         cisla?.removeAttribute("data-teraz");
       }
     }
+    // Zvýrazní sa len čas medzi začiatkom prvej a koncom poslednej hodiny, ktorú rozvrh používa.
+    const vRozsahu = pracovnyDen && bloky.length > 0 && teraz >= bloky[0]!.od && teraz < bloky.at(-1)!.do;
     for (const li of zvon) {
-      const je = pracovnyDen && teraz >= Number(li.dataset.od) && teraz < Number(li.dataset.do);
+      const je = vRozsahu && !li.matches(".n") && teraz >= Number(li.dataset.od) && teraz < Number(li.dataset.do);
       if (je) li.setAttribute("aria-current", "time"); else li.removeAttribute("aria-current");
     }
     if (!veta) return;
@@ -225,8 +228,10 @@ if (osi.length || zvon.length) {
       const bezi = bloky.find((b) => teraz >= b.od && teraz < b.do);
       const dalsia = bloky.find((b) => b.od > teraz);
       const oznac = (b: { n: string }) => (b.n ? `${b.n}. hodina` : "hodina");
+      const predosla = bloky.findLast((b) => b.do <= teraz);
+      const pauza = !!(dalsia && predosla && dalsia.od - predosla.do >= 60); // rovnako ako „pauza“ v zozname zvonenia
       if (bezi) text = `Podľa zvonenia je teraz ${oznac(bezi)}. Zvoní o ${hm(bezi.do)}, teda o ${bezi.do - teraz} min.`;
-      else if (dalsia) text = `${teraz < prva.od ? "Vyučovanie sa ešte nezačalo" : "Podľa zvonenia je teraz prestávka"}. ${oznac(dalsia)[0]?.toUpperCase()}${oznac(dalsia).slice(1)} sa začína o ${hm(dalsia.od)}, teda o ${dalsia.od - teraz} min.`;
+      else if (dalsia) text = `${teraz < prva.od ? "Vyučovanie sa ešte nezačalo" : `Podľa zvonenia je teraz ${pauza ? "pauza" : "prestávka"}`}. ${oznac(dalsia)[0]?.toUpperCase()}${oznac(dalsia).slice(1)} sa začína o ${hm(dalsia.od)}, teda o ${dalsia.od - teraz} min.`;
     }
     if (veta.textContent !== text) veta.textContent = text;
   };
