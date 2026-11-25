@@ -34,13 +34,19 @@ const host = new URL(ADRESA).host;
 // IndexNow odmietne (403), kým si neoverí súbor s kľúčom; po prvom nasadení to trvá aj hodiny. Neúspech nasadenie
 // nezhodí: odtlačky ostanú staré, takže ďalšie nasadenie (alebo --indexnow) pošle tie isté stránky znova.
 let zlyhalo = (await fetch(`${ADRESA}/${kluc}.txt`).then((r) => r.text()).catch(() => "")).trim() !== kluc;
+// Vyhľadávače si prijaté adresy medzi sebou zdieľajú. Bing (api.indexnow.org) vracia 403 „UserForbiddedToAccessSite“,
+// kým web nie je overený v Bing Webmaster Tools; vtedy adresy prijme Yandex.
+const KAM = ["https://api.indexnow.org/indexnow", "https://yandex.com/indexnow"];
 for (let i = 0; !zlyhalo && i < cesty.length; i += 10_000) {
-  const r = await fetch("https://api.indexnow.org/indexnow", {
-    method: "POST", headers: { "content-type": "application/json; charset=utf-8" },
-    body: JSON.stringify({ host, key: kluc, keyLocation: `${ADRESA}/${kluc}.txt`, urlList: cesty.slice(i, i + 10_000).map((c) => ADRESA + c) }),
-  }).catch((e: unknown) => (console.warn(`IndexNow: ${e}`), null));
-  console.log(`IndexNow: ${Math.min(10_000, cesty.length - i)} adries, HTTP ${r?.status ?? "bez odpovede"}`);
-  if (!r?.ok) zlyhalo = true;
+  const body = JSON.stringify({ host, key: kluc, keyLocation: `${ADRESA}/${kluc}.txt`, urlList: cesty.slice(i, i + 10_000).map((c) => ADRESA + c) });
+  let prijal = false;
+  for (const kam of KAM) {
+    const r = await fetch(kam, { method: "POST", headers: { "content-type": "application/json; charset=utf-8" }, body })
+      .catch((e: unknown) => (console.warn(`IndexNow ${kam}: ${e}`), null));
+    console.log(`IndexNow ${new URL(kam).host}: ${Math.min(10_000, cesty.length - i)} adries, HTTP ${r?.status ?? "bez odpovede"}`);
+    if (r?.ok) { prijal = true; break; }
+  }
+  if (!prijal) zlyhalo = true;
 }
 if (zlyhalo) console.warn("IndexNow adresy neprijal; pošlú sa pri ďalšom nasadení alebo: bun web/nasad.ts --indexnow");
 else if (await Bun.file("site/zmeny.novy.json").exists()) await rename("site/zmeny.novy.json", "site/zmeny.json");

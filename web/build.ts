@@ -132,11 +132,16 @@ for (const s of skoly) {
     name: s.nazov, url: ADRESA + cestaSkoly(s), ...(s.web ? { sameAs: [s.web] } : {}),
     address: { "@type": "PostalAddress", streetAddress: s.ulica, postalCode: s.psc, addressLocality: s.miesto, addressRegion: `${s.kraj} kraj`, addressCountry: "SK" },
   };
+  // Letecký výrez z data/letecky/ (mimo gitu) ide k stránke školy; škola bez neho stránku má aj tak.
+  const vyrez = Bun.file(`data/letecky/${s.id}.jpg`);
+  const letecky = (await vyrez.exists()) ? `${cestaSkoly(s)}letecky.jpg` : undefined;
+  if (letecky) await Bun.write(`${VON}${letecky}`, vyrez);
   await stranka(cestaSkoly(s), render.skola, {
     hlava: hlava(`${s.nazov}, ${s.miesto}: rozvrh hodín a zvonenie`, desc, cestaSkoly(s), ld),
     omrvinky: [{ nazov: "Slovensko", cesta: "/" }, { nazov: `${s.kraj} kraj`, cesta: cestaKraja(s.kraj) }, { nazov: s.miesto, cesta: cestaMesta(s) }],
     skola: s, dataCesta: `/data/skoly/${s.id}.json`,
     susedia: (podlaMesta.get(s.mestoSlug) ?? []).filter((x) => x.id !== s.id).map((x) => ({ ...kratko(x), cesta: cestaSkoly(x) })),
+    letecky,
   });
 }
 

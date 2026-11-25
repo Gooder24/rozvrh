@@ -38,6 +38,8 @@ export type StrankaSkoly = {
   dataCesta: string;
   /** Iné školy v tom istom meste. */
   susedia: (SkolaKratko & { cesta: string })[];
+  /** Letecký výrez okolo budovy (prieskum/letecky.ts), len keď poznáme presnú polohu budovy. */
+  letecky?: string;
 };
 export type Api = { hlava: Hlava };
 
