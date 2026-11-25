@@ -13,6 +13,10 @@ const render: Render = ui;
 const VON = "site/public";
 const vytvorene = new Date().toISOString();
 const INDEXNOW_KLUC = "3f6c1e0b9a7d4c2e8b5a1f0d6e9c7b24";
+/** Mapa škôl pri hľadaní (ukážka): len `MAPA=1 bun web/build.ts`, ostrý web ju zatiaľ nemá. */
+const MAPA = process.env.MAPA === "1";
+/** Dlaždice mapy: OpenFreeMap (zadarmo, bez kľúča, údaje OpenStreetMap). */
+const DLAZDICE = "https://tiles.openfreemap.org";
 
 const esc = (s: string) => s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]!);
 const jsonLd = (o: unknown) => `<script type="application/ld+json">${JSON.stringify(o).replace(/</g, "\\u003c")}</script>`;
@@ -78,6 +82,20 @@ const csvBunka = (v: unknown) => { const t = (v == null ? "" : String(v)).replac
 await zapis("/data/skoly.csv", "\ufeff" + [stlpce.join(","), ...index.map((s) => stlpce.map((k) => csvBunka(s[k])).join(","))].join("\n"));
 // Malý index na hľadanie v prehliadači: [nazov, miesto, cesta, stav, ulica].
 await zapis("/data/hladanie.json", JSON.stringify(index.map((s) => [s.nazov, s.miesto, s.cesta, s.stav === "verejny_rozvrh" ? 2 : s.stav === "len_zvonenie" ? 1 : 0, s.ulica])));
+// Body na mape v poradí hladanie.json. Poloha je zatiaľ stred obce (data/mapa/obce-gps.json, Wikidata); viac škôl
+// v jednej obci sa rozloží do špirály okolo stredu, aby sa dali rozkliknúť.
+if (MAPA) {
+  const stredy = await Bun.file("data/mapa/obce-gps.json").json() as Record<string, [number, number]>;
+  const poradie = new Map<string, number>();
+  await zapis("/data/mapa.json", JSON.stringify(index.map((s) => {
+    const c = stredy[s.miesto];
+    if (!c) return null;
+    const k = poradie.get(s.miesto) ?? 0;
+    poradie.set(s.miesto, k + 1);
+    const r = 0.0035 * Math.sqrt(k), a = k * 2.39996;
+    return [Math.round((c[0] + (r * Math.cos(a)) / Math.cos((c[1] * Math.PI) / 180)) * 1e5) / 1e5, Math.round((c[1] + r * Math.sin(a)) * 1e5) / 1e5];
+  })));
+}
 
 const celkom = {
   "SŠ": pocty(skoly.filter((s) => s.stupen === "SŠ")),
@@ -152,7 +170,7 @@ await stranka("/", render.domov, {
     "@context": "https://schema.org", "@type": "WebSite", name: "Rozvrhy škôl", url: ADRESA + "/",
     potentialAction: { "@type": "SearchAction", target: `${ADRESA}/?q={q}`, "query-input": "required name=q" },
   }),
-  vytvorene, celkom,
+  vytvorene, celkom, mapa: MAPA,
   kraje: kraje.map(([kraj, z]) => ({ nazov: kraj, cesta: cestaKraja(kraj), pocty: pocty(z) })),
   mesta: [...podlaMesta].map(([, z]) => ({ nazov: z[0]!.miesto, cesta: cestaMesta(z[0]!), pocet: z.length })).sort((a, b) => b.pocet - a.pocet).slice(0, 24),
 });
@@ -179,8 +197,13 @@ await zapis("/404.html", render.chyba404({ hlava: hlava("Stránka sa nenašla", 
 // Vzhľad: statické súbory a klient.
 await cp("web/ui/assets", `${VON}/assets`, { recursive: true }).catch(() => {});
 if (await Bun.file("web/ui/klient.ts").exists()) {
-  const b = await Bun.build({ entrypoints: ["web/ui/klient.ts"], outdir: `${VON}/assets`, minify: true, target: "browser", naming: "klient.js" });
+  const b = await Bun.build({ entrypoints: ["web/ui/klient.ts"], outdir: `${VON}/assets`, minify: true, target: "browser", naming: "klient.js", external: ["/assets/*"] });
   if (!b.success) throw new AggregateError(b.logs, "klient.ts sa nedá zostaviť");
+}
+if (MAPA) {
+  for (const f of ["maplibre-gl.mjs", "maplibre-gl-worker.mjs", "maplibre-gl.css"]) await cp(`node_modules/maplibre-gl/dist/${f}`, `${VON}/assets/${f}`);
+  const b = await Bun.build({ entrypoints: ["web/ui/mapa.ts"], outdir: `${VON}/assets`, minify: true, target: "browser", format: "esm", naming: "mapa.js", external: ["/assets/*"] });
+  if (!b.success) throw new AggregateError(b.logs, "mapa.ts sa nedá zostaviť");
 }
 
 // Vyhľadávače.
@@ -223,7 +246,7 @@ await zapis("/_headers", `/*
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=()
-  Content-Security-Policy: default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self'; connect-src 'self'; object-src 'none'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'
+  Content-Security-Policy: default-src 'self'; img-src 'self' data:${MAPA ? " blob:" : ""}; style-src 'self' 'unsafe-inline'; script-src 'self'; connect-src 'self'${MAPA ? ` ${DLAZDICE}` : ""};${MAPA ? " worker-src 'self' blob:;" : ""} object-src 'none'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'
   X-Frame-Options: DENY
   Strict-Transport-Security: max-age=31536000
 /data/*

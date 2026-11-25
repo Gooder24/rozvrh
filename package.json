@@ -12,6 +12,7 @@
   "dependencies": {
     "@modelcontextprotocol/server": "^2.4.0",
     "hono": "^4.13.21",
+    "maplibre-gl": "^6.19.0",
     "zod": "^4.6.7"
   }
 }

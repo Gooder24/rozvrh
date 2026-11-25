@@ -11,6 +11,8 @@ const bezDiakritiky = (s: string) => s.normalize("NFD").replace(/\p{M}/gu, "").t
 const slug = (s: string) => bezDiakritiky(s).replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 80);
 const sklonuj = (n: number, jeden: string, dva: string, pat: string) => `${n} ${n === 1 ? jeden : n >= 2 && n <= 4 ? dva : pat}`;
 const cas = (t: string) => t.replace(/^0(\d)/, "$1");
+/** Mapa sa načíta za behu, nie v klient.js (premenná: zostavovač adresu nerieši). */
+const MAPA_JS = "/assets/mapa.js";
 
 // Hľadanie -----------------------------------------------------------------------------------------------------
 /** Riadok /data/hladanie.json. Piaty prvok (ulica) je nepovinný: použije sa, keď ho zostavenie pridá. */
@@ -59,20 +61,46 @@ const formular = document.querySelector<HTMLFormElement>("#hladanie");
 const vysledky = document.querySelector<HTMLElement>("#vysledky");
 const stavHladania = document.querySelector<HTMLElement>("#hladanie-stav");
 if (pole && formular && vysledky && stavHladania) {
-  type Zaznam = { r: Riadok; kluc: string; miesto: string };
+  type Zaznam = { r: Riadok; kluc: string; miesto: string; i: number };
   let index: Promise<Zaznam[]> | null = null;
   const nacitaj = () => index ??= fetch("/data/hladanie.json").then(async (o) => {
     if (!o.ok) throw new Error(String(o.status));
-    return ((await o.json()) as Riadok[]).map((r) => ({ r, kluc: bezDiakritiky(`${r[0]} ${r[1]} ${r[4] ?? ""}`), miesto: bezDiakritiky(r[1]) }));
+    return ((await o.json()) as Riadok[]).map((r, i) => ({ r, i, kluc: bezDiakritiky(`${r[0]} ${r[1]} ${r[4] ?? ""}`), miesto: bezDiakritiky(r[1]) }));
   });
   const odkazy = () => [...vysledky.querySelectorAll<HTMLAnchorElement>("a")];
+
+  // Zoznam alebo mapa (mapa je ukážka: prepínač je na stránke len pri MAPA=1). Mapa ukazuje všetky nájdené školy,
+  // zoznam prvých 40; bez hľadania ukáže mapa všetky školy.
+  const mapaEl = document.querySelector<HTMLElement>("#mapa");
+  const prepinace = [...document.querySelectorAll<HTMLButtonElement>("[data-zobraz]")];
+  let vybrane: number[] | null = null;
+  let ukazNaMape: ((v: number[] | null) => void) | null = null;
+  let mapaSa: Promise<void> | null = null;
+  const PAMAT_ZOBRAZENIA = "rozvrh-zobrazenie";
+  const naMape = () => prepinace.some((b) => b.dataset.zobraz === "mapa" && b.getAttribute("aria-pressed") === "true");
+  const zobraz = async (ako: string) => {
+    if (!mapaEl) return;
+    for (const b of prepinace) b.setAttribute("aria-pressed", String(b.dataset.zobraz === ako));
+    try { localStorage.setItem(PAMAT_ZOBRAZENIA, ako); } catch { /* bez pamäte */ }
+    mapaEl.hidden = ako !== "mapa";
+    vysledky.hidden = ako === "mapa";
+    if (ako !== "mapa") return;
+    mapaSa ??= (async () => {
+      const [riadky, body] = await Promise.all([nacitaj(), fetch("/data/mapa.json").then((o) => o.json() as Promise<([number, number] | null)[]>)]);
+      const m = (await import(MAPA_JS)) as typeof import("./mapa");
+      ukazNaMape = await m.vytvor(mapaEl, riadky.map((z) => z.r), body);
+    })().catch(() => { mapaSa = null; stavHladania.textContent = "Mapu sa nepodarilo načítať. Skúste to znova alebo zostaňte pri zozname."; });
+    await mapaSa;
+    ukazNaMape?.(vybrane);
+  };
+  for (const b of prepinace) b.addEventListener("click", () => void zobraz(b.dataset.zobraz ?? "zoznam"));
 
   let poradie = 0;
   const hladaj = async () => {
     const q = pole.value.trim();
     const moje = ++poradie;
     history.replaceState(null, "", q ? `/?q=${encodeURIComponent(q)}` : "/");
-    if (q.length < 2) { vysledky.innerHTML = ""; stavHladania.textContent = q ? "Napíšte aspoň dve písmená." : ""; return; }
+    if (q.length < 2) { vysledky.innerHTML = ""; stavHladania.textContent = q ? "Napíšte aspoň dve písmená." : ""; vybrane = null; if (naMape()) ukazNaMape?.(null); return; }
     let zaznamy: Zaznam[];
     try { zaznamy = await nacitaj(); } catch {
       index = null;
@@ -92,6 +120,8 @@ if (pole && formular && vysledky && stavHladania) {
     zhoda.sort((a, b) => vaha(a) - vaha(b) || b.r[3] - a.r[3] || a.r[0].localeCompare(b.r[0], "sk") || a.r[1].localeCompare(b.r[1], "sk"));
     const zoradeneObce = [...obce].sort((a, b) => Number(bezDiakritiky(b[0]).startsWith(cele)) - Number(bezDiakritiky(a[0]).startsWith(cele)) || b[1] - a[1]).slice(0, 5);
     const ukazane = zhoda.slice(0, 40);
+    vybrane = zhoda.map((z) => z.i);
+    if (naMape()) ukazNaMape?.(vybrane);
     stavHladania.textContent = zhoda.length || zoradeneObce.length
       ? `${sklonuj(zhoda.length, "škola", "školy", "škôl")}${zhoda.length > ukazane.length ? `, ukazujeme prvých ${ukazane.length}` : ""}${obce.size ? ` a ${sklonuj(obce.size, "obec", "obce", "obcí")}` : ""}. Klávesom Enter otvoríte prvý výsledok.`
       : `Pre „${q}“ sme nenašli školu ani obec. Skúste len časť názvu alebo názov obce.`;
@@ -120,6 +150,9 @@ if (pole && formular && vysledky && stavHladania) {
 
   const zAdresy = new URLSearchParams(location.search).get("q");
   if (zAdresy) { pole.value = zAdresy; void hladaj(); }
+  let ulozene = "";
+  try { ulozene = localStorage.getItem(PAMAT_ZOBRAZENIA) ?? ""; } catch { /* bez pamäte */ }
+  if (mapaEl && ulozene === "mapa") void zobraz("mapa");
 }
 
 // Časová os obce: triedenie a výber stupňa ---------------------------------------------------------------------

@@ -91,7 +91,7 @@ export const domov = (d: Domov) => {
   return obal(d.hlava, `<h1>Kedy zvoní na slovenských školách</h1>
 <p class="uvod">Zvonenie a rozvrhy hodín ${c.spolu} základných a stredných škôl na jednom mieste: kedy sa začína prvá hodina, aké dlhé sú prestávky a kedy sa vyučovanie končí.</p>
 <form class="hladanie" id="hladanie" action="/" role="search"><label for="q">Nájdite školu alebo obec</label><div><input class="pole" id="q" name="q" type="search" placeholder="napríklad Gymnázium Žilina alebo Bytča" autocomplete="off" aria-describedby="hladanie-stav"><button class="tlacidlo">Hľadať</button></div></form>
-<p class="pocet-najdenych" id="hladanie-stav" role="status"><noscript>Hľadanie potrebuje JavaScript. Školu nájdete aj cez kraj a obec nižšie.</noscript></p><div id="vysledky"></div>
+${d.mapa ? `<div class="zobrazenie" role="group" aria-label="Zobrazenie výsledkov"><button class="volba" data-zobraz="zoznam" aria-pressed="true">Zoznam</button><button class="volba" data-zobraz="mapa" aria-pressed="false">Mapa</button></div>` : ""}<p class="pocet-najdenych" id="hladanie-stav" role="status"><noscript>Hľadanie potrebuje JavaScript. Školu nájdete aj cez kraj a obec nižšie.</noscript></p><div id="vysledky"></div>${d.mapa ? `<div id="mapa" class="mapa" hidden></div>` : ""}
 <section><h2>Čo o školách vieme</h2>
 <p class="uvod">Pri ${c.zvonenie} z ${c.spolu} škôl (${percent(c.zvonenie, c.spolu)}) poznáme skutočné zvonenie a ${c.verejny_rozvrh} škôl má verejný rozvrh tried. Ako údaje vznikajú, píšeme <a href="/o-projekte/">o projekte</a>.</p>
 <div class="tabula"><ul class="prehlad">${riadokPrehladu("Stredné školy", d.celkom["SŠ"])}${riadokPrehladu("Základné školy", d.celkom["ZŠ"])}${riadokPrehladu("Spolu", c)}</ul>${legendaStavov}</div></section>
