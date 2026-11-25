@@ -38,9 +38,9 @@ for (let i = 0; !zlyhalo && i < cesty.length; i += 10_000) {
   const r = await fetch("https://api.indexnow.org/indexnow", {
     method: "POST", headers: { "content-type": "application/json; charset=utf-8" },
     body: JSON.stringify({ host, key: kluc, keyLocation: `${ADRESA}/${kluc}.txt`, urlList: cesty.slice(i, i + 10_000).map((c) => ADRESA + c) }),
-  });
-  console.log(`IndexNow: ${Math.min(10_000, cesty.length - i)} adries, HTTP ${r.status}`);
-  if (!r.ok) zlyhalo = true;
+  }).catch((e: unknown) => (console.warn(`IndexNow: ${e}`), null));
+  console.log(`IndexNow: ${Math.min(10_000, cesty.length - i)} adries, HTTP ${r?.status ?? "bez odpovede"}`);
+  if (!r?.ok) zlyhalo = true;
 }
 if (zlyhalo) console.warn("IndexNow adresy neprijal; pošlú sa pri ďalšom nasadení alebo: bun web/nasad.ts --indexnow");
 else if (await Bun.file("site/zmeny.novy.json").exists()) await rename("site/zmeny.novy.json", "site/zmeny.json");
