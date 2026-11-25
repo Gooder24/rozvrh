@@ -226,7 +226,7 @@ main{padding-block:1.5rem 4rem}
 .predmety{margin:1rem 0 0;padding:0;list-style:none;columns:3 15rem;column-gap:2rem;font-size:.875rem}
 .predmety li{break-inside:avoid;padding-block:2px}
 .predmety b{color:var(--atrament);margin-right:6px}
-/* Bunka hodiny: bloky, ktoré sa začínajú v tú istú hodinu, sú pod sebou (na mobile vedľa seba). */
+/* Bunka hodiny: bloky, ktoré sa začínajú v tú istú hodinu, sú vedľa seba. */
 .mr-den ul li.g{padding:0;background:none;display:block;overflow:visible}
 /* Viac predmetov v jednej hodine (skupiny) vedľa seba, po dvoch v rade; tretí a ďalší idú do ďalšieho radu. */
 .mr-den .g>ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:row;flex-wrap:wrap;gap:3px;height:100%;background:none;min-height:0}

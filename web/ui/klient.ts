@@ -306,7 +306,7 @@ if (sekcia && zoznamTried && mriezka) {
       return `<li><span class="sk" aria-hidden="true" title="${esc(nazovP(b))}${odhad(b) ? " (odhad podľa iných škôl)" : ""}">${esc(b.skratka)}</span> <span class="pr">${esc(nazovP(b))}${odhad(b) ? ` ${ODHAD}` : ""}</span>${b.ucebna ? ` <span class="uc"><span class="vh">učebňa </span>${esc(b.ucebna)}</span>` : ""}${dalsie ? ` <span class="dalsie">${esc(dalsie)}</span>` : ""}</li>`;
     };
     // Bloky, ktoré sa začínajú v tú istú hodinu a trvajú rovnako (skupiny, semináre), sú jedna bunka:
-    // na počítači pod sebou v stĺpci hodiny, na mobile vedľa seba v jednom riadku.
+    // vedľa seba (na počítači po dvoch v rade, na mobile v jednom riadku).
     const bunky = (bloky: Blok[]) => {
       const m = new Map<string, Blok[]>();
       for (const b of bloky) { const k = `${miesto(b)}|${Math.max(b.trvanie, 1)}`; (m.get(k) ?? m.set(k, []).get(k)!).push(b); }
