@@ -228,11 +228,18 @@ main{padding-block:1.5rem 4rem}
 .predmety b{color:var(--atrament);margin-right:6px}
 /* Bunka hodiny: bloky, ktoré sa začínajú v tú istú hodinu, sú vedľa seba. */
 .mr-den ul li.g{padding:0;background:none;display:block;overflow:visible}
-/* Viac predmetov v jednej hodine (skupiny) vedľa seba, po dvoch v rade; tretí a ďalší idú do ďalšieho radu. */
+/* Viac predmetov v jednej hodine (skupiny) vedľa seba, po dvoch v rade; tretí a ďalší, alebo druhý, keď sa skratky nezmestia vedľa seba, idú do ďalšieho radu. */
 .mr-den .g>ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:row;flex-wrap:wrap;gap:3px;height:100%;background:none;min-height:0}
-.mr-den .g li{grid-column:auto;margin:0;flex:1 1 0;min-width:calc(50% - 2px);padding:4px 5px;gap:0 4px;align-content:center}
+.mr-den .g li{grid-column:auto;margin:0;flex:1 1 calc(50% - 2px);min-width:min-content;padding:4px 5px;gap:0 4px;align-content:center}
 .mr-den .g .sk{font-size:.8125rem}
 .mr-den .g .dalsie{font-size:.6875rem}
+/* Skratka predmetu ostane celá; dlhá učebňa alebo skupina sa v úzkom bloku zalomí, neoreže. */
+@media (min-width:721px){
+  .mr-den .g>ul{container-type:inline-size}
+  .mr-den .g li>:not(.sk){min-width:0;max-width:100%;overflow-wrap:anywhere}
+}
+/* Bunka užšia ako dva čitateľné bloky (rozvrh s 10 a viac hodinami): bloky pod sebou celou šírkou. */
+@container (max-width:6rem){.mr-den .g li{flex-basis:100%}}
 /* Farba predmetu (klient.ts, FARBY): plná, bez pruhu; legenda má rovnaký štvorček. */
 .mr-den ul li.f{background:var(--bg);color:var(--fg)}
 .mr-den ul li.f :is(.sk,.pr,.uc,.dalsie,.odhad){color:inherit}
