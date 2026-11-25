@@ -4,7 +4,7 @@
 import type { Blok, Skola } from "../data";
 import type { VsPredmet, VsProgram } from "../stranky";
 import { druhObce } from "../obce";
-import { FARBY, farbyPredmetov } from "./farby";
+import { farba, farbyPredmetov } from "./farby";
 
 const esc = (s: unknown) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c] ?? c);
 const bezDiakritiky = (s: string) => s.normalize("NFD").replace(/\p{M}/gu, "").toLowerCase();
@@ -269,8 +269,10 @@ if (sekcia && zoznamTried && mriezka) {
   const kluc = (n: string) => n.trim().replace(/\.$/, "");
 
   const farbaStyl = (s: Skola, skratka: string) => {
-    const c = FARBY[farbyPredmetov(s.triedy).get(skratka) ?? -1];
-    return c ? ` style="--bg:${c.bg};--fg:${c.fg}"` : "";
+    const i = farbyPredmetov(s.triedy).get(skratka);
+    if (i === undefined) return "";
+    const c = farba(i);
+    return ` style="--bg:${c.bg};--fg:${c.fg}"`;
   };
   const vykresli = (s: Skola, nazov: string) => {
     const trieda = s.triedy.find((t) => t.nazov === nazov);
