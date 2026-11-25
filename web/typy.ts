@@ -27,5 +27,7 @@ export type Skola = SkolaKratko & {
     lekcie: number; karty: number; dvojhodiny: number;
   } | null;
   triedy: Trieda[];
+  /** Podľa textu predmetu z rozvrhu: názov doplnený podľa iných škôl (odhad, beta) a farba predmetu (odtieň h 0–359, tón t 0/1). */
+  predmety?: Record<string, { nazov?: string; odhad?: true; h?: number; t?: number }>;
   skontrolovane: string;
 };

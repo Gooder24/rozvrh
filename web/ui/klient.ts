@@ -3,6 +3,7 @@
 // kde nájde svoje prvky. Bez tohto súboru stránky ukážu všetko okrem hľadania a mriežky triedy.
 import type { Blok, Skola } from "../data";
 import type { VsPredmet, VsProgram } from "../stranky";
+import { druhObce } from "../obce";
 
 const esc = (s: unknown) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c] ?? c);
 const bezDiakritiky = (s: string) => s.normalize("NFD").replace(/\p{M}/gu, "").toLowerCase();
@@ -15,6 +16,35 @@ const cas = (t: string) => t.replace(/^0(\d)/, "$1");
 /** Riadok /data/hladanie.json. Piaty prvok (ulica) je nepovinný: použije sa, keď ho zostavenie pridá. */
 type Riadok = [nazov: string, miesto: string, cesta: string, stav: 0 | 1 | 2, ulica?: string];
 const STAV = [["c", "nenájdené"], ["b", "len zvonenie"], ["a", "verejný rozvrh"]] as const;
+
+/** Skratky v názvoch škôl: „ZŠ“ nájde „Základná škola“, „svätého“ nájde „sv.“ a naopak. Kľúče sú bez diakritiky. */
+const SKRATKY: Record<string, string[]> = {
+  zs: ["zakladna skola"], zus: ["zakladna umelecka skola"], ss: ["stredna skola"], sos: ["stredna odborna skola"],
+  sps: ["stredna priemyselna skola"], oa: ["obchodna akademia"], ha: ["hotelova akademia"], gym: ["gymnazium"],
+  sv: ["svat"],
+};
+const moznosti = (slovo: string) => {
+  const hole = slovo.replace(/\.$/, "");
+  return [slovo, ...(SKRATKY[hole] ?? []), ...(hole.length > 3 && hole.startsWith("svat") ? ["sv."] : [])];
+};
+/** Text s podčiarknutým tým, čo človek napísal (bez ohľadu na diakritiku a veľké písmená). */
+const zvyrazni = (text: string, hladane: string[]) => {
+  const znaky = [...text];
+  let norm = "";
+  const odkial: number[] = []; // index v norm → index znaku v texte
+  znaky.forEach((z, i) => { for (const n of bezDiakritiky(z)) { norm += n; odkial.push(i); } });
+  const oznac = new Array<boolean>(znaky.length).fill(false);
+  for (const h of hladane) {
+    if (!h) continue;
+    for (let i = norm.indexOf(h); i >= 0; i = norm.indexOf(h, i + 1)) for (let j = i; j < i + h.length; j++) oznac[odkial[j]!] = true;
+  }
+  let von = "", v = false;
+  znaky.forEach((z, i) => {
+    if (oznac[i] !== v) { von += v ? "</mark>" : "<mark>"; v = oznac[i]!; }
+    von += esc(z);
+  });
+  return v ? `${von}</mark>` : von;
+};
 
 const pole = document.querySelector<HTMLInputElement>("#q");
 document.addEventListener("keydown", (e) => {
@@ -52,9 +82,12 @@ if (pole && formular && vysledky && stavHladania) {
     if (moje !== poradie) return;
     const slova = bezDiakritiky(q).split(/\s+/).filter(Boolean);
     const cele = slova.join(" ");
-    const zhoda = zaznamy.filter((z) => slova.every((s) => z.kluc.includes(s)));
+    const varianty = slova.map(moznosti);
+    const sedi = (text: string) => varianty.every((v) => v.some((x) => text.includes(x)));
+    const zhoda = zaznamy.filter((z) => sedi(z.kluc));
     const obce = new Map<string, number>();
-    for (const z of zaznamy) if (slova.every((s) => z.miesto.includes(s))) obce.set(z.r[1], (obce.get(z.r[1]) ?? 0) + 1);
+    for (const z of zaznamy) if (sedi(z.miesto)) obce.set(z.r[1], (obce.get(z.r[1]) ?? 0) + 1);
+    const zv = (t: string) => zvyrazni(t, varianty.flat());
     const vaha = (z: Zaznam) => (z.miesto === cele ? 0 : z.miesto.startsWith(cele) ? 1 : z.kluc.startsWith(cele) ? 2 : 3);
     zhoda.sort((a, b) => vaha(a) - vaha(b) || b.r[3] - a.r[3] || a.r[0].localeCompare(b.r[0], "sk") || a.r[1].localeCompare(b.r[1], "sk"));
     const zoradeneObce = [...obce].sort((a, b) => Number(bezDiakritiky(b[0]).startsWith(cele)) - Number(bezDiakritiky(a[0]).startsWith(cele)) || b[1] - a[1]).slice(0, 5);
@@ -63,8 +96,8 @@ if (pole && formular && vysledky && stavHladania) {
       ? `${sklonuj(zhoda.length, "škola", "školy", "škôl")}${zhoda.length > ukazane.length ? `, ukazujeme prvých ${ukazane.length}` : ""}${obce.size ? ` a ${sklonuj(obce.size, "obec", "obce", "obcí")}` : ""}. Klávesom Enter otvoríte prvý výsledok.`
       : `Pre „${q}“ sme nenašli školu ani obec. Skúste len časť názvu alebo názov obce.`;
     vysledky.innerHTML = zhoda.length || zoradeneObce.length ? `<ul class="najdene">${zoradeneObce.map(([m, n]) =>
-      `<li><a href="/mesto/${slug(m)}/"><b>${esc(m)}</b><small>obec, ${sklonuj(n, "škola", "školy", "škôl")}</small></a></li>`).join("")}${ukazane.map(({ r }) =>
-      `<li><a href="${esc(r[2])}"><b>${esc(r[0])}</b><small><i class="st ${STAV[r[3]][0]}"></i> ${STAV[r[3]][1]}</small><span class="kde">${esc(r[4] ? `${r[4]}, ${r[1]}` : r[1])}</span></a></li>`).join("")}</ul>` : "";
+      `<li><a href="/mesto/${slug(m)}/"><b>${zv(m)}</b><small>${druhObce(m)}, ${sklonuj(n, "škola", "školy", "škôl")}</small></a></li>`).join("")}${ukazane.map(({ r }) =>
+      `<li><a href="${esc(r[2])}"><b>${zv(r[0])}</b><small><i class="st ${STAV[r[3]][0]}"></i> ${STAV[r[3]][1]}</small><span class="kde">${zv(r[4] ? `${r[4]}, ${r[1]}` : r[1])}</span></a></li>`).join("")}</ul>` : "";
   };
 
   pole.addEventListener("focus", () => void nacitaj().catch(() => { index = null; }), { once: true });
@@ -206,17 +239,26 @@ if (sekcia && zoznamTried && mriezka) {
     };
     const dni = s.rozvrh?.dni.length ? s.rozvrh.dni : ["Pondelok", "Utorok", "Streda", "Štvrtok", "Piatok"];
     const pocetDni = Math.max(dni.length, ...trieda.bloky.map((b) => b.den + 1));
-    const predmety = new Map(trieda.bloky.map((b) => [b.skratka, b.predmet]));
+    const info = (b: Blok) => s.predmety?.[b.predmet];
+    const nazovP = (b: Blok) => info(b)?.nazov ?? b.predmet;
+    const farba = (b: Blok) => (info(b)?.h !== undefined ? ` class="f${info(b)!.t ? " t1" : ""}" style="--h:${info(b)!.h};` : ` style="`);
+    const ODHAD = `<abbr class="odhad" title="Názov doplnený podľa iných škôl (beta)">≈</abbr>`;
+    const pohlavie = (x: string) => (/chlap|boys|fiú/i.test(x) ? " sk-ch" : /dievč|dievc|girls|lány/i.test(x) ? " sk-dv" : "");
+    const predmety = new Map(trieda.bloky.map((b) => [b.skratka, b]));
     return `<div class="mr-obal"><div class="mr" style="--n:${vidno.length}"><h3 class="vh">Rozvrh triedy ${esc(nazov)}</h3>
 <div class="mr-hlava" aria-hidden="true"><span></span><ol>${vidno.map((h) => `<li><b>${esc(h.n)}</b>${h.od && h.do ? `${esc(cas(h.od))}–${esc(cas(h.do))}` : ""}</li>`).join("")}</ol></div>
 ${Array.from({ length: pocetDni }, (_, den) => {
       const bloky = trieda.bloky.filter((b) => b.den === den);
       return `<section class="mr-den"><h3>${esc(dni[den] ?? `Deň ${den + 1}`)}</h3><ul>${bloky.length ? bloky.map((b) => {
         const dalsie = [b.skupina, b.tyzden ? `týždeň ${b.tyzden}` : null].filter(Boolean).join(", ");
-        return `<li style="--c:${miesto(b) - prvy + 1};--w:${Math.max(b.trvanie, 1)}">${kedy(b)} <span class="sk" aria-hidden="true" title="${esc(b.predmet)}">${esc(b.skratka)}</span> <span class="pr">${esc(b.predmet)}</span>${b.ucebna ? ` <span class="uc"><span class="vh">učebňa </span>${esc(b.ucebna)}</span>` : ""}${dalsie ? ` <span class="dalsie">${esc(dalsie)}</span>` : ""}</li>`;
+        return `<li${farba(b)}--c:${miesto(b) - prvy + 1};--w:${Math.max(b.trvanie, 1)}">${kedy(b)} <span class="sk" aria-hidden="true" title="${esc(nazovP(b))}">${esc(b.skratka)}</span> <span class="pr">${esc(nazovP(b))}${info(b)?.odhad ? ` ${ODHAD}` : ""}</span>${b.ucebna ? ` <span class="uc"><span class="vh">učebňa </span>${esc(b.ucebna)}</span>` : ""}${dalsie ? ` <span class="dalsie${pohlavie(b.skupina ?? "")}">${esc(dalsie)}</span>` : ""}</li>`;
       }).join("") : `<li class="volno">bez vyučovania</li>`}</ul></section>`;
     }).join("")}</div></div>
-<ul class="predmety" aria-label="Skratky predmetov">${[...predmety].sort((a, b) => a[0].localeCompare(b[0], "sk")).map(([sk, p]) => `<li><b>${esc(sk)}</b>${esc(p)}</li>`).join("")}</ul>`;
+<ul class="predmety" aria-label="Skratky predmetov">${[...predmety].sort((a, b) => a[0].localeCompare(b[0], "sk")).map(([sk, b]) => {
+      const n = nazovP(b);
+      const text = n.trim().toUpperCase() === sk.trim().toUpperCase() ? `<span class="bez">škola názov neuvádza</span>` : `${esc(n)}${info(b)?.odhad ? ` ${ODHAD}` : ""}`;
+      return `<li${info(b)?.h !== undefined ? ` class="f${info(b)!.t ? " t1" : ""}" style="--h:${info(b)!.h}"` : ""}><b>${esc(sk)}</b>${text}</li>`;
+    }).join("")}</ul>${[...predmety.values()].some((b) => info(b)?.odhad) ? `<p class="odhad-pozn"><span class="beta-znak">beta</span> ≈ Škola v rozvrhu píše len skratku; názov sme doplnili podľa toho, ako tú skratku píše väčšina ostatných škôl. Môže sa mýliť.</p>` : ""}`;
   };
 
   let vybrana = "";

@@ -203,9 +203,9 @@ const ulozBeh = async () => {
 };
 await ulozBeh();
 Bun.spawnSync(["bun", "prieskum/suhrn.ts"]);
-// Register a súhrn idú do verejného repa Gooder24/rozvrh (výsledky po školách nie: môžu obsahovať mená z EduPage).
+// Register, súhrn a poradie farieb predmetov idú do verejného repa Gooder24/rozvrh (výsledky po školách nie: môžu obsahovať mená z EduPage).
 // Commit len týchto ciest (--only); push len keď commit vznikol, bez autostash (cudziu rozrobenú prácu nepushne).
-const DATA = ["data/register", "data/skoly-register.json", "data/zs/skoly-register.json", "data/PRIESKUM.md", "data/prieskum-suhrn.json"];
+const DATA = ["data/register", "data/skoly-register.json", "data/zs/skoly-register.json", "data/PRIESKUM.md", "data/prieskum-suhrn.json", "data/predmety-farby.json"];
 Bun.spawnSync(["git", "add", "--", ...DATA]);
 const commit = Bun.spawnSync(["git", "commit", "-q", "--only", "-m", `chore(data): obnova ${den(dnes)} (${plna ? "plná" : "lacná"}${problemy.length ? ", poistka nenahradila dáta" : ""})`, "--", ...DATA]);
 // Pull a push aj keď nový commit nevznikol, ale skorší ostal nepushnutý. Keď nevyjdú (napr. rozrobená práca

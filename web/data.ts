@@ -5,6 +5,7 @@ import { gunzipSync } from "node:zlib";
 import { readdir } from "node:fs/promises";
 import * as XLSX from "xlsx";
 
+import { celaObec } from "./obce";
 import { cisty, meno, nazovTriedy, SPECIALNE, zlozene, type Kontext } from "./sukromie";
 import type { Blok, Hodina, Skola, SkolaKratko, Stav, Trieda } from "./typy";
 export type * from "./typy";
@@ -147,10 +148,10 @@ export async function nacitajSkoly(): Promise<Skola[]> {
       if (stav === "verejny_rozvrh" && sub && (await Bun.file(`data/raw/${sub}.json.gz`).exists())) {
         ({ triedy, dni, ucitelia: uc } = triedyZRaw(gunzipSync(await Bun.file(`data/raw/${sub}.json.gz`).arrayBuffer()).toString()));
       }
-      let s = slug(`${r.nazov} ${r.miesto}`);
+      const miesto = celaObec(r.miesto);
+      let s = slug(`${r.nazov} ${miesto}`);
       if (pouziteSlugy.has(s)) s = `${s}-${r.eduid}`;
       pouziteSlugy.add(s);
-      const miesto = r.miesto;
       skoly.push({
         id: r.eduid, slug: s, nazov: r.nazov, stupen, typ: r.typ, druh: druhy.get(r.druh) ?? r.druh,
         kraj: r.kraj, okres: okresy.get(r.okres) ?? r.okres, miesto, mestoSlug: slug(miesto),

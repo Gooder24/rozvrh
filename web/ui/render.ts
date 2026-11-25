@@ -4,6 +4,7 @@
 import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
 import type { SkolaKratko } from "../data";
+import { vDruhu, vObci } from "../obce";
 import type { Api, Domov, Hlava, Kraj, Mesto, Omrvinka, OProjekte, Pocty, StrankaSkoly, VsPredmet, VsStranka, VysokeSkoly } from "../stranky";
 
 const GITHUB = "https://github.com/Gooder24/rozvrh";
@@ -124,7 +125,7 @@ export const mesto = (d: Mesto) => {
 <div class="os-hlava" aria-hidden="true"><span>Škola</span><span class="od">Začiatok</span><span class="do">Koniec</span>${cislaOsi(r)}</div>
 <ol class="os-rady">${naOsi.map(({ s, hodiny, r }) => `<li data-o="${minuty(r.od)}" data-k="${minuty(r.do)}" data-st="${s.stupen}"><div class="kto"><a href="${esc(s.cesta)}">${esc(s.nazov)}</a><small>${esc(podNazvom(s))}${s.stav === "verejny_rozvrh" ? ", rozvrh tried" : ""}</small></div><span class="od"><span class="vh">začiatok </span>${cas(r.od)}</span><span class="do"><span class="vh">koniec </span>${cas(r.do)}</span>${trat(hodiny, popisTrate(hodiny))}</li>`).join("")}</ol>
 <p class="legenda"><span><i class="st a"></i>vyučovacia hodina</span>${nepouzite ? `<span><i class="st n"></i>hodina v zvonení, ktorú rozvrh nepoužíva</span>` : ""}<span class="vh" id="os-stav" role="status"></span></p></div>` : "";
-  return obal(d.hlava, `<h1>Kedy zvoní v obci ${esc(d.nazov)}</h1>
+  return obal(d.hlava, `<h1>Kedy zvoní ${esc(vObci(d.nazov))}</h1>
 <p class="uvod">${skol(d.pocty.spolu)}, okres ${esc(d.okres)}. ${naOsi.length ? `Zvonenie poznáme pri ${naOsi.length === d.pocty.spolu ? (naOsi.length === 1 ? "nej" : "všetkých") : naOsi.length}: každý riadok je jedna škola, každý modrý blok jedna vyučovacia hodina.` : "Zvonenie tu zatiaľ nepoznáme pri žiadnej."}</p>
 ${os}${bez.length ? `<section><h2>${naOsi.length ? "Školy bez zvonenia" : "Školy"}</h2><ul class="zoznam">${bez.map((s) => `<li><span><a href="${esc(s.cesta)}">${esc(s.nazov)}</a> <small>${esc(podNazvom(s))}</small></span><span class="stav">${stavBezOsi(s)}</span></li>`).join("")}</ul></section>` : ""}`, { omrvinky: d.omrvinky });
 };
@@ -159,8 +160,8 @@ ${rz.nazov ? `<p><small>Rozvrh v EduPage: ${esc(rz.nazov)}</small></p>` : ""}
 <div id="mriezka"></div></section>` : "";
   const rovnake = [...d.susedia].sort((a, b) => Number(b.stupen === s.stupen) - Number(a.stupen === s.stupen) || a.nazov.localeCompare(b.nazov, "sk"));
   const mestoCesta = d.omrvinky.at(-1)?.cesta ?? "/";
-  const susedia = rovnake.length ? `<section><h2>Ďalšie školy v obci ${esc(s.miesto)}</h2><ul class="zoznam">${rovnake.slice(0, 8).map((x) => `<li><span><a href="${esc(x.cesta)}">${esc(x.nazov)}</a> <small>${esc(podNazvom(x))}</small></span><span class="stav">${x.zaciatok && x.koniec ? (minuty(x.koniec) <= 1440 ? `${cas(x.zaciatok)}–${cas(x.koniec)}` : `od ${cas(x.zaciatok)}`) : stavBezOsi(x)}</span></li>`).join("")}</ul>
-<p><a href="${esc(mestoCesta)}">${rovnake.length > 8 ? `Všetkých ${rovnake.length + 1} škôl v obci na jednej osi` : "Školy v obci na jednej osi"}</a></p></section>` : "";
+  const susedia = rovnake.length ? `<section><h2>Ďalšie školy ${esc(vObci(s.miesto))}</h2><ul class="zoznam">${rovnake.slice(0, 8).map((x) => `<li><span><a href="${esc(x.cesta)}">${esc(x.nazov)}</a> <small>${esc(podNazvom(x))}</small></span><span class="stav">${x.zaciatok && x.koniec ? (minuty(x.koniec) <= 1440 ? `${cas(x.zaciatok)}–${cas(x.koniec)}` : `od ${cas(x.zaciatok)}`) : stavBezOsi(x)}</span></li>`).join("")}</ul>
+<p><a href="${esc(mestoCesta)}">${rovnake.length > 8 ? `Všetkých ${rovnake.length + 1} škôl ${esc(vDruhu(s.miesto))} na jednej osi` : `Školy ${esc(vDruhu(s.miesto))} na jednej osi`}</a></p></section>` : "";
   return obal(d.hlava, `<h1>${esc(s.nazov)}</h1>
 <p class="adresa">${esc(s.ulica)}, ${esc(s.psc.replace(/^(\d{3})(\d{2})$/, "$1 $2"))} ${esc(s.miesto)}</p>
 <p class="veta">${veta}</p>
