@@ -180,7 +180,34 @@ if (await Bun.file("web/ui/klient.ts").exists()) {
 const dnes = vytvorene.slice(0, 10);
 await zapis("/sitemap.xml", `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${sitemap.map((c) => `<url><loc>${ADRESA}${c}</loc><lastmod>${zmeny[c]?.datum ?? dnes}</lastmod></url>`).join("\n")}\n</urlset>\n`);
 // Vyhľadávače indexujú stránky; API, MCP a surové JSON nie (míňali by denný limit Workera a nemajú čo hľadať).
-await zapis("/robots.txt", `User-agent: *\nAllow: /\nDisallow: /mcp\nDisallow: /api/v1/\nDisallow: /data/\n\nSitemap: ${ADRESA}/sitemap.xml\n`);
+// AI agenti, ktorí čítajú web na pokyn človeka (nie hromadné prehľadávanie), smú aj na API a JSON: odpovedia mu bez hľadania.
+const agenti = ["ChatGPT-User", "Claude-User", "Perplexity-User", "MistralAI-User", "DuckAssistBot"];
+await zapis("/robots.txt", `User-agent: *\nAllow: /\nDisallow: /mcp\nDisallow: /api/v1/\nDisallow: /data/\n\n${agenti.map((a) => `User-agent: ${a}\n`).join("")}Allow: /\nDisallow: /mcp\n\nSitemap: ${ADRESA}/sitemap.xml\n`);
+// llms.txt: vstup pre AI agentov (čo tu je a ako sa k údajom dostať bez prechádzania stránok).
+await zapis("/llms.txt", `# Rozvrhy škôl (rozvrh.dvoriste.xyz)
+
+> Zvonenie (časy vyučovacích hodín a prestávok) a rozvrhy tried ${celkom.spolu.spolu} základných a stredných škôl na Slovensku
+> zo zoznamu škôl CVTI SR a z verejných rozvrhov škôl. Obnovuje sa každé dva týždne; posledné zostavenie ${vytvorene.slice(0, 10)}.
+> Bell times and class timetables of Slovak primary and secondary schools. Open JSON API without a key, and an MCP server.
+
+Mená učiteľov a žiakov tu nie sú. Časy sú v miestnom čase (Europe/Bratislava).
+
+## Pre agentov
+
+- [MCP server](${ADRESA}/mcp): Streamable HTTP (POST). Nástroje: hladaj_skoly, zvonenie, rozvrh_triedy, porovnaj_skoly.
+- [OpenAPI](${ADRESA}/openapi.json): popis JSON API, bez kľúča, CORS povolený, najviac 60 požiadaviek za minútu z jednej IP.
+- Hľadanie školy: ${ADRESA}/api/v1/schools?q=<názov alebo obec>&stupen=SŠ|ZŠ&kraj=<kraj>
+- Zvonenie školy: ${ADRESA}/api/v1/schools/<id>/zvonenie (id z hľadania)
+- Triedy a rozvrh triedy: ${ADRESA}/api/v1/schools/<id>/triedy, ${ADRESA}/api/v1/schools/<id>/triedy/<trieda>/rozvrh
+
+## Stránky
+
+- [Úvod a súhrn po krajoch](${ADRESA}/)
+- Stránka školy: ${ADRESA}/skola/<slug>/ (zvonenie, začiatok a koniec vyučovania, rozvrhy tried); kraj: ${ADRESA}/kraj/<kraj>/
+- [Vysoké školy (beta)](${ADRESA}/vysoke-skoly/): predmety študijného programu a skúšobný týždenný rozvrh
+- [API a MCP](${ADRESA}/api/), [O projekte a zdroje údajov](${ADRESA}/o-projekte/)
+- [Sitemap](${ADRESA}/sitemap.xml)
+`);
 await zapis(`/${INDEXNOW_KLUC}.txt`, INDEXNOW_KLUC);
 await zapis("/openapi.json", JSON.stringify(openapi, null, 1));
 // Hlavičky statických súborov (Cloudflare Workers static assets, súbor _headers).
