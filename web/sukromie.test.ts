@@ -8,7 +8,7 @@ const k: Kontext = { ucitelia: new Set(["vzor", "kul", "pa", "xy", "sk"]), vysky
 test("mená detí a učiteľov v názvoch skupín a učební sa zahodia", () => {
   for (const t of ["Janko Hraško", "ANJ Vzorová", "6.roč.-VZOROVÁ", "STR, Ing. Hraško", "Ema Vzorová", "2.ročník Vzorová", "Mrkvička Hraško",
     "ANJ Vzor", "INF KUL", "Ján Hraško", "Novák", "J.M.Hraško", "J.H.", "J. Hraško", "Hraško J.", "Vzorova sk.", "Vzorová sk.",
-    "ANJ Hra", "Hra skupina", "QZ", "I.K.", "V. S.", "XY.PA", "Nováková ANJ", "Réka"])
+    "ANJ Hra", "Hra skupina", "QZ", "SEB vzor", "I.K.", "V. S.", "XY.PA", "Nováková ANJ", "Réka"])
     expect(meno(t, k, true, true), t).not.toBeNull();
 });
 
@@ -31,6 +31,6 @@ test("trieda s menom triedneho sa skráti, inak dostane náhradný názov", () =
 });
 
 test("predmety a triedy žiakov so špeciálnymi potrebami sa spoznajú", () => {
-  for (const t of ["Rozvíjanie komunikačnej schopnosti", "Individuálna logopedická intervencia", "2.D aut", "V.ST", "VII. C ŠT", "ŠPEC VII."]) expect(SPECIALNE.test(t), t).toBe(true);
-  for (const t of ["Matematika", "Anglický jazyk", "2.D", "Stavebníctvo", "1.STR"]) expect(SPECIALNE.test(t), t).toBe(false);
+  for (const t of ["Rozvíjanie komunikačnej schopnosti", "Individuálna logopedická intervencia", "2.D aut", "VII. C ŠT", "ŠPEC VII."]) expect(SPECIALNE.test(t), t).toBe(true);
+  for (const t of ["Matematika", "Anglický jazyk", "2.D", "Stavebníctvo", "1.STR", "II.ST", "Špecifické technológie"]) expect(SPECIALNE.test(t), t).toBe(false);
 });

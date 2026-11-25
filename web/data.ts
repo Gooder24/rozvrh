@@ -61,7 +61,12 @@ function triedyZRaw(raw: string): { triedy: Trieda[]; dni: string[]; ucitelia: S
   // Skratka učiteľa, ktorá je zároveň skratkou predmetu školy (učiteľ „MAT“ aj predmet „MAT“), meno neprezradí.
   const kody = (t: string, pole: string) => (T[t] ?? []).flatMap((r) => String(r[pole] ?? "").split(/[^\p{L}]+/u)).map(zlozene);
   const predmetove = new Set(kody("subjects", "short"));
-  const ucitelia = new Set(kody("teachers", "short").filter((x) => x.length >= 2 && !predmetove.has(x)));
+  // Skratka „PriezviskoM“ dáva aj iniciály „PM“ a „MP“ (skupina „ANJ_PM“), „HraM“ aj „Hra“ (skupina „anj hra“).
+  const inicialy = (T.teachers ?? []).flatMap((u) => {
+    const casti = String(u.short ?? "").match(/\p{Lu}\p{Ll}*/gu) ?? [];
+    return casti.length === 2 ? [casti.map((c) => c[0]).join(""), casti.map((c) => c[0]).reverse().join(""), ...casti.filter((c) => c.length >= 3)].map(zlozene) : [];
+  });
+  const ucitelia = new Set([...kody("teachers", "short"), ...inicialy].filter((x) => x.length >= 2 && !predmetove.has(x)));
   return { triedy: triedy.filter((t) => t.bloky.length).map(({ nazov, bloky }) => ({ nazov, bloky })), dni, ucitelia };
 }
 
@@ -83,12 +88,17 @@ function bezMien(skola: Skola, k: Kontext & { nazvy: Map<string, number> }) {
   // Učebne z dvoch veľkých písmen („KS“, „PM“) sú bežné označenia miestností, tie ostanú.
   const skratkaMena = (x: string, druh: "s" | "u") => {
     const t = x.trim(), inicialy = druh === "s" && /^\p{Lu}{2}$/u.test(t) && !/^[IVX]+$/.test(t);
-    return (k.nazvy.get(`${druh}:${t}`) ?? 0) < (inicialy ? 5 : 3) && (inicialy || t.split(/[^\p{L}]+/u).some((y) => /^\p{Lu}\p{Ll}{1,2}$/u.test(y)));
+    // Aj dve veľké písmená vnútri zriedkavého názvu skupiny („XY skupina“ vedľa „Hra skupina“)
+    // a trojpísmenové slovo za skratkou predmetu („anj hra“, „SED vzo“).
+    const vnutri = (y: string, i: number) => /^\p{Lu}\p{Ll}{1,2}$/u.test(y)
+      || (druh === "s" && ((/^\p{Lu}{2}$/u.test(y) && !/^[IVX]+$/.test(y)) || (i > 0 && /^\p{L}{3}$/u.test(y))));
+    return (k.nazvy.get(`${druh}:${t}`) ?? 0) < (inicialy ? 5 : 3) && (inicialy || t.split(/[^\p{L}]+/u).filter(Boolean).some(vnutri));
   };
   // Špeciálne a praktické školy: skupiny bývajú jednotlivé deti (aj len iniciály), nezverejňujú sa vôbec.
   const specialnaSkola = /špeciáln|internátn|praktick|pre žiakov s|pre deti s/i.test(`${skola.nazov} ${skola.druh} ${skola.typ}`);
   skola.triedy = skola.triedy.map((t, i) => {
-    const specialnaTrieda = specialnaSkola || SPECIALNE.test(t.nazov);
+    // „V.ST“ v ZŠ je špeciálna trieda; „II.ST“ v SOŠ je stavebníctvo.
+    const specialnaTrieda = specialnaSkola || SPECIALNE.test(t.nazov) || (skola.stupen === "ZŠ" && /(?:^|[^\p{L}])ST[AB]?(?![\p{L}])/u.test(t.nazov));
     let nazov = nazovTriedy(t.nazov, k, `Trieda ${i + 1}`);
     if (pouzite.has(nazov)) nazov = `${nazov} (${i + 1})`;
     pouzite.add(nazov);
@@ -99,7 +109,7 @@ function bezMien(skola: Skola, k: Kontext & { nazvy: Map<string, number> }) {
         return {
           ...b, skratka,
           predmet: meno(b.predmet, k, specialnaTrieda) ? skratka : cisty(b.predmet, 100),
-          ucebna: b.ucebna && !meno(b.ucebna, k, true, true) && !skratkaMena(b.ucebna, "u") ? cisty(b.ucebna, 40) : null,
+          ucebna: b.ucebna && !meno(b.ucebna, k, true) && !skratkaMena(b.ucebna, "u") ? cisty(b.ucebna, 40) : null,
           skupina: b.skupina && !specialnaTrieda && !SPECIALNE.test(b.predmet) && !meno(b.skupina, k, true, true) && !skratkaMena(b.skupina, "s")
             ? cisty(b.skupina, 40) : null,
         };

@@ -32,8 +32,8 @@ export function meno(text: string, k: Kontext, prisne: boolean, kratke = false):
     if (KRATKE.has(z) && /^\p{Lu}\p{Ll}+$/u.test(w[i]!)) return `krstné meno ${w[i]}`;
     // Skratky učiteľov školy („INF LAC“, „TSV_GAL“; v skupinách, učebniach a triedach aj dvojpísmenové „IB.PA“)
     // a časté priezviská („Novák“; anglické „IB Slovak“ je jazyk).
-    // Len slovo s veľkým písmenom: „1.sk“ či „nem“ sú bežné slová, nie skratka učiteľa „SK“.
-    if ((z.length >= 3 || (kratke && z.length === 2 && !/^[IVX]+$/.test(w[i]!))) && /\p{Lu}/u.test(w[i]!) && k.ucitelia.has(z)) return `učiteľ ${w[i]}`;
+    // Dvojpísmenové len s veľkým písmenom: „1.sk“ je skupina, nie učiteľ „SK“ (trojpísmenové aj malými: „SEB han“).
+    if ((z.length >= 3 || (kratke && z.length === 2 && /\p{Lu}/u.test(w[i]!) && !/^[IVX]+$/.test(w[i]!))) && k.ucitelia.has(z)) return `učiteľ ${w[i]}`;
     if (z.length >= 3 && PRIEZVISKA.has(z) && !JAZYKY.has(w[i]!)) return `priezvisko ${w[i]}`;
     // Skupina pomenovaná začiatkom priezviska („ANJ Hra“, „Hra skupina“) alebo iniciálami žiaka („VJ“), ktoré má len pár škôl.
     if (kratke && (/^\p{Lu}\p{Ll}{2}$/u.test(w[i]!) || (/^\p{Lu}{2}$/u.test(w[i]!) && !/^[IVX]+$/.test(w[i]!))) && zriedkave(z)) return `skratka mena ${w[i]}`;
@@ -55,7 +55,7 @@ export function meno(text: string, k: Kontext, prisne: boolean, kratke = false):
 }
 
 /** Predmety a triedy žiakov so špeciálnymi potrebami: tam je skupina takmer vždy konkrétne dieťa. */
-export const SPECIALNE = /rozv[ií]janie|logoped|individu[aá]ln|terap|intervenc|korek[cč]n|kompenza[cč]n|ŠVVP|\bIVP\b|\baut\b|autis|špec|variant|integr|(?:^|[^\p{L}])(?:ŠT|ŠPT|ST)(?![\p{L}])/iu;
+export const SPECIALNE = /rozv[ií]janie|logoped|individu[aá]ln|terap|intervenc|korek[cč]n|kompenza[cč]n|ŠVVP|\bIVP\b|\baut\b|autis|špec(?!if)|variant|integr|(?:^|[^\p{L}])(?:ŠT|ŠPT)(?![\p{L}])/iu;
 
 /** Riadiace znaky preč, medzery zlúčené, dĺžka obmedzená. */
 export const cisty = (s: string, max: number) => s.replace(/[\p{Cc}\p{Cf}]/gu, " ").replace(/\s+/g, " ").trim().slice(0, max);

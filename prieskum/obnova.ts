@@ -197,19 +197,28 @@ if (!problemy.length && (await Bun.file(`${process.env.HOME}/.config/rozvrh/clou
 }
 
 const beh = { cas: dnes.toISOString(), plna, trvanieMin: Math.round((Date.now() - zaciatok) / 6e4), poziadavky, vysledky, problemy, log };
-await Bun.write("data/obnova/posledny-beh.json", JSON.stringify(beh, null, 1));
-await Bun.write(`data/obnova/beh-${den(dnes)}.json`, JSON.stringify(beh, null, 1));
+const ulozBeh = async () => {
+  await Bun.write("data/obnova/posledny-beh.json", JSON.stringify(beh, null, 1));
+  await Bun.write(`data/obnova/beh-${den(dnes)}.json`, JSON.stringify(beh, null, 1));
+};
+await ulozBeh();
 Bun.spawnSync(["bun", "prieskum/suhrn.ts"]);
 // Register a súhrn idú do verejného repa Gooder24/rozvrh (výsledky po školách nie: môžu obsahovať mená z EduPage).
 // Commit len týchto ciest (--only); push len keď commit vznikol, bez autostash (cudziu rozrobenú prácu nepushne).
 const DATA = ["data/register", "data/skoly-register.json", "data/zs/skoly-register.json", "data/PRIESKUM.md", "data/prieskum-suhrn.json"];
 Bun.spawnSync(["git", "add", "--", ...DATA]);
 const commit = Bun.spawnSync(["git", "commit", "-q", "--only", "-m", `chore(data): obnova ${den(dnes)} (${plna ? "plná" : "lacná"}${problemy.length ? ", poistka nenahradila dáta" : ""})`, "--", ...DATA]);
-// Keď pull alebo push nevyjde (napr. rozrobená práca v checkoute), poistka sa ozve: commit inak ostane potichu lokálny.
-if (commit.exitCode === 0) {
+// Pull a push aj keď nový commit nevznikol, ale skorší ostal nepushnutý. Keď nevyjdú (napr. rozrobená práca
+// v checkoute), poistka sa ozve a rozbehnutý rebase sa vráti späť; inak by commit ostal potichu lokálny.
+const napred = Number(Bun.spawnSync(["git", "rev-list", "--count", "@{u}..HEAD"]).stdout.toString().trim()) || 0;
+if (commit.exitCode === 0 || napred > 0) {
   const pull = Bun.spawnSync(["git", "pull", "-q", "--rebase"], { stderr: "pipe" });
+  if (pull.exitCode !== 0) Bun.spawnSync(["git", "rebase", "--abort"], { stderr: "ignore" });
   const push = pull.exitCode === 0 ? Bun.spawnSync(["git", "push", "-q"], { stderr: "pipe" }) : null;
-  if (pull.exitCode !== 0 || push?.exitCode !== 0) problemy.push(`register ostal len lokálne, git ${pull.exitCode !== 0 ? "pull" : "push"}: ${(push ?? pull).stderr.toString().trim().slice(0, 120)}`);
+  if (pull.exitCode !== 0 || push?.exitCode !== 0) {
+    problemy.push(`register ostal len lokálne, git ${pull.exitCode !== 0 ? "pull" : "push"}: ${(push ?? pull).stderr.toString().trim().slice(0, 120)}`);
+    await ulozBeh();
+  }
 }
 
 if (problemy.length) {
