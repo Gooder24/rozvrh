@@ -299,7 +299,7 @@ if (sekcia && zoznamTried && mriezka) {
       const t = x.trim();
       if (/^(?:(?:tsv|tv)\s*(?:ch|chl|chlapci)|chl|chlapci)$/i.test(t)) return "chlapci";
       if (/^(?:(?:tsv|tv)\s*(?:d|dv|dievčatá)|dv|dievčatá)$/i.test(t)) return "dievčatá";
-      return t.replace(/^(\d+)\s*\.?\s*sk\.?$/i, "$1. skupina");
+      return t.replace(/^(\d+)\s*\.?\s*sk(upina)?\.?$/i, "$1. skupina");
     };
     const blok = (b: Blok) => {
       const dalsie = [b.skupina ? skupina(b.skupina) : null, b.tyzden ? `týždeň ${b.tyzden}` : null].filter(Boolean).join(", ");
