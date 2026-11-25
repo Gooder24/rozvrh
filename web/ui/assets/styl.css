@@ -43,7 +43,7 @@ a{color:var(--atrament);text-decoration-thickness:1px;text-underline-offset:.18e
 a:hover{text-decoration-thickness:2px}
 :focus-visible{outline:2px solid var(--atrament);outline-offset:2px;border-radius:3px}
 i{font-style:normal}
-h1,h2,h3{color:var(--atrament);font-weight:800;line-height:1.12;margin:0;text-wrap:balance}
+h1,h2,h3,h4{color:var(--atrament);font-weight:800;line-height:1.12;margin:0;text-wrap:balance}
 h1{font-size:clamp(1.85rem,1.2rem + 3.2vw,2.9rem);letter-spacing:-.015em}
 h2{font-size:1.4rem;margin-top:3rem}
 h3{font-size:1.0625rem}
@@ -217,7 +217,10 @@ main{padding-block:1.5rem 4rem}
 .mr-hlava li{font-size:.75rem;color:var(--ceruzka);text-align:center;line-height:1.2;padding:6px 2px}
 .mr-hlava b{display:block;font-size:.9375rem;font-weight:800;color:var(--atrament)}
 .mr-den{border-top:1px solid var(--stvorcek)}
-.mr-den h3{align-self:center;font-size:.9375rem;padding-block:8px}
+.mr-den :is(h3,h4){align-self:center;font-size:.9375rem;padding-block:8px}
+/* Dvojtýždňový rozvrh: nadpis nad tabuľkou každého týždňa. */
+.mr-tyzden{margin-top:1.5rem}
+.mr-tyzden+.mr-obal{margin-top:.5rem}
 .mr-den ul{background:linear-gradient(90deg,var(--stvorcek) 1px,transparent 1px) 0 0/calc(100%/var(--n)) 100%;min-height:3.25rem;padding-block:2px}
 .mr-den ul li{grid-column:var(--c)/span var(--w);margin:2px 2px 2px 3px;padding:4px 6px;background:var(--bunka);border-radius:var(--r-blok);font-size:.8125rem;line-height:1.25;min-width:0;overflow:hidden;display:flex;flex-wrap:wrap;gap:0 6px;align-content:center}
 .mr-den .sk{font-weight:800;color:var(--atrament);font-size:.875rem}
@@ -282,7 +285,7 @@ pre{background:var(--list);box-shadow:0 0 0 1px var(--stvorcek);border-radius:va
   .mr{min-width:0;padding:2px 12px 8px}
   .mr-hlava{display:none}
   .mr-den{display:block;padding-block:8px}
-  .mr-den h3{padding:0 0 4px}
+  .mr-den :is(h3,h4){padding:0 0 4px}
   .mr-den ul{display:block;background:none;min-height:0}
   .mr-den ul li{margin:3px 0;padding:5px 8px;font-size:.9375rem;display:grid;grid-template-columns:7.7rem minmax(0,1fr) auto;gap:0 8px;align-items:baseline}
   .mr-den .kedy{color:var(--ceruzka);font-size:.8125rem}

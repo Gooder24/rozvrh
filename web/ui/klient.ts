@@ -5,6 +5,7 @@ import type { Blok, Skola } from "../data";
 import type { VsPredmet, VsProgram } from "../stranky";
 import { druhObce } from "../obce";
 import { farbyPredmetov } from "./farby";
+import { tyzdne } from "./tyzdne";
 
 const esc = (s: unknown) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c] ?? c);
 const bezDiakritiky = (s: string) => s.normalize("NFD").replace(/\p{M}/gu, "").toLowerCase();
@@ -294,7 +295,6 @@ if (sekcia && zoznamTried && mriezka) {
       return `<span class="kedy"><b>${esc(hodina)}</b><span class="vh"> hodina</span>${a?.od && z?.do ? ` <span class="t">${esc(cas(a.od))}–${esc(cas(z.do))}</span>` : ""}</span>`;
     };
     const dni = s.rozvrh?.dni.length ? s.rozvrh.dni : ["Pondelok", "Utorok", "Streda", "Štvrtok", "Piatok"];
-    const pocetDni = Math.max(dni.length, ...trieda.bloky.map((b) => b.den + 1));
     const odhad = (b: Blok) => s.predmety?.[b.predmet];
     const nazovP = (b: Blok) => odhad(b)?.nazov ?? b.predmet;
     const ODHAD = `<abbr class="odhad" title="Názov doplnený podľa iných škôl (beta)">≈</abbr>`;
@@ -323,14 +323,18 @@ if (sekcia && zoznamTried && mriezka) {
     const pozn = odhady
       ? `<p class="odhad-pozn"><span class="beta-znak">beta</span> Názvy so znakom ≈ škola v rozvrhu neuvádza, píše len skratku. Doplnili sme ich podľa toho, ako tú skratku píše väčšina ostatných škôl, a môžu sa mýliť.${vlastne ? " Ostatné názvy uvádza škola." : ""}</p>`
       : vlastne ? `<p class="odhad-pozn">Názvy predmetov uvádza škola v rozvrhu.</p>` : "";
-    return `<div class="mr-obal"><div class="mr" style="--n:${vidno.length}"><h3 class="vh">Rozvrh triedy ${esc(nazov)}</h3>
-<div class="mr-hlava" aria-hidden="true"><span></span><ol>${vidno.map((h) => `<li><b>${esc(h.n)}</b>${h.od && h.do ? `${esc(cas(h.od))}–${esc(cas(h.do))}` : ""}</li>`).join("")}</ol></div>
-${Array.from({ length: pocetDni }, (_, den) => {
-      const bloky = trieda.bloky.filter((b) => b.den === den);
-      return `<section class="mr-den"><h3>${esc(dni[den] ?? `Deň ${den + 1}`)}</h3><ul>${bloky.length ? bunky(bloky).map((g) =>
+    // Dvojtýždňový rozvrh: každý týždeň vo vlastnej tabuľke s nadpisom, dni v nej majú nadpis o úroveň nižšie.
+    const tabulky = tyzdne(dni, trieda.bloky);
+    const hlava = `<div class="mr-hlava" aria-hidden="true"><span></span><ol>${vidno.map((h) => `<li><b>${esc(h.n)}</b>${h.od && h.do ? `${esc(cas(h.od))}–${esc(cas(h.do))}` : ""}</li>`).join("")}</ol></div>`;
+    const tabulka = (t: (typeof tabulky)[number]) => {
+      const h = t.nazov ? "h4" : "h3";
+      return `${t.nazov ? `<h3 class="mr-tyzden"><span class="vh">Rozvrh triedy ${esc(nazov)}, </span>${esc(t.nazov)}</h3>` : ""}<div class="mr-obal"><div class="mr" style="--n:${vidno.length}">${t.nazov ? "" : `<h3 class="vh">Rozvrh triedy ${esc(nazov)}</h3>`}
+${hlava}
+${t.dni.map((d) => `<section class="mr-den"><${h}>${esc(d.nazov)}</${h}><ul>${d.bloky.length ? bunky(d.bloky).map((g) =>
         `<li class="g${g.length > 2 ? " vela" : ""}" style="--c:${miesto(g[0]!) - prvy + 1};--w:${Math.max(g[0]!.trvanie, 1)}">${kedy(g[0]!)}<ul>${g.map(blok).join("")}</ul></li>`).join("")
-        : `<li class="volno">bez vyučovania</li>`}</ul></section>`;
-    }).join("")}</div></div>
+        : `<li class="volno">bez vyučovania</li>`}</ul></section>`).join("")}</div></div>`;
+    };
+    return `${tabulky.map(tabulka).join("\n")}
 <ul class="predmety" aria-label="Skratky predmetov">${[...predmety].sort((a, b) => a[0].localeCompare(b[0], "sk")).map(([sk, b]) =>
       `<li><i class="fz"${farbaStyl(s, sk)} aria-hidden="true"></i><b>${esc(sk)}</b>${bezNazvu(b) ? `<span class="bez">škola názov neuvádza</span>` : `${esc(nazovP(b))}${odhad(b) ? ` ${ODHAD}` : ""}`}</li>`).join("")}</ul>${pozn}`;
   };
