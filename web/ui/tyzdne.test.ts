@@ -56,7 +56,22 @@ describe("tyzdne", () => {
     expect(jeden[0]!.dni[1]!.bloky[0]!.tyzden).toBe("A");
   });
 
+  test("skupiny zapísané ako týždne tabuľku nedelia", () => {
+    for (const [x, y] of [["sk.A", "sk.B"], ["1.sk", "2.sk"], ["VanOsztf", "NincsOsztf"], ["A (PVC)", "B (VYV)"]] as const)
+      expect(tyzdne(PRACOVNE, [b(0, "MAT", x), b(1, "ANJ", y)]).map((t) => t.nazov)).toEqual([null]);
+  });
+
+  test("názov týždňa z časti dní cyklu", () => {
+    const pismena = ["A", "B"].flatMap((w) => PRACOVNE.map((d) => `${w} - ${d}`));
+    expect(tyzdne(pismena, []).map((t) => t.nazov)).toEqual(["Týždeň A", "Týždeň B"]);
+    const prvy = ["Pondelok PT", "Utorok", "Streda", "Štvrtok", "Piatok", "Pondelok NT", "Utorok", "Streda", "Štvrtok", "Piatok"];
+    expect(tyzdne(prvy, []).map((t) => t.nazov)).toEqual(["Párny týždeň", "Nepárny týždeň"]);
+  });
+
   test("názvy týždňov", () => {
+    expect(["PT 1", "NT 2"].map(menoTyzdna)).toEqual(["Párny týždeň 1", "Nepárny týždeň 2"]);
+    expect(tyzdne(PRACOVNE, ["NT 1", "NT 2", "PT 1", "PT 2"].map((w) => b(0, w, w))).map((t) => t.nazov))
+      .toEqual(["Párny týždeň 1", "Párny týždeň 2", "Nepárny týždeň 1", "Nepárny týždeň 2"]);
     expect(["PT", "NT", "Pár", "Nep", "parny", "NEPÁR", "nepárny týždeň", "párny týzdeň"].map(menoTyzdna)).toEqual(
       ["Párny týždeň", "Nepárny týždeň", "Párny týždeň", "Nepárny týždeň", "Párny týždeň", "Nepárny týždeň", "Nepárny týždeň", "Párny týždeň"]);
     expect(["2", "1.t", "2. cyk.", "1 roz.", "2.Týždeň", "T1", "II.", "tB"].map(menoTyzdna)).toEqual(

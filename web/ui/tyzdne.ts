@@ -17,6 +17,9 @@ export const menoTyzdna = (x: string) => {
   const k = kluc(x), t = x.trim();
   if (NEPARNY.test(k) || /^nep[aá]r/.test(k)) return "Nepárny týždeň";
   if (PARNY.test(k) || /^p[aá]rn/.test(k)) return "Párny týždeň";
+  // Štvortýždňový cyklus „PT 1“, „NT 2“.
+  const pn = /^(pt|nt|p|n)(\d)$/.exec(k);
+  if (pn) return `${pn[1]!.startsWith("p") ? "Párny" : "Nepárny"} týždeň ${pn[2]}`;
   // „2“, „2.t“, „2. cyk.“, „2 roz.“, „2.Týždeň“, „T2“, „II.“
   const c = /^(\d+)(?:t|tyzden|týždeň|cyk|roz)?$/.exec(k) ?? /^t(\d+)$/.exec(k);
   if (c) return `${Number(c[1])}. týždeň`;
@@ -24,7 +27,7 @@ export const menoTyzdna = (x: string) => {
   const p = /^t([A-Z])$/.exec(t);
   return `Týždeň ${p ? p[1] : t}`;
 };
-const poradie = (a: string) => ["Párny týždeň", "Nepárny týždeň"].indexOf(menoTyzdna(a)) >>> 0;
+const poradie = (a: string) => { const m = menoTyzdna(a); return m.startsWith("Párny") ? 0 : m.startsWith("Nepárny") ? 1 : 2; };
 /** Atómové týždne jednej hodiny: „A+C“ je v týždni A aj C. */
 const tyzdneBloku = (t: string) => t.split(/[+,]/).map((x) => x.trim()).filter(Boolean);
 
@@ -54,16 +57,19 @@ export const tyzdne = (dni: string[], bloky: Blok[]): Tyzden[] => {
       const cast = Array.from({ length: 5 }, (_, i) => den(t * 5 + i, bloky));
       const r = cast.map((d) => rozober(d.nazov));
       const mena = r.map((x) => (x?.zvysok ? menoTyzdna(x.zvysok) : null));
-      const spolocne = mena[0] && mena.every((m) => m === mena[0]) ? mena[0] : null;
+      // Názov týždňa, keď ho dni nesú zhodne (stačí aj len niektoré dni, napr. „Pondelok PT“, „Utorok“ …).
+      const roz = [...new Set(mena.filter((m) => m !== null))];
+      const spolocne = roz.length === 1 && (!roz[0]!.startsWith("Týždeň ") || /^Týždeň [A-Z]$/.test(roz[0]!)) ? roz[0] : null;
       return {
-        nazov: spolocne && !spolocne.startsWith("Týždeň ") ? spolocne : `${t + 1}. týždeň`,
+        nazov: spolocne ?? `${t + 1}. týždeň`,
         dni: r.every(Boolean) ? cast.map((d, i) => ({ ...d, nazov: r[i]!.den })) : cast,
       };
     });
   }
   const oznacene = [...new Set(bloky.flatMap((b) => (b.tyzden ? tyzdneBloku(b.tyzden) : [])))]
     .sort((a, b) => poradie(a) - poradie(b) || a.localeCompare(b, "sk", { numeric: true }));
-  if (oznacene.length < 2) return [{ nazov: null, dni: Array.from({ length: pocet }, (_, i) => den(i, bloky)) }];
+  // Niektoré školy si týždňami v EduPage značia skupiny („sk.A“, „1.sk“, „A (PVC)“): tie sa nedelia, ostanú pri hodine.
+  if (oznacene.length < 2 || oznacene.some((t) => /(?:^|[^\p{L}])sk|osztf|\(/iu.test(t))) return [{ nazov: null, dni: Array.from({ length: pocet }, (_, i) => den(i, bloky)) }];
   return oznacene.map((t) => {
     const v = bloky.filter((b) => !b.tyzden || tyzdneBloku(b.tyzden).includes(t)).map((b) => ({ ...b, tyzden: null }));
     return { nazov: menoTyzdna(t), dni: Array.from({ length: pocet }, (_, i) => den(i, v)) };
