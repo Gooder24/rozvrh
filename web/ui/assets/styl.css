@@ -233,6 +233,10 @@ main{padding-block:1.5rem 4rem}
 .mr-den .g li{grid-column:auto;margin:0;flex:1 1 0;min-width:calc(50% - 2px);padding:4px 5px;gap:0 4px;align-content:center}
 .mr-den .g .sk{font-size:.8125rem}
 .mr-den .g .dalsie{font-size:.6875rem}
+/* Farba predmetu (klient.ts, FARBY): plná, bez pruhu; legenda má rovnaký štvorček. */
+.mr-den ul li.f{background:var(--bg);color:var(--fg)}
+.mr-den ul li.f :is(.sk,.pr,.uc,.dalsie,.odhad){color:inherit}
+.predmety .fz{display:inline-block;width:.75em;height:.75em;border-radius:3px;margin-right:6px;vertical-align:-.02em;background:var(--bg)}
 .predmety .bez{color:var(--ceruzka);font-style:italic}
 abbr.odhad{text-decoration:none;color:var(--hodina);font-weight:700;cursor:help}
 .odhad-pozn{font-size:.8125rem;color:var(--ceruzka);margin-top:.5rem}
@@ -304,7 +308,7 @@ pre{background:var(--list);box-shadow:0 0 0 1px var(--stvorcek);border-radius:va
 /* Vysoké školy (beta): štítok, plánovač skúšobného týždňa */
 .beta-znak{display:inline-block;font-size:.75rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--pero);border:1.5px solid var(--pero);border-radius:999px;padding:0 7px;vertical-align:.15em;line-height:1.5}
 h2 .beta-znak{font-size:.7rem}
-.beta-box{max-width:46rem;margin-top:1.25rem;padding:10px 14px;border-left:3px solid var(--pero);background:var(--list);border-radius:0 var(--r-pole) var(--r-pole) 0;box-shadow:0 0 0 1px var(--stvorcek)}
+.beta-box{max-width:46rem;margin-top:1.25rem;padding:10px 14px;background:var(--list);border-radius:var(--r-pole);box-shadow:0 0 0 1.5px var(--pero)}
 .beta-box p{margin:0}
 .pl{margin-top:1rem}
 .pl-dvoje{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:16px 28px;margin-top:.5rem}

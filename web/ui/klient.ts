@@ -4,6 +4,7 @@
 import type { Blok, Skola } from "../data";
 import type { VsPredmet, VsProgram } from "../stranky";
 import { druhObce } from "../obce";
+import { FARBY, farbyPredmetov } from "./farby";
 
 const esc = (s: unknown) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c] ?? c);
 const bezDiakritiky = (s: string) => s.normalize("NFD").replace(/\p{M}/gu, "").toLowerCase();
@@ -267,6 +268,10 @@ if (sekcia && zoznamTried && mriezka) {
   });
   const kluc = (n: string) => n.trim().replace(/\.$/, "");
 
+  const farbaStyl = (s: Skola, skratka: string) => {
+    const c = FARBY[farbyPredmetov(s.triedy).get(skratka) ?? -1];
+    return c ? ` style="--bg:${c.bg};--fg:${c.fg}"` : "";
+  };
   const vykresli = (s: Skola, nazov: string) => {
     const trieda = s.triedy.find((t) => t.nazov === nazov);
     if (!trieda) return `<p class="stav-nacitania">Trieda ${esc(nazov)} v rozvrhu nie je.</p>`;
@@ -303,7 +308,7 @@ if (sekcia && zoznamTried && mriezka) {
     };
     const blok = (b: Blok) => {
       const dalsie = [b.skupina ? skupina(b.skupina) : null, b.tyzden ? `týždeň ${b.tyzden}` : null].filter(Boolean).join(", ");
-      return `<li><span class="sk" aria-hidden="true" title="${esc(nazovP(b))}${odhad(b) ? " (odhad podľa iných škôl)" : ""}">${esc(b.skratka)}</span> <span class="pr">${esc(nazovP(b))}${odhad(b) ? ` ${ODHAD}` : ""}</span>${b.ucebna ? ` <span class="uc"><span class="vh">učebňa </span>${esc(b.ucebna)}</span>` : ""}${dalsie ? ` <span class="dalsie">${esc(dalsie)}</span>` : ""}</li>`;
+      return `<li class="f"${farbaStyl(s, b.skratka)}><span class="sk" aria-hidden="true" title="${esc(nazovP(b))}${odhad(b) ? " (odhad podľa iných škôl)" : ""}">${esc(b.skratka)}</span> <span class="pr">${esc(nazovP(b))}${odhad(b) ? ` ${ODHAD}` : ""}</span>${b.ucebna ? ` <span class="uc"><span class="vh">učebňa </span>${esc(b.ucebna)}</span>` : ""}${dalsie ? ` <span class="dalsie">${esc(dalsie)}</span>` : ""}</li>`;
     };
     // Bloky, ktoré sa začínajú v tú istú hodinu a trvajú rovnako (skupiny, semináre), sú jedna bunka:
     // vedľa seba (na počítači po dvoch v rade, na mobile v jednom riadku).
@@ -327,7 +332,7 @@ ${Array.from({ length: pocetDni }, (_, den) => {
         : `<li class="volno">bez vyučovania</li>`}</ul></section>`;
     }).join("")}</div></div>
 <ul class="predmety" aria-label="Skratky predmetov">${[...predmety].sort((a, b) => a[0].localeCompare(b[0], "sk")).map(([sk, b]) =>
-      `<li><b>${esc(sk)}</b>${bezNazvu(b) ? `<span class="bez">škola názov neuvádza</span>` : `${esc(nazovP(b))}${odhad(b) ? ` ${ODHAD}` : ""}`}</li>`).join("")}</ul>${pozn}`;
+      `<li><i class="fz"${farbaStyl(s, sk)} aria-hidden="true"></i><b>${esc(sk)}</b>${bezNazvu(b) ? `<span class="bez">škola názov neuvádza</span>` : `${esc(nazovP(b))}${odhad(b) ? ` ${ODHAD}` : ""}`}</li>`).join("")}</ul>${pozn}`;
   };
 
   let vybrana = "";
