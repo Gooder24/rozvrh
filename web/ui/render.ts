@@ -75,11 +75,18 @@ function rozsah(hodiny: HodinaOsi[]) {
   return { t0, t1, h: (t1 - t0) / 60 };
 }
 const cisloHodiny = (n: string) => { const k = n.trim().replace(/\.$/, ""); return k.length <= 2 ? k : ""; };
+/** Prestávky medzi susednými hodinami, ktoré rozvrh používa (bez medzier nad 3 hodiny, napr. pred večernou hodinou). */
+const prestavky = (hodiny: HodinaOsi[]) => hodiny.slice(1).flatMap((h, i) => (h.pouzita && hodiny[i]!.pouzita ? [{ od: minuty(hodiny[i]!.do), do: minuty(h.od) }] : []))
+  .filter((p) => p.do > p.od && p.do - p.od < 180);
 const trat = (hodiny: HodinaOsi[], popis: string) =>
-  `<div class="trat" role="img" aria-label="${esc(popis)}">${hodiny.map((h) => `<i${h.pouzita ? "" : ` class="n"`} style="--s:${minuty(h.od)};--e:${minuty(h.do)}">${esc(cisloHodiny(h.n))}</i>`).join("")}</div>`;
+  `<div class="trat" role="img" aria-label="${esc(popis)}">${hodiny.map((h) => `<i${h.pouzita ? "" : ` class="n"`} style="--s:${minuty(h.od)};--e:${minuty(h.do)}">${esc(cisloHodiny(h.n))}</i>`).join("")}${
+    prestavky(hodiny).map((p) => `<b class="pr" style="--s:${p.od};--e:${p.do}"><span>${p.do - p.od}</span></b>`).join("")}</div>`;
 const popisTrate = (hodiny: HodinaOsi[]) => {
   const p = hodiny.filter((h) => h.pouzita);
-  return `${hodin(p.length)}: ${p.map((h) => `${/^\d+$/.test(h.n.trim()) ? `${h.n.trim()}.` : h.n.trim()} ${cas(h.od)}–${cas(h.do)}`).join(", ")}`;
+  return `${hodin(p.length)}: ${p.map((h, i) => {
+    const dalsia = p[i + 1], pr = dalsia ? minuty(dalsia.od) - minuty(h.do) : 0;
+    return `${/^\d+$/.test(h.n.trim()) ? `${h.n.trim()}.` : h.n.trim()} ${cas(h.od)}–${cas(h.do)}${pr > 0 && pr < 180 ? `, prestávka ${pr} min` : ""}`;
+  }).join(", ")}`;
 };
 const cislaOsi = (r: { t0: number; h: number }) =>
   `<div class="os-cisla" aria-hidden="true">${Array.from({ length: r.h + 1 }, (_, i) => `<b style="--i:${i}">${r.t0 / 60 + i}:00</b>`).join("")}</div>`;
@@ -91,7 +98,7 @@ export const domov = (d: Domov) => {
   return obal(d.hlava, `<h1>Kedy zvoní na slovenských školách</h1>
 <p class="uvod">Zvonenie a rozvrhy hodín ${c.spolu} základných a stredných škôl na jednom mieste: kedy sa začína prvá hodina, aké dlhé sú prestávky a kedy sa vyučovanie končí.</p>
 <form class="hladanie" id="hladanie" action="/" role="search"><label for="q">Nájdite školu alebo obec</label><div><input class="pole" id="q" name="q" type="search" placeholder="napríklad Gymnázium Žilina alebo Bytča" autocomplete="off" aria-describedby="hladanie-stav"><button class="tlacidlo">Hľadať</button></div></form>
-${d.mapa ? `<div class="zobrazenie" role="group" aria-label="Zobrazenie výsledkov"><button class="volba" data-zobraz="zoznam" aria-pressed="true">Zoznam</button><button class="volba" data-zobraz="mapa" aria-pressed="false">Mapa</button></div>` : ""}<p class="pocet-najdenych" id="hladanie-stav" role="status"><noscript>Hľadanie potrebuje JavaScript. Školu nájdete aj cez kraj a obec nižšie.</noscript></p><div id="vysledky"></div>${d.mapa ? `<div id="mapa" class="mapa" hidden></div>` : ""}
+${d.mapa ? `<div class="zobrazenie" role="group" aria-label="Zobrazenie výsledkov"><button class="volba" data-zobraz="zoznam" aria-pressed="true">Zoznam</button><button class="volba" data-zobraz="mapa" aria-pressed="false">Mapa</button></div>` : ""}<p class="pocet-najdenych" id="hladanie-stav" role="status"><noscript>Hľadanie potrebuje JavaScript. Školu nájdete aj cez kraj a obec nižšie.</noscript></p><div id="vysledky"></div>${d.mapa ? `<div id="mapa" class="mapa" hidden><p class="mapa-caka">Načítavam mapu…</p></div>` : ""}
 <section><h2>Čo o školách vieme</h2>
 <p class="uvod">Pri ${c.zvonenie} z ${c.spolu} škôl (${percent(c.zvonenie, c.spolu)}) poznáme skutočné zvonenie a ${c.verejny_rozvrh} škôl má verejný rozvrh tried. Ako údaje vznikajú, píšeme <a href="/o-projekte/">o projekte</a>.</p>
 <div class="tabula"><ul class="prehlad">${riadokPrehladu("Stredné školy", d.celkom["SŠ"])}${riadokPrehladu("Základné školy", d.celkom["ZŠ"])}${riadokPrehladu("Spolu", c)}</ul>${legendaStavov}</div></section>
@@ -124,7 +131,7 @@ export const mesto = (d: Mesto) => {
 <div class="volby"><div role="group" aria-label="Zoradiť školy"><span aria-hidden="true">Zoradiť</span><button class="volba" data-zorad="od" aria-pressed="true">podľa začiatku</button><button class="volba" data-zorad="do" aria-pressed="false">podľa konca</button><button class="volba" data-zorad="nazov" aria-pressed="false">podľa názvu</button></div>${stupne.size > 1 ? `<div role="group" aria-label="Ukázať školy"><span aria-hidden="true">Ukázať</span><button class="volba" data-stupen="" aria-pressed="true">všetky</button><button class="volba" data-stupen="ZŠ" aria-pressed="false">základné</button><button class="volba" data-stupen="SŠ" aria-pressed="false">stredné</button></div>` : ""}</div>
 <div class="os-hlava" aria-hidden="true"><span>Škola</span><span class="od">Začiatok</span><span class="do">Koniec</span>${cislaOsi(r)}</div>
 <ol class="os-rady">${naOsi.map(({ s, hodiny, r }) => `<li data-o="${minuty(r.od)}" data-k="${minuty(r.do)}" data-st="${s.stupen}"><div class="kto"><a href="${esc(s.cesta)}">${esc(s.nazov)}</a><small>${esc(podNazvom(s))}${s.stav === "verejny_rozvrh" ? ", rozvrh tried" : ""}</small></div><span class="od"><span class="vh">začiatok </span>${cas(r.od)}</span><span class="do"><span class="vh">koniec </span>${cas(r.do)}</span>${trat(hodiny, popisTrate(hodiny))}</li>`).join("")}</ol>
-<p class="legenda"><span><i class="st a"></i>vyučovacia hodina</span>${nepouzite ? `<span><i class="st n"></i>hodina v zvonení, ktorú rozvrh nepoužíva</span>` : ""}<span class="vh" id="os-stav" role="status"></span></p></div>` : "";
+<p class="legenda"><span><i class="st a"></i>vyučovacia hodina</span><span><i class="st pr"></i>prestávka, číslo pod ňou sú minúty</span>${nepouzite ? `<span><i class="st n"></i>hodina v zvonení, ktorú rozvrh nepoužíva</span>` : ""}<span class="vh" id="os-stav" role="status"></span></p></div>` : "";
   return obal(d.hlava, `<h1>Kedy zvoní ${esc(vObci(d.nazov))}</h1>
 <p class="uvod">${skol(d.pocty.spolu)}, okres ${esc(d.okres)}. ${naOsi.length ? `Zvonenie poznáme pri ${naOsi.length === d.pocty.spolu ? (naOsi.length === 1 ? "nej" : "všetkých") : naOsi.length}: každý riadok je jedna škola, každý modrý blok jedna vyučovacia hodina.` : "Zvonenie tu zatiaľ nepoznáme pri žiadnej."}</p>
 ${os}${bez.length ? `<section><h2>${naOsi.length ? "Školy bez zvonenia" : "Školy"}</h2><ul class="zoznam">${bez.map((s) => `<li><span><a href="${esc(s.cesta)}">${esc(s.nazov)}</a> <small>${esc(podNazvom(s))}</small></span><span class="stav">${stavBezOsi(s)}</span></li>`).join("")}</ul></section>` : ""}`, { omrvinky: d.omrvinky });
