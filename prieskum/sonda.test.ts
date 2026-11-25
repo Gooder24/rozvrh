@@ -1,5 +1,5 @@
-import { expect, test } from "bun:test";
-import { platne, predvolene, stiahni, sukromnaIp, zvonenieZTextu, zvonenieZWidgetu } from "./sonda";
+import { describe, expect, test } from "bun:test";
+import { platne, predvolene, stiahni, sukromnaIp, zamkni, zvonenieZTextu, zvonenieZWidgetu } from "./sonda";
 
 const cas = (h: { od: string; do: string }[]) => h.map((x) => `${x.od}-${x.do}`);
 
@@ -33,4 +33,19 @@ test("zberač nečíta súbory ani adresy tohto stroja a siete Tailscale", async
 test("súkromné adresy aj v nezvyčajnom zápise IPv6", () => {
   for (const ip of ["0:0:0:0:0:0:0:1", "::", "64:ff9b::127.0.0.1", "198.18.0.1", "::ffff:7f00:1", "2002:7f00:1::", "fd7a:115c:a1e0::1", "FE80::1"]) expect(sukromnaIp(ip), ip).toBe(true);
   for (const ip of ["8.8.8.8", "2a01:4f8::1", "::ffff:8.8.8.8", "64:ff9b::8.8.8.8"]) expect(sukromnaIp(ip), ip).toBe(false);
+});
+
+describe("zamkni", () => {
+  test("druhý beh zámok nedostane, zámok po mŕtvom procese sa prevezme", async () => {
+    const { mkdtempSync, writeFileSync, existsSync, readFileSync, readdirSync } = await import("node:fs");
+    const dir = mkdtempSync(`${(await import("node:os")).tmpdir()}/zamok-`);
+    const cesta = `${dir}/.zber.lock`;
+    zamkni(cesta);
+    expect(readFileSync(cesta, "utf8")).toBe(String(process.pid));
+    expect(() => zamkni(cesta)).toThrow("Zber už beží");
+    expect(readdirSync(dir)).toEqual([".zber.lock"]); // pomocný súbor s PID neostal
+    writeFileSync(cesta, "99999999");
+    zamkni(cesta);
+    expect(existsSync(cesta) && readFileSync(cesta, "utf8")).toBe(String(process.pid));
+  });
 });

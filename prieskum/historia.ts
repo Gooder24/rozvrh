@@ -41,7 +41,8 @@ async function zoznam() {
     if (zablokovane) { console.log("EduPage blokuje, zastavené"); break; }
     const r = await edupage(sub, "ttviewer", [null, new Date().getFullYear()]);
     let tts: Verzia[] | null = null;
-    try { tts = (JSON.parse(r.text) as { r?: { regular?: { timetables?: Verzia[] } } }).r?.regular?.timetables ?? []; } catch { /* nie JSON */ }
+    // Len odpoveď so zoznamom rozvrhov (r.regular); chybová odpoveď s HTTP 200 sa skúsi pri ďalšom behu.
+    try { const reg = (JSON.parse(r.text) as { r?: { regular?: { timetables?: Verzia[] } } }).r?.regular; tts = reg ? reg.timetables ?? [] : null; } catch { /* nie JSON */ }
     if (!r.ok || !tts) continue; // chyba siete alebo pokazená odpoveď: skúsi sa pri ďalšom behu
     verzie[sub] = tts.map(({ tt_num, year, text, datefrom }) => ({ tt_num, year, text, datefrom }));
     if (i % 50 === 0 || i === skoly.length - 1) { await zapis(ZOZNAM, JSON.stringify(verzie)); console.log(`${i + 1}/${skoly.length}`); }

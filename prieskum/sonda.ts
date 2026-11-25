@@ -6,7 +6,7 @@
 import { mkdir } from "node:fs/promises";
 import { lookup } from "node:dns/promises";
 import { isIP } from "node:net";
-import { closeSync, existsSync, openSync, readFileSync, unlinkSync, writeSync } from "node:fs";
+import { existsSync, linkSync, readFileSync, unlinkSync, writeFileSync } from "node:fs";
 import { gzipSync } from "node:zlib";
 
 export type Skola = {
@@ -47,20 +47,25 @@ export const nastavRaw = (dir: string) => { RAW = dir; };
 
 /** Jeden zber naraz na stroji: dva behy by spolu išli 2 požiadavky za sekundu. Zámok sa uvoľní pri skončení procesu. */
 export function zamkni(cesta = "data/.zber.lock") {
-  for (let pokus = 0; pokus < 2; pokus++) {
-    try {
-      const fd = openSync(cesta, "wx");
-      writeSync(fd, String(process.pid));
-      closeSync(fd);
-      process.on("exit", () => { try { unlinkSync(cesta); } catch {} });
-      return;
-    } catch {
-      const pid = Number(readFileSync(cesta, "utf8").trim());
-      if (pid && existsSync(`/proc/${pid}`)) throw new Error(`Zber už beží (PID ${pid}, ${cesta}).`);
-      unlinkSync(cesta); // zámok po skončenom procese
+  // Zámok vznikne naraz aj s PID (link na hotový súbor), takže druhý beh nikdy nevidí prázdny zámok.
+  const moj = `${cesta}.${process.pid}`;
+  writeFileSync(moj, String(process.pid));
+  try {
+    for (let pokus = 0; pokus < 2; pokus++) {
+      try {
+        linkSync(moj, cesta);
+        process.on("exit", () => { try { unlinkSync(cesta); } catch {} });
+        return;
+      } catch {
+        const pid = Number(readFileSync(cesta, "utf8").trim());
+        if (pid && existsSync(`/proc/${pid}`)) throw new Error(`Zber už beží (PID ${pid}, ${cesta}).`);
+        unlinkSync(cesta); // zámok po skončenom procese
+      }
     }
+    throw new Error(`Zámok ${cesta} sa nedá získať.`);
+  } finally {
+    unlinkSync(moj);
   }
-  throw new Error(`Zámok ${cesta} sa nedá získať.`);
 }
 
 // EduPage obmedzuje: keď je z posledných 20 odpovedí EduPage aspoň 5 s 403/429, zber sa zastaví (každá ďalšia
