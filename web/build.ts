@@ -182,7 +182,8 @@ await zapis("/sitemap.xml", `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xml
 // Vyhľadávače indexujú stránky; API, MCP a surové JSON nie (míňali by denný limit Workera a nemajú čo hľadať).
 // AI agenti, ktorí čítajú web na pokyn človeka (nie hromadné prehľadávanie), smú aj na API a JSON: odpovedia mu bez hľadania.
 const agenti = ["ChatGPT-User", "Claude-User", "Perplexity-User", "MistralAI-User", "DuckAssistBot"];
-await zapis("/robots.txt", `User-agent: *\nAllow: /\nDisallow: /mcp\nDisallow: /api/v1/\nDisallow: /data/\n\n${agenti.map((a) => `User-agent: ${a}\n`).join("")}Allow: /\nDisallow: /mcp\n\nSitemap: ${ADRESA}/sitemap.xml\n`);
+// Bez „Allow: /“: parsery, ktoré berú prvú zhodu (Python urllib.robotparser), by inak povolili aj zakázané cesty.
+await zapis("/robots.txt", `User-agent: *\nDisallow: /mcp\nDisallow: /api/v1/\nDisallow: /data/\n\n${agenti.map((a) => `User-agent: ${a}\n`).join("")}Disallow: /mcp\n\nSitemap: ${ADRESA}/sitemap.xml\n`);
 // llms.txt: vstup pre AI agentov (čo tu je a ako sa k údajom dostať bez prechádzania stránok).
 await zapis("/llms.txt", `# Rozvrhy škôl (rozvrh.dvoriste.xyz)
 
@@ -226,6 +227,8 @@ await zapis("/_headers", `/*
   Cache-Control: public, max-age=86400
 /openapi.json
   Access-Control-Allow-Origin: *
+/llms.txt
+  Content-Type: text/plain; charset=utf-8
 `);
 // Zmenené stránky čakajú na nasadenie; zmeny.json sa uloží až po úspešnom nasadení (web/nasad.ts).
 await Bun.write("site/indexnow.json", JSON.stringify({ kluc: INDEXNOW_KLUC, cesty: zmenene }));
