@@ -29,7 +29,8 @@ const cislo = (s: string | undefined) => Number((s ?? "0").replace(",", "."));
 const predmety: Predmet[] = [];
 for (const list of text.split(/(?=Kód predmetu:)/).slice(1)) {
   const kod = list.match(/Kód predmetu:\s*(\S+)/)?.[1];
-  const nazovCely = list.match(/Názov predmetu:\s*(.+)/)?.[1]?.trim();
+  // Dlhý názov pokračuje na ďalšom riadku („…systémoch“ / „(AVMS)“), až po „Povinnosť predmetu“.
+  const nazovCely = list.match(/Názov predmetu:\s*([\s\S]*?)\n\s*Povinnosť predmetu:/)?.[1]?.replace(/\s+/g, " ").trim();
   const typ = list.match(/Povinnosť predmetu:\s*(povinne voliteľný|povinný|výberový)/)?.[1] as Predmet["typ"] | undefined;
   const sem = list.match(/Odporúčaný semester\/trimester štúdia:\s*(zimný|letný),\s*(\d)\.\s*ročník/);
   if (!kod || !nazovCely || !typ || !sem) throw new Error(`Neúplný list predmetu ${kod ?? "?"}`);

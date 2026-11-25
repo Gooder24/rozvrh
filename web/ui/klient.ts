@@ -289,6 +289,13 @@ if (planovac?.dataset.src) {
     const rozloz = () => {
       const b = bloky();
       for (const x of b) if (stav.casy[x.id] && (stav.casy[x.id]!.od + x.dlzka > DO)) delete stav.casy[x.id];
+      // Prekryté bloky: prvý ostane, kde je, ďalšie stratia čas a rozložia sa nižšie.
+      const drzane: BlokVs[] = [];
+      for (const x of b) {
+        if (!stav.casy[x.id]) continue;
+        if (kolizie([...drzane, x]).has(x.id)) delete stav.casy[x.id];
+        else drzane.push(x);
+      }
       const volne = b.filter((x) => !stav.casy[x.id]).sort((a, c) => c.dlzka - a.dlzka || a.druh.localeCompare(c.druh));
       for (const x of volne) {
         const zataz = DNI.map((_, d) => b.filter((y) => stav.casy[y.id]?.den === d).reduce((s, y) => s + y.dlzka, 0));
@@ -330,7 +337,7 @@ ${zle.size ? `<p class="pl-pozor">Niektoré bloky sa prekrývajú (červený okr
         const c = stav.casy[x.id];
         return `<li${zle.has(x.id) ? ` class="kolizia"` : ""}><span><b>${esc(meno(x.predmet))}</b> ${druh(x.druh)}, ${x.dlzka} h</span>
 <label class="vh" for="d-${esc(x.id)}">Deň pre ${esc(meno(x.predmet))}, ${druh(x.druh)}</label><select class="pole" id="d-${esc(x.id)}" data-den="${esc(x.id)}"><option value="">deň</option>${DNI.map((n, i) => `<option value="${i}"${c?.den === i ? " selected" : ""}>${n.slice(0, 2)}</option>`).join("")}</select>
-<label class="vh" for="h-${esc(x.id)}">Začiatok</label><select class="pole" id="h-${esc(x.id)}" data-od="${esc(x.id)}"><option value="">od</option>${Array.from({ length: DO - OD - x.dlzka + 1 }, (_, i) => OD + i).map((h) => `<option value="${h}"${c?.od === h ? " selected" : ""}>${casText(h)}</option>`).join("")}</select></li>`;
+<label class="vh" for="h-${esc(x.id)}">Začiatok pre ${esc(meno(x.predmet))}, ${druh(x.druh)}</label><select class="pole" id="h-${esc(x.id)}" data-od="${esc(x.id)}"><option value="">od</option>${Array.from({ length: DO - OD - x.dlzka + 1 }, (_, i) => OD + i).map((h) => `<option value="${h}"${c?.od === h ? " selected" : ""}>${casText(h)}</option>`).join("")}</select></li>`;
       }).join("")}</ul></div></div>
 <div class="mr-obal"><div class="mr" style="--n:${DO - OD}"><h3 class="vh">Skúšobný týždeň</h3>
 <div class="mr-hlava" aria-hidden="true"><span></span><ol>${Array.from({ length: DO - OD }, (_, i) => `<li><b>${OD + i}:00</b></li>`).join("")}</ol></div>
@@ -338,7 +345,7 @@ ${DNI.map((n, d) => {
         const den = b.filter((x) => stav.casy[x.id]?.den === d).sort((a, c) => stav.casy[a.id]!.od - stav.casy[c.id]!.od);
         return `<section class="mr-den"><h3>${n}</h3><ul>${den.length ? den.map((x) => {
           const c = stav.casy[x.id]!;
-          return `<li class="pl-${x.druh}${zle.has(x.id) ? " kolizia" : ""}" style="--c:${c.od - OD + 1};--w:${x.dlzka}"><span class="kedy"><b>${casText(c.od)}–${casText(c.od + x.dlzka)}</b></span> <span class="sk" title="${esc(x.predmet.nazov)}">${esc(meno(x.predmet))}</span> <span class="dalsie">${druh(x.druh)}</span></li>`;
+          return `<li class="pl-${x.druh}${zle.has(x.id) ? " kolizia" : ""}" style="--c:${c.od - OD + 1};--w:${x.dlzka}"><span class="kedy"><b>${c.od}–${c.od + x.dlzka} h</b></span> <span class="sk" title="${esc(x.predmet.nazov)}">${esc(meno(x.predmet))}</span> <span class="pr">${esc(x.predmet.nazov)}</span> <span class="dalsie">${druh(x.druh)}</span></li>`;
         }).join("") : `<li class="volno">voľno</li>`}</ul></section>`;
       }).join("")}</div></div>
 <p class="legenda"><span><i class="st pl-p"></i>prednáška</span><span><i class="st pl-c"></i>cvičenie</span><span><i class="st pl-l"></i>laboratórne cvičenie</span><span>Výber sa pamätá len v tomto prehliadači.</span></p>
