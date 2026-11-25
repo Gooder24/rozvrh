@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import type { Blok } from "../typy";
-import { menoTyzdna, tyzdne } from "./tyzdne";
+import { jeSkupina, menoTyzdna, tyzdne } from "./tyzdne";
 
 const b = (den: number, skratka: string, tyzden: string | null = null): Blok =>
   ({ den, hodina: "1", trvanie: 1, predmet: skratka, skratka, ucebna: null, skupina: null, tyzden });
@@ -59,6 +59,8 @@ describe("tyzdne", () => {
   test("skupiny zapísané ako týždne tabuľku nedelia", () => {
     for (const [x, y] of [["sk.A", "sk.B"], ["1.sk", "2.sk"], ["VanOsztf", "NincsOsztf"], ["A (PVC)", "B (VYV)"]] as const)
       expect(tyzdne(PRACOVNE, [b(0, "MAT", x), b(1, "ANJ", y)]).map((t) => t.nazov)).toEqual([null]);
+    expect(["sk.A", "1.sk", "VanOsztf", "A (PVC)"].map(jeSkupina)).toEqual([true, true, true, true]);
+    expect(["A", "PT", "1", "NEP", "A+C", "2. cyk."].map(jeSkupina)).toEqual([false, false, false, false, false, false]);
   });
 
   test("názov týždňa z časti dní cyklu", () => {

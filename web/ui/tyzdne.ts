@@ -28,6 +28,8 @@ export const menoTyzdna = (x: string) => {
   return `Týždeň ${p ? p[1] : t}`;
 };
 const poradie = (a: string) => { const m = menoTyzdna(a); return m.startsWith("Párny") ? 0 : m.startsWith("Nepárny") ? 1 : 2; };
+/** Niektoré školy si týždňami v EduPage značia skupiny („sk.A“, „1.sk“, „A (PVC)“, „VanOsztf“). */
+export const jeSkupina = (t: string) => /(?:^|[^\p{L}])sk|osztf|\(/iu.test(t);
 /** Atómové týždne jednej hodiny: „A+C“ je v týždni A aj C. */
 const tyzdneBloku = (t: string) => t.split(/[+,]/).map((x) => x.trim()).filter(Boolean);
 
@@ -68,8 +70,8 @@ export const tyzdne = (dni: string[], bloky: Blok[]): Tyzden[] => {
   }
   const oznacene = [...new Set(bloky.flatMap((b) => (b.tyzden ? tyzdneBloku(b.tyzden) : [])))]
     .sort((a, b) => poradie(a) - poradie(b) || a.localeCompare(b, "sk", { numeric: true }));
-  // Niektoré školy si týždňami v EduPage značia skupiny („sk.A“, „1.sk“, „A (PVC)“): tie sa nedelia, ostanú pri hodine.
-  if (oznacene.length < 2 || oznacene.some((t) => /(?:^|[^\p{L}])sk|osztf|\(/iu.test(t))) return [{ nazov: null, dni: Array.from({ length: pocet }, (_, i) => den(i, bloky)) }];
+  // Skupiny zapísané ako týždne sa nedelia, ostanú pri hodine.
+  if (oznacene.length < 2 || oznacene.some(jeSkupina)) return [{ nazov: null, dni: Array.from({ length: pocet }, (_, i) => den(i, bloky)) }];
   return oznacene.map((t) => {
     const v = bloky.filter((b) => !b.tyzden || tyzdneBloku(b.tyzden).includes(t)).map((b) => ({ ...b, tyzden: null }));
     return { nazov: menoTyzdna(t), dni: Array.from({ length: pocet }, (_, i) => den(i, v)) };

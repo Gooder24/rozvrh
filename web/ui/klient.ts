@@ -5,7 +5,7 @@ import type { Blok, Skola } from "../data";
 import type { VsPredmet, VsProgram } from "../stranky";
 import { druhObce } from "../obce";
 import { farbyPredmetov } from "./farby";
-import { tyzdne } from "./tyzdne";
+import { jeSkupina, tyzdne } from "./tyzdne";
 
 const esc = (s: unknown) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c] ?? c);
 const bezDiakritiky = (s: string) => s.normalize("NFD").replace(/\p{M}/gu, "").toLowerCase();
@@ -307,7 +307,7 @@ if (sekcia && zoznamTried && mriezka) {
       return t.replace(/^(\d+)\s*\.?\s*sk(upina)?\.?$/i, "$1. skupina");
     };
     const blok = (b: Blok) => {
-      const dalsie = [b.skupina ? skupina(b.skupina) : null, b.tyzden ? `týždeň ${b.tyzden}` : null].filter(Boolean).join(", ");
+      const dalsie = [b.skupina ? skupina(b.skupina) : null, b.tyzden ? (jeSkupina(b.tyzden) ? b.tyzden : `týždeň ${b.tyzden}`) : null].filter(Boolean).join(", ");
       return `<li class="f"${farbaStyl(s, b.skratka)}><span class="sk" aria-hidden="true" title="${esc(nazovP(b))}${odhad(b) ? " (odhad podľa iných škôl)" : ""}">${esc(b.skratka)}</span> <span class="pr">${esc(nazovP(b))}${odhad(b) ? ` ${ODHAD}` : ""}</span>${b.ucebna ? ` <span class="uc"><span class="vh">učebňa </span>${esc(b.ucebna)}</span>` : ""}${dalsie ? ` <span class="dalsie">${esc(dalsie)}</span>` : ""}</li>`;
     };
     // Bloky, ktoré sa začínajú v tú istú hodinu a trvajú rovnako (skupiny, semináre), sú jedna bunka:
