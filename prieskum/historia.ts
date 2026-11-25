@@ -1,15 +1,19 @@
 // Archív starších rozvrhov z EduPage: škola tam drží všetky verzie rozvrhu z minulých rokov.
 //   bun prieskum/historia.ts zoznam    zoznam verzií každej školy s verejným rozvrhom → data/historia/verzie.json
 //   bun prieskum/historia.ts stiahni   stiahne verzie, ktoré ešte nemá → data/historia/raw/<sub>/<tt_num>.json.gz
-// Oba sa dajú prerušiť a pustiť znova; pokračujú tam, kde skončili. Najviac 1 požiadavka za sekundu (sonda.ts)
-// a len cez deň: o 21:00 sa zastavia samy. data/historia/ nie je v gite (surové údaje EduPage).
-import { mkdir, readdir } from "node:fs/promises";
+// Oba sa dajú prerušiť a pustiť znova; pokračujú tam, kde skončili. Najviac 1 požiadavka za sekundu (sonda.ts),
+// nikdy naraz s obnovou (zámok data/.zber.lock) a len cez deň: o 21:00 sa zastavia samy. Surové údaje obsahujú mená
+// učiteľov: na web smú len cez web/data.ts (bezMien), nikdy priamo. data/historia/ nie je v gite (surové údaje EduPage).
+import { mkdir, readdir, rename } from "node:fs/promises";
 import { gzipSync } from "node:zlib";
-import { stiahni } from "./sonda";
+import { stiahni, zablokovane, zamkni } from "./sonda";
 
 const DIR = "data/historia";
 const ZOZNAM = `${DIR}/verzie.json`;
 export type Verzia = { tt_num: string; year: number; text: string; datefrom: string };
+
+/** Súbor sa zapíše celý alebo vôbec: prerušený beh nenechá polovičný súbor, ktorý by ďalší beh preskočil. */
+const zapis = async (cesta: string, data: string | Uint8Array) => { await Bun.write(`${cesta}.tmp`, data); await rename(`${cesta}.tmp`, cesta); };
 
 /** Zber beží len cez deň (7:00 až 21:00). */
 export const cezDen = (d = new Date()) => d.getHours() >= 7 && d.getHours() < 21;
@@ -34,14 +38,15 @@ async function zoznam() {
   console.log(`${skoly.length} škôl bez zoznamu`);
   for (const [i, sub] of skoly.entries()) {
     if (!cezDen()) { console.log("21:00, zastavené"); break; }
+    if (zablokovane) { console.log("EduPage blokuje, zastavené"); break; }
     const r = await edupage(sub, "ttviewer", [null, new Date().getFullYear()]);
-    let tts: Verzia[] = [];
+    let tts: Verzia[] | null = null;
     try { tts = (JSON.parse(r.text) as { r?: { regular?: { timetables?: Verzia[] } } }).r?.regular?.timetables ?? []; } catch { /* nie JSON */ }
-    if (!r.ok) continue; // chyba siete: skúsi sa pri ďalšom behu
+    if (!r.ok || !tts) continue; // chyba siete alebo pokazená odpoveď: skúsi sa pri ďalšom behu
     verzie[sub] = tts.map(({ tt_num, year, text, datefrom }) => ({ tt_num, year, text, datefrom }));
-    if (i % 50 === 0 || i === skoly.length - 1) { await Bun.write(ZOZNAM, JSON.stringify(verzie)); console.log(`${i + 1}/${skoly.length}`); }
+    if (i % 50 === 0 || i === skoly.length - 1) { await zapis(ZOZNAM, JSON.stringify(verzie)); console.log(`${i + 1}/${skoly.length}`); }
   }
-  await Bun.write(ZOZNAM, JSON.stringify(verzie));
+  await zapis(ZOZNAM, JSON.stringify(verzie));
 }
 
 async function stiahniVerzie() {
@@ -52,10 +57,11 @@ async function stiahniVerzie() {
     const cesta = `${DIR}/raw/${sub}/${num}.json.gz`;
     if (await Bun.file(cesta).exists()) { mam++; continue; }
     if (!cezDen()) { console.log("21:00, zastavené"); break; }
+    if (zablokovane) { console.log("EduPage blokuje, zastavené"); break; }
     const r = await edupage(sub, "regulartt", [null, num]);
     if (r.ok && r.text.includes("dbiAccessorRes")) {
       await mkdir(`${DIR}/raw/${sub}`, { recursive: true });
-      await Bun.write(cesta, gzipSync(r.text));
+      await zapis(cesta, gzipSync(r.text));
       nove++;
     } else chyby++;
     if ((nove + chyby) % 200 === 0) console.log(`${mam + nove}/${ulohy.length} (${chyby} chýb)`);
@@ -65,6 +71,7 @@ async function stiahniVerzie() {
 
 if (import.meta.main) {
   await mkdir(DIR, { recursive: true });
+  zamkni(); // s obnovou rozvrhov ani druhým behom naraz nie: spolu by išli 2 požiadavky za sekundu
   const prikaz = process.argv[2];
   if (prikaz === "zoznam") await zoznam();
   else if (prikaz === "stiahni") await stiahniVerzie();
