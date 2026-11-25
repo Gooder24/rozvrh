@@ -76,6 +76,11 @@ if (pole && formular && vysledky && stavHladania) {
   let vybrane: number[] | null = null;
   let ukazNaMape: ((v: number[] | null) => void) | null = null;
   let mapaSa: Promise<void> | null = null;
+  // Údaje aj kód mapy naraz; začne sa už pri prejdení myšou alebo dotyku tlačidla „Mapa“.
+  type Body = ([number, number] | null)[];
+  let pripravene: Promise<[Zaznam[], Body, typeof import("./mapa")]> | null = null;
+  const priprav = () => pripravene ??= Promise.all([nacitaj(), fetch("/data/mapa.json").then((o) => o.json() as Promise<Body>), import(MAPA_JS) as Promise<typeof import("./mapa")>])
+    .catch((e: unknown) => { pripravene = null; throw e; });
   const PAMAT_ZOBRAZENIA = "rozvrh-zobrazenie";
   const naMape = () => prepinace.some((b) => b.dataset.zobraz === "mapa" && b.getAttribute("aria-pressed") === "true");
   const zobraz = async (ako: string) => {
@@ -87,14 +92,16 @@ if (pole && formular && vysledky && stavHladania) {
     if (pole.value.trim().length >= 2) void hladaj(); // veta o počte sa líši pre zoznam a mapu
     if (ako !== "mapa") return;
     mapaSa ??= (async () => {
-      const [riadky, body] = await Promise.all([nacitaj(), fetch("/data/mapa.json").then((o) => o.json() as Promise<([number, number] | null)[]>)]);
-      const m = (await import(MAPA_JS)) as typeof import("./mapa");
+      const [riadky, body, m] = await priprav();
       ukazNaMape = await m.vytvor(mapaEl, riadky.map((z) => z.r), body);
     })().catch(() => { mapaSa = null; stavHladania.textContent = "Mapu sa nepodarilo načítať. Skúste to znova alebo zostaňte pri zozname."; });
     await mapaSa;
     ukazNaMape?.(vybrane);
   };
-  for (const b of prepinace) b.addEventListener("click", () => void zobraz(b.dataset.zobraz ?? "zoznam"));
+  for (const b of prepinace) {
+    b.addEventListener("click", () => void zobraz(b.dataset.zobraz ?? "zoznam"));
+    if (b.dataset.zobraz === "mapa") for (const u of ["pointerenter", "focus", "touchstart"]) b.addEventListener(u, () => void priprav().catch(() => {}), { once: true, passive: true });
+  }
 
   let poradie = 0;
   const hladaj = async () => {

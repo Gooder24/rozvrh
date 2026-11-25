@@ -9,20 +9,31 @@ const LIB = "/assets/maplibre-gl.mjs";
 const STYL = (tmavy: boolean) => `https://tiles.openfreemap.org/styles/${tmavy ? "dark" : "positron"}`;
 const SLOVENSKO: [[number, number], [number, number]] = [[16.83, 47.73], [22.57, 49.62]];
 
+// Hneď po načítaní tohto súboru: knižnica, jej štýly a spojenie na dlaždice naraz, nie jedno po druhom.
+const kniznica = import(LIB) as Promise<typeof ML>;
+const tmavy = matchMedia("(prefers-color-scheme: dark)").matches;
+// Štýl sa sťahuje popri knižnici; keď zlyhá, MapLibre si ho stiahne sám z adresy.
+const styl = (async (): Promise<ML.StyleSpecification | string> => {
+  try { const o = await fetch(STYL(tmavy)); return o.ok ? await o.json() as ML.StyleSpecification : STYL(tmavy); } catch { return STYL(tmavy); }
+})();
+document.head.append(
+  Object.assign(document.createElement("link"), { rel: "stylesheet", href: "/assets/maplibre-gl.css" }),
+  Object.assign(document.createElement("link"), { rel: "preconnect", href: "https://tiles.openfreemap.org", crossOrigin: "anonymous" }),
+);
+
 /** Vytvorí mapu v prvku; vrátená funkcia ukáže len zadané školy (indexy do hladanie.json) alebo všetky (null). */
 export const vytvor = async (el: HTMLElement, riadky: Riadok[], body: ([number, number] | null)[]) => {
-  const ml = (await import(LIB)) as typeof ML;
-  if (!document.querySelector(`link[href="/assets/maplibre-gl.css"]`))
-    document.head.append(Object.assign(document.createElement("link"), { rel: "stylesheet", href: "/assets/maplibre-gl.css" }));
-  const tmavy = matchMedia("(prefers-color-scheme: dark)").matches;
+  const [ml, s] = await Promise.all([kniznica, styl]);
   const farba = getComputedStyle(document.documentElement).getPropertyValue("--hodina").trim() || "#2f5bd3";
-  const mapa = new ml.Map({ container: el, style: STYL(tmavy), bounds: SLOVENSKO, fitBoundsOptions: { padding: 20 }, attributionControl: { compact: true }, cooperativeGestures: matchMedia("(pointer: coarse)").matches });
+  const mapa = new ml.Map({ container: el, style: s, bounds: SLOVENSKO, fitBoundsOptions: { padding: 20 }, attributionControl: { compact: true }, cooperativeGestures: matchMedia("(pointer: coarse)").matches });
   mapa.addControl(new ml.NavigationControl({ showCompass: false }), "top-right");
   const data = {
     type: "FeatureCollection" as const,
     features: body.flatMap((b, i) => (b ? [{ type: "Feature" as const, id: i, geometry: { type: "Point" as const, coordinates: b }, properties: { i } }] : [])),
   };
-  await new Promise<void>((hotovo) => mapa.on("load", () => hotovo()));
+  // Body pribudnú, len čo je štýl mapy načítaný; dlaždice sa môžu ešte dokresľovať.
+  await new Promise<void>((hotovo) => (mapa.isStyleLoaded() ? hotovo() : mapa.once("style.load", () => hotovo())));
+  el.querySelector(".mapa-caka")?.remove();
   mapa.addSource("skoly", { type: "geojson", data });
   // Názvy obcí a štátov po slovensky, kde ich OpenStreetMap má.
   for (const l of mapa.getStyle().layers) if (l.type === "symbol" && "source-layer" in l && l["source-layer"] === "place")
