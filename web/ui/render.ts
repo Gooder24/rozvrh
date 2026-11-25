@@ -4,7 +4,7 @@
 import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
 import type { SkolaKratko } from "../data";
-import type { Api, Domov, Hlava, Kraj, Mesto, Omrvinka, OProjekte, Pocty, StrankaSkoly } from "../stranky";
+import type { Api, Domov, Hlava, Kraj, Mesto, Omrvinka, OProjekte, Pocty, StrankaSkoly, VsPredmet, VsStranka, VysokeSkoly } from "../stranky";
 
 const GITHUB = "https://github.com/Gooder24/rozvrh";
 const WEB = "https://rozvrh.dvoriste.xyz";
@@ -33,7 +33,7 @@ ${h.html}
 <link rel="preload" href="/assets/pismo/next-latin.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="/assets/pismo/next-ext.woff2" as="font" type="font/woff2" crossorigin><link rel="stylesheet" href="/assets/styl.css?v=${verzia}"><link rel="icon" href="/assets/ikona.svg" type="image/svg+xml"><meta name="theme-color" content="#f4f7fa" media="(prefers-color-scheme:light)"><meta name="theme-color" content="#12161d" media="(prefers-color-scheme:dark)"><script src="/assets/klient.js?v=${verzia}" defer></script></head>
 <body><a class="preskoc" href="#obsah">Preskočiť na obsah</a><header class="obal hlavicka"><a class="znacka" href="/">${znacka}<span>Rozvrhy škôl</span></a>${hladanie}</header>
 <main class="obal" id="obsah">${omrvinky}${telo}</main>
-<footer class="obal"><div class="patka"><p>Údaje: register škôl CVTI SR, verejné rozvrhy na EduPage a weby škôl. Zostavené ${datum(v.vytvorene ?? zostavene)}.</p><ul><li><a href="/api/">API a MCP</a></li><li><a href="/o-projekte/">O projekte</a></li><li><a href="${GITHUB}">GitHub</a></li></ul></div></footer></body></html>`;
+<footer class="obal"><div class="patka"><p>Údaje: register škôl CVTI SR, verejné rozvrhy na EduPage a weby škôl. Zostavené ${datum(v.vytvorene ?? zostavene)}.</p><ul><li><a href="/vysoke-skoly/">Vysoké školy (beta)</a></li><li><a href="/api/">API a MCP</a></li><li><a href="/o-projekte/">O projekte</a></li><li><a href="${GITHUB}">GitHub</a></li></ul></div></footer></body></html>`;
 }
 
 // Stavy škôl ---------------------------------------------------------------------------------------------------
@@ -96,6 +96,7 @@ export const domov = (d: Domov) => {
 <div class="tabula"><ul class="prehlad">${riadokPrehladu("Stredné školy", d.celkom["SŠ"])}${riadokPrehladu("Základné školy", d.celkom["ZŠ"])}${riadokPrehladu("Spolu", c)}</ul>${legendaStavov}</div></section>
 <section><h2>Kraje</h2><div class="tabula"><ul class="prehlad">${d.kraje.map((k) => riadokPrehladu(`${k.nazov} kraj`, k.pocty, k.cesta)).join("")}</ul></div></section>
 <section><h2>Najviac škôl</h2><ul class="stlpce">${d.mesta.map((m) => `<li><a href="${esc(m.cesta)}">${esc(m.nazov)}</a><small>${skol(m.pocet)}</small></li>`).join("")}</ul></section>
+<section class="text"><h2>Vysoké školy <span class="beta-znak">beta</span></h2><p>Vysoká škola nemá rozvrh triedy, predmety si študent zapisuje sám. V skúšobnej verzii ukazujeme, aké predmety má študijný program v ktorom semestri, a dá sa z nich poskladať týždeň, akoby vás prijali. <a href="/vysoke-skoly/">Vyskúšať</a>.</p></section>
 <section class="text"><h2>Údaje pre aplikácie</h2><p>Všetko, čo je na stránke, sa dá čítať aj strojovo: otvorené API bez kľúča, súbory JSON a CSV na stiahnutie a MCP server pre Claude, ChatGPT či Cursor. Návod a príklady sú na stránke <a href="/api/">API a MCP</a>.</p></section>`, { hladanie: false, vytvorene: d.vytvorene });
 };
 
@@ -245,6 +246,41 @@ export const oProjekte = (d: OProjekte) => {
 <h2>Oprava alebo vyradenie školy</h2>
 <p>Ak je pri škole chyba alebo si škola neželá byť v prehľade, napíšte issue na <a href="${GITHUB}/issues">github.com/Gooder24/rozvrh</a>. Stačí názov školy a čo treba zmeniť.</p>
 <p>Kód zberu aj tejto stránky je otvorený na <a href="${GITHUB}">GitHube</a>. Údaje sa dajú čítať aj cez <a href="/api/">API a MCP</a>.</p></div>`, { vytvorene: d.vytvorene });
+};
+
+// Vysoké školy (beta) ------------------------------------------------------------------------------------------
+const kredity = (n: number) => sklonuj(n, "kredit", "kredity", "kreditov");
+const rozsahPredmetu = (p: VsPredmet) => [["P", "prednáška"], ["C", "cvičenie"], ["L", "laboratórne cvičenie"]]
+  .filter(([k]) => p.hodiny[k as "P"] > 0).map(([k, co]) => `${co} ${p.hodiny[k as "P"]} h`).join(", ") || "bez pravidelnej výučby";
+const semestre = (p: { predmety: VsPredmet[] }) => [...new Set(p.predmety.map((x) => `${x.rocnik}|${x.semester}`))]
+  .map((k) => { const [r, s] = k.split("|"); return { rocnik: Number(r), semester: s as VsPredmet["semester"] }; })
+  .sort((a, b) => a.rocnik - b.rocnik || Number(a.semester === "letný") - Number(b.semester === "letný"));
+const TYPY = [["povinný", "Povinné"], ["povinne voliteľný", "Povinne voliteľné"], ["výberový", "Výberové"]] as const;
+const betaBox = (text: string) => `<div class="beta-box"><p><span class="beta-znak">beta</span> ${text}</p></div>`;
+
+export const vysokeSkoly = (d: VysokeSkoly) => obal(d.hlava, `<h1>Vysoké školy: aké predmety by ste mali</h1>
+<p class="uvod">Vysoká škola nemá rozvrh triedy: predmety si študent zapisuje sám a rozvrh dostane od fakulty až po zápise. Tu vidíte, aké predmety má študijný program v ktorom semestri, a skúsite si z nich poskladať týždeň, akoby ste tam boli prijatý.</p>
+${betaBox("Skúšobná verzia s jedným programom. Predmety, kredity a týždenný rozsah sú z informačných listov fakulty; časy v rozvrhu si volíte sami, nie sú to časy školy.")}
+<section><h2>Študijné programy</h2><ul class="zoznam">${d.programy.map((p) => `<li><span><a href="${esc(p.cesta)}">${esc(p.program)}</a> <small>${esc(p.skratkaSkoly)}, ${esc(p.fakulta)}, ${esc(p.stupen)}, ${esc(p.forma)}</small></span><span class="stav">${p.predmety.length} predmetov</span></li>`).join("")}</ul></section>
+<section class="text"><h2>Prečo zatiaľ len jeden</h2>
+<p>Väčšina vysokých škôl ukazuje predmety len v PDF k akreditácii alebo v systéme po prihlásení, rozvrhy takmer nikde verejne. Výnimkou je Prešovská univerzita: v systéme MAIS zverejňuje študijné plány aj rozvrhy bez prihlásenia, preto je ďalšia na rade. Ak vaša škola zverejňuje predmety alebo rozvrh, <a href="${GITHUB}/issues">napíšte nám, kde</a>.</p></section>`, { omrvinky: d.omrvinky });
+
+export const vsProgram = (d: VsStranka) => {
+  const p = d.program;
+  const tabulka = (rocnik: number, semester: string) => {
+    const z = p.predmety.filter((x) => x.rocnik === rocnik && x.semester === semester);
+    return `<h3>${rocnik}. ročník, ${semester} semester</h3><table class="api vs-predmety"><thead><tr><th scope="col">Predmet</th><th scope="col">Povinnosť</th><th scope="col">Kredity</th><th scope="col">Týždenne</th></tr></thead><tbody>${z.map((x) =>
+      `<tr><td>${esc(x.nazov)}${x.skratka ? ` <small>${esc(x.skratka)}</small>` : ""}</td><td>${esc(x.typ)}</td><td>${x.kredity}</td><td>${esc(rozsahPredmetu(x))}</td></tr>`).join("")}</tbody></table>`;
+  };
+  return obal(d.hlava, `<h1>${esc(p.program)}</h1>
+<p class="adresa">${esc(p.skola)}, ${esc(p.fakulta)} · ${esc(p.stupen)}, ${esc(p.forma)} forma, ${sklonuj(p.roky, "rok", "roky", "rokov")}</p>
+${betaBox(`Časy si volíte sami: ${esc(p.skratkaSkoly)} rozvrh verejne nezverejňuje. Predmety, kredity a rozsah hodín sú z <a href="${esc(p.zdroj)}" rel="nofollow noopener">informačných listov predmetov</a> fakulty (stiahnuté ${datum(p.stiahnute)}); fakulta ich môže medzitým zmeniť. Skutočný rozvrh dostanete od fakulty po zápise.`)}
+<section id="planovac" data-src="${esc(d.dataCesta)}"><h2>Poskladajte si týždeň</h2>
+<noscript><p>Skladanie rozvrhu potrebuje JavaScript. Všetky predmety programu sú v tabuľkách nižšie.</p></noscript></section>
+<section><h2>Všetky predmety programu</h2>
+<p>${p.predmety.length} predmetov, ${kredity(p.predmety.filter((x) => x.typ === "povinný").reduce((a, x) => a + x.kredity, 0))} za povinné. Na semester sa odporúča 30 kreditov; zvyšok doplníte povinne voliteľnými a výberovými predmetmi.</p>
+${semestre(p).map((s) => tabulka(s.rocnik, s.semester)).join("")}
+<p><small>Údaje strojovo: <a href="${esc(d.dataCesta)}">${esc(d.dataCesta)}</a>. Mená garantov a vyučujúcich neukladáme.</small></p></section>`, { omrvinky: d.omrvinky });
 };
 
 export const chyba404 = (d: { hlava: Hlava }) => obal(d.hlava, `<div class="text"><h1>Táto stránka neexistuje</h1>

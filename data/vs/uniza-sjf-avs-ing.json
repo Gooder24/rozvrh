@@ -1,0 +1,794 @@
+{
+ "id": "uniza-sjf-avs-ing",
+ "skola": "Žilinská univerzita v Žiline",
+ "skratkaSkoly": "UNIZA",
+ "fakulta": "Strojnícka fakulta",
+ "program": "Automatizované výrobné systémy",
+ "stupen": "Ing. (2. stupeň)",
+ "forma": "denná",
+ "roky": 2,
+ "zdroj": "https://www.fstroj.uniza.sk/images/pdf/akreditacia/AVS-II__D_Informacne-listy-predmetov.pdf",
+ "stiahnute": "2026-11-25",
+ "predmety": [
+  {
+   "kod": "2I02011",
+   "nazov": "navrhovanie robotizovaných pracovísk",
+   "skratka": "NRP",
+   "typ": "povinný",
+   "ukoncenie": "Skúška",
+   "kredity": 6,
+   "rocnik": 1,
+   "semester": "zimný",
+   "hodiny": {
+    "P": 2,
+    "C": 1,
+    "L": 2
+   }
+  },
+  {
+   "kod": "2I02076",
+   "nazov": "programovanie CNC výrobných strojov",
+   "skratka": "P CNCS",
+   "typ": "povinný",
+   "ukoncenie": "Skúška",
+   "kredity": 6,
+   "rocnik": 1,
+   "semester": "zimný",
+   "hodiny": {
+    "P": 2,
+    "C": 0,
+    "L": 2
+   }
+  },
+  {
+   "kod": "2I07087",
+   "nazov": "dizajn a manažment nástrojov",
+   "skratka": "DMN",
+   "typ": "povinný",
+   "ukoncenie": "Skúška",
+   "kredity": 6,
+   "rocnik": 1,
+   "semester": "zimný",
+   "hodiny": {
+    "P": 2,
+    "C": 0,
+    "L": 2
+   }
+  },
+  {
+   "kod": "2IJC005",
+   "nazov": "anglický jazyk pre strojárov 1",
+   "skratka": "AJS1",
+   "typ": "povinný",
+   "ukoncenie": "Hodnotenie",
+   "kredity": 2,
+   "rocnik": 1,
+   "semester": "zimný",
+   "hodiny": {
+    "P": 0,
+    "C": 2,
+    "L": 0
+   }
+  },
+  {
+   "kod": "2I01041",
+   "nazov": "metóda konečných prvkov",
+   "skratka": "MKP",
+   "typ": "povinne voliteľný",
+   "ukoncenie": "Skúška",
+   "kredity": 5,
+   "rocnik": 1,
+   "semester": "zimný",
+   "hodiny": {
+    "P": 2,
+    "C": 0,
+    "L": 2
+   }
+  },
+  {
+   "kod": "2I02001",
+   "nazov": "Priemysel 4.0",
+   "skratka": "PR4",
+   "typ": "povinne voliteľný",
+   "ukoncenie": "Skúška",
+   "kredity": 5,
+   "rocnik": 1,
+   "semester": "zimný",
+   "hodiny": {
+    "P": 2,
+    "C": 1,
+    "L": 1
+   }
+  },
+  {
+   "kod": "2I02012",
+   "nazov": "automatizácia vo výrobných a montážnych systémoch",
+   "skratka": null,
+   "typ": "povinne voliteľný",
+   "ukoncenie": "Skúška",
+   "kredity": 5,
+   "rocnik": 1,
+   "semester": "zimný",
+   "hodiny": {
+    "P": 2,
+    "C": 0,
+    "L": 2
+   }
+  },
+  {
+   "kod": "2I07018",
+   "nazov": "teória obrábania",
+   "skratka": "TObr",
+   "typ": "povinne voliteľný",
+   "ukoncenie": "Skúška",
+   "kredity": 5,
+   "rocnik": 1,
+   "semester": "zimný",
+   "hodiny": {
+    "P": 3,
+    "C": 2,
+    "L": 1
+   }
+  },
+  {
+   "kod": "2I07019",
+   "nazov": "technológia ložiskovej výroby",
+   "skratka": "TLV",
+   "typ": "povinne voliteľný",
+   "ukoncenie": "Skúška",
+   "kredity": 5,
+   "rocnik": 1,
+   "semester": "zimný",
+   "hodiny": {
+    "P": 2,
+    "C": 0,
+    "L": 2
+   }
+  },
+  {
+   "kod": "2I07033",
+   "nazov": "tribotechnológia a integrita povrchu",
+   "skratka": "TIP",
+   "typ": "povinne voliteľný",
+   "ukoncenie": "Skúška",
+   "kredity": 5,
+   "rocnik": 1,
+   "semester": "zimný",
+   "hodiny": {
+    "P": 2,
+    "C": 0,
+    "L": 2
+   }
+  },
+  {
+   "kod": "2I02170",
+   "nazov": "úvod do AVS",
+   "skratka": "UAVS",
+   "typ": "výberový",
+   "ukoncenie": "Hodnotenie",
+   "kredity": 2,
+   "rocnik": 1,
+   "semester": "zimný",
+   "hodiny": {
+    "P": 0,
+    "C": 0,
+    "L": 2
+   }
+  },
+  {
+   "kod": "2IJC001",
+   "nazov": "cudzí jazyk 1 - Ing.",
+   "skratka": "Cj 1",
+   "typ": "výberový",
+   "ukoncenie": "Hodnotenie",
+   "kredity": 2,
+   "rocnik": 1,
+   "semester": "zimný",
+   "hodiny": {
+    "P": 0,
+    "C": 2,
+    "L": 0
+   }
+  },
+  {
+   "kod": "2ITS001",
+   "nazov": "telovýchovné sústredenie 1",
+   "skratka": "TVS 1",
+   "typ": "výberový",
+   "ukoncenie": "Hodnotenie",
+   "kredity": 1,
+   "rocnik": 1,
+   "semester": "zimný",
+   "hodiny": {
+    "P": 0,
+    "C": 1,
+    "L": 0
+   }
+  },
+  {
+   "kod": "2ITV001",
+   "nazov": "telesná výchova 1",
+   "skratka": "TV 1",
+   "typ": "výberový",
+   "ukoncenie": "Hodnotenie",
+   "kredity": 2,
+   "rocnik": 1,
+   "semester": "zimný",
+   "hodiny": {
+    "P": 0,
+    "C": 2,
+    "L": 0
+   }
+  },
+  {
+   "kod": "2I02034",
+   "nazov": "mechatronické systémy",
+   "skratka": "MS",
+   "typ": "povinný",
+   "ukoncenie": "Skúška",
+   "kredity": 5,
+   "rocnik": 1,
+   "semester": "letný",
+   "hodiny": {
+    "P": 2,
+    "C": 0,
+    "L": 2
+   }
+  },
+  {
+   "kod": "2I07038",
+   "nazov": "obrábacie stroje a diagnostika",
+   "skratka": "OSD",
+   "typ": "povinný",
+   "ukoncenie": "Skúška",
+   "kredity": 5,
+   "rocnik": 1,
+   "semester": "letný",
+   "hodiny": {
+    "P": 2,
+    "C": 0,
+    "L": 2
+   }
+  },
+  {
+   "kod": "2I07086",
+   "nazov": "technika exploatácie a montáže",
+   "skratka": "TExaM",
+   "typ": "povinný",
+   "ukoncenie": "Skúška",
+   "kredity": 5,
+   "rocnik": 1,
+   "semester": "letný",
+   "hodiny": {
+    "P": 2,
+    "C": 0,
+    "L": 2
+   }
+  },
+  {
+   "kod": "2I0P036",
+   "nazov": "odborná prax",
+   "skratka": "OP",
+   "typ": "povinný",
+   "ukoncenie": "Hodnotenie",
+   "kredity": 3,
+   "rocnik": 1,
+   "semester": "letný",
+   "hodiny": {
+    "P": 0,
+    "C": 4,
+    "L": 0
+   }
+  },
+  {
+   "kod": "2IJC006",
+   "nazov": "anglický jazyk pre strojárov 2",
+   "skratka": "AJS 2",
+   "typ": "povinný",
+   "ukoncenie": "Hodnotenie",
+   "kredity": 2,
+   "rocnik": 1,
+   "semester": "letný",
+   "hodiny": {
+    "P": 0,
+    "C": 2,
+    "L": 0
+   }
+  },
+  {
+   "kod": "2I02013",
+   "nazov": "CAM systémy v obrábaní 1",
+   "skratka": "CAM1",
+   "typ": "povinne voliteľný",
+   "ukoncenie": "Skúška",
+   "kredity": 5,
+   "rocnik": 1,
+   "semester": "letný",
+   "hodiny": {
+    "P": 2,
+    "C": 0,
+    "L": 3
+   }
+  },
+  {
+   "kod": "2I02042",
+   "nazov": "CA v robotike",
+   "skratka": "CAR",
+   "typ": "povinne voliteľný",
+   "ukoncenie": "Skúška",
+   "kredity": 5,
+   "rocnik": 1,
+   "semester": "letný",
+   "hodiny": {
+    "P": 1,
+    "C": 0,
+    "L": 3
+   }
+  },
+  {
+   "kod": "2I02054",
+   "nazov": "aplikácie CAD v odbore",
+   "skratka": "ACAD",
+   "typ": "povinne voliteľný",
+   "ukoncenie": "Skúška",
+   "kredity": 5,
+   "rocnik": 1,
+   "semester": "letný",
+   "hodiny": {
+    "P": 2,
+    "C": 0,
+    "L": 3
+   }
+  },
+  {
+   "kod": "2I06050",
+   "nazov": "progresívne konštrukčné materiály",
+   "skratka": "PKM",
+   "typ": "povinne voliteľný",
+   "ukoncenie": "Skúška",
+   "kredity": 5,
+   "rocnik": 1,
+   "semester": "letný",
+   "hodiny": {
+    "P": 2,
+    "C": 1,
+    "L": 1
+   }
+  },
+  {
+   "kod": "2I07040",
+   "nazov": "progresívne technológie",
+   "skratka": "PTE",
+   "typ": "povinne voliteľný",
+   "ukoncenie": "Skúška",
+   "kredity": 5,
+   "rocnik": 1,
+   "semester": "letný",
+   "hodiny": {
+    "P": 2,
+    "C": 1,
+    "L": 1
+   }
+  },
+  {
+   "kod": "2I07045",
+   "nazov": "nedeštruktívne detekčné technológie",
+   "skratka": "NDT",
+   "typ": "povinne voliteľný",
+   "ukoncenie": "Skúška",
+   "kredity": 5,
+   "rocnik": 1,
+   "semester": "letný",
+   "hodiny": {
+    "P": 2,
+    "C": 2,
+    "L": 0
+   }
+  },
+  {
+   "kod": "2IJC002",
+   "nazov": "cudzí jazyk 2 - Ing.",
+   "skratka": "Cj 2",
+   "typ": "výberový",
+   "ukoncenie": "Hodnotenie",
+   "kredity": 2,
+   "rocnik": 1,
+   "semester": "letný",
+   "hodiny": {
+    "P": 0,
+    "C": 2,
+    "L": 0
+   }
+  },
+  {
+   "kod": "2ITS002",
+   "nazov": "telovýchovné sústredenie 2",
+   "skratka": "TVS 2",
+   "typ": "výberový",
+   "ukoncenie": "Hodnotenie",
+   "kredity": 1,
+   "rocnik": 1,
+   "semester": "letný",
+   "hodiny": {
+    "P": 0,
+    "C": 1,
+    "L": 0
+   }
+  },
+  {
+   "kod": "2ITV002",
+   "nazov": "telesná výchova 2",
+   "skratka": "TV 2",
+   "typ": "výberový",
+   "ukoncenie": "Hodnotenie",
+   "kredity": 2,
+   "rocnik": 1,
+   "semester": "letný",
+   "hodiny": {
+    "P": 0,
+    "C": 2,
+    "L": 0
+   }
+  },
+  {
+   "kod": "2I02105",
+   "nazov": "počítačová podpora výrobných technológií",
+   "skratka": "PPVT",
+   "typ": "povinný",
+   "ukoncenie": "Skúška",
+   "kredity": 5,
+   "rocnik": 2,
+   "semester": "zimný",
+   "hodiny": {
+    "P": 1,
+    "C": 1,
+    "L": 2
+   }
+  },
+  {
+   "kod": "2I02111",
+   "nazov": "počítače a exprimentálne metódy v odbore",
+   "skratka": "PEMO",
+   "typ": "povinný",
+   "ukoncenie": "Skúška",
+   "kredity": 5,
+   "rocnik": 2,
+   "semester": "zimný",
+   "hodiny": {
+    "P": 1,
+    "C": 0,
+    "L": 3
+   }
+  },
+  {
+   "kod": "2I07096",
+   "nazov": "produktívne metódy obrábania",
+   "skratka": "PMO",
+   "typ": "povinný",
+   "ukoncenie": "Skúška",
+   "kredity": 5,
+   "rocnik": 2,
+   "semester": "zimný",
+   "hodiny": {
+    "P": 2,
+    "C": 0,
+    "L": 2
+   }
+  },
+  {
+   "kod": "2I0P112",
+   "nazov": "semestrálny projekt",
+   "skratka": "SP",
+   "typ": "povinný",
+   "ukoncenie": "Hodnotenie",
+   "kredity": 5,
+   "rocnik": 2,
+   "semester": "zimný",
+   "hodiny": {
+    "P": 0,
+    "C": 3,
+    "L": 0
+   }
+  },
+  {
+   "kod": "2I01117",
+   "nazov": "optimalizačné metódy v konštruovaní",
+   "skratka": "OMK",
+   "typ": "povinne voliteľný",
+   "ukoncenie": "Skúška",
+   "kredity": 5,
+   "rocnik": 2,
+   "semester": "zimný",
+   "hodiny": {
+    "P": 2,
+    "C": 2,
+    "L": 0
+   }
+  },
+  {
+   "kod": "2I02113",
+   "nazov": "CAM systémy v obrábaní 2",
+   "skratka": "CAMSO2",
+   "typ": "povinne voliteľný",
+   "ukoncenie": "Skúška",
+   "kredity": 5,
+   "rocnik": 2,
+   "semester": "zimný",
+   "hodiny": {
+    "P": 2,
+    "C": 0,
+    "L": 3
+   }
+  },
+  {
+   "kod": "2I02141",
+   "nazov": "automatizácia a umelá inteligencia",
+   "skratka": "AaUI",
+   "typ": "povinne voliteľný",
+   "ukoncenie": "Skúška",
+   "kredity": 5,
+   "rocnik": 2,
+   "semester": "zimný",
+   "hodiny": {
+    "P": 2,
+    "C": 1,
+    "L": 1
+   }
+  },
+  {
+   "kod": "2I06008",
+   "nazov": "materiálové charakteristiky a voľba materiálov",
+   "skratka": "MCHVM",
+   "typ": "povinne voliteľný",
+   "ukoncenie": "Skúška",
+   "kredity": 5,
+   "rocnik": 2,
+   "semester": "zimný",
+   "hodiny": {
+    "P": 2,
+    "C": 1,
+    "L": 1
+   }
+  },
+  {
+   "kod": "2I07103",
+   "nazov": "precízne technológie",
+   "skratka": "PT",
+   "typ": "povinne voliteľný",
+   "ukoncenie": "Skúška",
+   "kredity": 5,
+   "rocnik": 2,
+   "semester": "zimný",
+   "hodiny": {
+    "P": 2,
+    "C": 0,
+    "L": 2
+   }
+  },
+  {
+   "kod": "2I07109",
+   "nazov": "riadenie kvality v strojárstve",
+   "skratka": "RKV",
+   "typ": "povinne voliteľný",
+   "ukoncenie": "Skúška",
+   "kredity": 5,
+   "rocnik": 2,
+   "semester": "zimný",
+   "hodiny": {
+    "P": 2,
+    "C": 0,
+    "L": 3
+   }
+  },
+  {
+   "kod": "2I09104",
+   "nazov": "simulácie v technologických procesoch",
+   "skratka": "STP",
+   "typ": "povinne voliteľný",
+   "ukoncenie": "Skúška",
+   "kredity": 5,
+   "rocnik": 2,
+   "semester": "zimný",
+   "hodiny": {
+    "P": 1,
+    "C": 1,
+    "L": 2
+   }
+  },
+  {
+   "kod": "2I09106",
+   "nazov": "tepelné spracovanie",
+   "skratka": "TSP",
+   "typ": "povinne voliteľný",
+   "ukoncenie": "Skúška",
+   "kredity": 5,
+   "rocnik": 2,
+   "semester": "zimný",
+   "hodiny": {
+    "P": 2,
+    "C": 1,
+    "L": 1
+   }
+  },
+  {
+   "kod": "2IJC003",
+   "nazov": "cudzí jazyk 3 - Ing.",
+   "skratka": "Cj 3",
+   "typ": "výberový",
+   "ukoncenie": "Hodnotenie",
+   "kredity": 2,
+   "rocnik": 2,
+   "semester": "zimný",
+   "hodiny": {
+    "P": 0,
+    "C": 2,
+    "L": 0
+   }
+  },
+  {
+   "kod": "2ITS003",
+   "nazov": "telovýchovné sústredenie 3",
+   "skratka": "TS 3",
+   "typ": "výberový",
+   "ukoncenie": "Hodnotenie",
+   "kredity": 1,
+   "rocnik": 2,
+   "semester": "zimný",
+   "hodiny": {
+    "P": 0,
+    "C": 1,
+    "L": 0
+   }
+  },
+  {
+   "kod": "2ITV003",
+   "nazov": "telesná výchova 3",
+   "skratka": "TV 3",
+   "typ": "výberový",
+   "ukoncenie": "Hodnotenie",
+   "kredity": 2,
+   "rocnik": 2,
+   "semester": "zimný",
+   "hodiny": {
+    "P": 0,
+    "C": 2,
+    "L": 0
+   }
+  },
+  {
+   "kod": "2I0P142",
+   "nazov": "informačné technológie v odbore",
+   "skratka": "ITO",
+   "typ": "povinný",
+   "ukoncenie": "Skúška",
+   "kredity": 5,
+   "rocnik": 2,
+   "semester": "letný",
+   "hodiny": {
+    "P": 2,
+    "C": 1,
+    "L": 2
+   }
+  },
+  {
+   "kod": "2I0P145",
+   "nazov": "záverečný projekt",
+   "skratka": "ZP",
+   "typ": "povinný",
+   "ukoncenie": "Hodnotenie",
+   "kredity": 8,
+   "rocnik": 2,
+   "semester": "letný",
+   "hodiny": {
+    "P": 0,
+    "C": 5,
+    "L": 0
+   }
+  },
+  {
+   "kod": "2I0P146",
+   "nazov": "diplomová práca",
+   "skratka": "DP",
+   "typ": "povinný",
+   "ukoncenie": "Hodnotenie",
+   "kredity": 10,
+   "rocnik": 2,
+   "semester": "letný",
+   "hodiny": {
+    "P": 0,
+    "C": 0,
+    "L": 0
+   }
+  },
+  {
+   "kod": "2I0P169",
+   "nazov": "projektová štúdia v cudzom jazyku",
+   "skratka": "PSCJ",
+   "typ": "povinný",
+   "ukoncenie": "Hodnotenie",
+   "kredity": 2,
+   "rocnik": 2,
+   "semester": "letný",
+   "hodiny": {
+    "P": 0,
+    "C": 1,
+    "L": 0
+   }
+  },
+  {
+   "kod": "2I08143",
+   "nazov": "podnikanie a podnik",
+   "skratka": "PaP",
+   "typ": "povinne voliteľný",
+   "ukoncenie": "Skúška",
+   "kredity": 5,
+   "rocnik": 2,
+   "semester": "letný",
+   "hodiny": {
+    "P": 2,
+    "C": 0,
+    "L": 2
+   }
+  },
+  {
+   "kod": "2I0P144",
+   "nazov": "obchodné právo a ochrana duševného vlastníctva",
+   "skratka": "OPODV",
+   "typ": "povinne voliteľný",
+   "ukoncenie": "Hodnotenie",
+   "kredity": 5,
+   "rocnik": 2,
+   "semester": "letný",
+   "hodiny": {
+    "P": 3,
+    "C": 0,
+    "L": 0
+   }
+  },
+  {
+   "kod": "2IJC004",
+   "nazov": "cudzí jazyk 4 - Ing.",
+   "skratka": "Cj 4",
+   "typ": "výberový",
+   "ukoncenie": "Hodnotenie",
+   "kredity": 2,
+   "rocnik": 2,
+   "semester": "letný",
+   "hodiny": {
+    "P": 0,
+    "C": 2,
+    "L": 0
+   }
+  },
+  {
+   "kod": "2ITS004",
+   "nazov": "telovýchovné sústredenie 4",
+   "skratka": "TS 4",
+   "typ": "výberový",
+   "ukoncenie": "Hodnotenie",
+   "kredity": 1,
+   "rocnik": 2,
+   "semester": "letný",
+   "hodiny": {
+    "P": 0,
+    "C": 1,
+    "L": 0
+   }
+  },
+  {
+   "kod": "2ITV004",
+   "nazov": "telesná výchova 4",
+   "skratka": "TV 4",
+   "typ": "výberový",
+   "ukoncenie": "Hodnotenie",
+   "kredity": 2,
+   "rocnik": 2,
+   "semester": "letný",
+   "hodiny": {
+    "P": 0,
+    "C": 2,
+    "L": 0
+   }
+  }
+ ]
+}

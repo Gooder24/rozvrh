@@ -2,7 +2,7 @@
 // bun web/build.ts   (beží po každej obnove dát; nasadenie: web/nasad.ts)
 import { cp, mkdir, rm } from "node:fs/promises";
 import { kratko, nacitajSkoly, slug, type Skola } from "./data";
-import { ADRESA, type Hlava, type Pocty, type Render } from "./stranky";
+import { ADRESA, type Hlava, type Pocty, type Render, type VsProgram } from "./stranky";
 import * as ui from "./ui/render";
 import { openapi } from "./openapi";
 import { meno } from "./sukromie";
@@ -151,6 +151,22 @@ await stranka("/", render.domov, {
 });
 await stranka("/api/", render.api, { hlava: hlava("API a MCP: rozvrhy a zvonenie slovenských škôl", "Otvorené API bez kľúča a MCP server so zvonením a rozvrhmi tried základných a stredných škôl na Slovensku.", "/api/") });
 await stranka("/o-projekte/", render.oProjekte, { hlava: hlava("O projekte: odkiaľ sú údaje o rozvrhoch škôl", "Ako zbierame zvonenie a rozvrhy škôl, ako často sa obnovujú a ako školu z prehľadu vyradiť.", "/o-projekte/"), vytvorene, celkom });
+// Vysoké školy (beta): študijné programy z data/vs/*.json, plánovač rozvrhu je v klientovi.
+const programy: VsProgram[] = [];
+for (const f of [...new Bun.Glob("data/vs/*.json").scanSync()].sort()) programy.push((await Bun.file(f).json()) as VsProgram);
+await mkdir(`${VON}/data/vs`, { recursive: true });
+const omrVs = [{ nazov: "Slovensko", cesta: "/" }, { nazov: "Vysoké školy (beta)", cesta: "/vysoke-skoly/" }];
+for (const p of programy) {
+  await Bun.write(`${VON}/data/vs/${p.id}.json`, JSON.stringify(p));
+  await stranka(`/vysoke-skoly/${p.id}/`, render.vsProgram, {
+    hlava: hlava(`${p.program} (${p.skratkaSkoly}): predmety a skúšobný rozvrh`, `Predmety študijného programu ${p.program}, ${p.fakulta} ${p.skratkaSkoly}: kredity, semestre a týždenný rozsah. Skúšobne si z nich poskladajte rozvrh (beta).`, `/vysoke-skoly/${p.id}/`),
+    omrvinky: omrVs, program: p, dataCesta: `/data/vs/${p.id}.json`,
+  });
+}
+await stranka("/vysoke-skoly/", render.vysokeSkoly, {
+  hlava: hlava("Vysoké školy (beta): predmety programu a skúšobný rozvrh", "Aké predmety má študijný program vysokej školy v ktorom semestri a ako by mohol vyzerať váš týždeň, keby vás prijali. Skúšobná verzia.", "/vysoke-skoly/"),
+  omrvinky: [{ nazov: "Slovensko", cesta: "/" }], programy: programy.map((p) => ({ ...p, cesta: `/vysoke-skoly/${p.id}/` })),
+});
 await zapis("/404.html", render.chyba404({ hlava: hlava("Stránka sa nenašla", "Táto stránka neexistuje.", "/404") }));
 
 // Vzhľad: statické súbory a klient.

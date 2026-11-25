@@ -2,6 +2,7 @@
 // a týždenná mriežka triedy na stránke školy. Jeden súbor pre všetky stránky; každá časť sa zapne len tam,
 // kde nájde svoje prvky. Bez tohto súboru stránky ukážu všetko okrem hľadania a mriežky triedy.
 import type { Blok, Skola } from "../data";
+import type { VsPredmet, VsProgram } from "../stranky";
 
 const esc = (s: unknown) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c] ?? c);
 const bezDiakritiky = (s: string) => s.normalize("NFD").replace(/\p{M}/gu, "").toLowerCase();
@@ -246,4 +247,132 @@ ${Array.from({ length: pocetDni }, (_, den) => {
   try { zPamate = localStorage.getItem(pamat) ?? ""; } catch { /* bez pamäte */ }
   const prva = [zAdresy, zPamate].find((n) => nazvy.includes(n));
   if (prva) void ukaz(prva);
+}
+
+// Vysoké školy (beta): skúšobný rozvrh zo zvolených predmetov --------------------------------------------------
+// Predmet dá bloky (prednáška, cvičenie, laboratórne cvičenie) s dĺžkou podľa informačného listu. Čas bloku volí
+// človek (alebo „Rozložiť za mňa“); výber sa pamätá v tomto prehliadači pre každý program zvlášť.
+const planovac = document.querySelector<HTMLElement>("#planovac");
+if (planovac?.dataset.src) {
+  const zdroj = planovac.dataset.src;
+  const DNI = ["Pondelok", "Utorok", "Streda", "Štvrtok", "Piatok"];
+  const OD = 7, DO = 20; // hodiny v mriežke 7:00–20:00
+  const DRUHY = [["P", "prednáška"], ["C", "cvičenie"], ["L", "laboratórne cvičenie"]] as const;
+  type Druh = (typeof DRUHY)[number][0];
+  type BlokVs = { id: string; predmet: VsPredmet; druh: Druh; dlzka: number };
+  type Stav = { sem: string; vybrane: string[]; casy: Record<string, { den: number; od: number }> };
+  const pamat = `vs:${zdroj}`;
+  const kredity = (n: number) => sklonuj(n, "kredit", "kredity", "kreditov");
+  const hodiny = (n: number) => sklonuj(n, "hodina", "hodiny", "hodín");
+
+  const zobraz = (p: VsProgram) => {
+    const semestre = [...new Set(p.predmety.map((x) => `${x.rocnik}|${x.semester}`))]
+      .sort((a, b) => Number(a[0]) - Number(b[0]) || Number(a.endsWith("letný")) - Number(b.endsWith("letný")));
+    let stav: Stav = { sem: semestre[0]!, vybrane: [], casy: {} };
+    try { stav = { ...stav, ...(JSON.parse(localStorage.getItem(pamat) ?? "{}") as Partial<Stav>) }; } catch { /* nový výber */ }
+    if (!semestre.includes(stav.sem)) stav.sem = semestre[0]!;
+    const uloz = () => { try { localStorage.setItem(pamat, JSON.stringify(stav)); } catch { /* súkromné okno */ } };
+
+    const vSemestri = () => p.predmety.filter((x) => `${x.rocnik}|${x.semester}` === stav.sem);
+    const zvolene = () => vSemestri().filter((x) => x.typ === "povinný" || stav.vybrane.includes(x.kod));
+    const bloky = (): BlokVs[] => zvolene().flatMap((x) => DRUHY.filter(([k]) => x.hodiny[k] > 0)
+      .map(([k]) => ({ id: `${x.kod}:${k}`, predmet: x, druh: k, dlzka: Math.max(1, Math.round(x.hodiny[k])) })));
+    const kolizie = (b: BlokVs[]) => {
+      const zle = new Set<string>();
+      for (const x of b) for (const y of b) {
+        const a = stav.casy[x.id], c = stav.casy[y.id];
+        if (x !== y && a && c && a.den === c.den && a.od < c.od + y.dlzka && c.od < a.od + x.dlzka) zle.add(x.id);
+      }
+      return zle;
+    };
+    // Za mňa: najdlhšie bloky prvé, do dňa s najmenej hodinami, prednášky skôr ako cvičenia, bez prekryvov.
+    const rozloz = () => {
+      const b = bloky();
+      for (const x of b) if (stav.casy[x.id] && (stav.casy[x.id]!.od + x.dlzka > DO)) delete stav.casy[x.id];
+      const volne = b.filter((x) => !stav.casy[x.id]).sort((a, c) => c.dlzka - a.dlzka || a.druh.localeCompare(c.druh));
+      for (const x of volne) {
+        const zataz = DNI.map((_, d) => b.filter((y) => stav.casy[y.id]?.den === d).reduce((s, y) => s + y.dlzka, 0));
+        const dni = DNI.map((_, d) => d).sort((a, c) => zataz[a]! - zataz[c]!);
+        najdi: for (const d of dni) for (let h = x.druh === "P" ? 8 : 9; h + x.dlzka <= DO; h++) {
+          stav.casy[x.id] = { den: d, od: h };
+          if (!kolizie(b).has(x.id)) break najdi;
+          delete stav.casy[x.id];
+        }
+      }
+    };
+
+    const vykresli = () => {
+      const v = vSemestri(), z = zvolene(), b = bloky(), zle = kolizie(b);
+      const sucet = z.reduce((s, x) => s + x.kredity, 0);
+      const tyzdenne = b.reduce((s, x) => s + x.dlzka, 0);
+      const bezCasu = b.filter((x) => !stav.casy[x.id]).length;
+      const nazovSem = (k: string) => { const [r, s] = k.split("|"); return `${r}. ročník, ${s}`; };
+      const meno = (x: VsPredmet) => x.skratka ?? x.nazov;
+      const druh = (k: Druh) => DRUHY.find(([d]) => d === k)![1];
+      const casText = (h: number) => `${h}:00`;
+      planovac.querySelector(".pl")?.remove();
+      planovac.insertAdjacentHTML("beforeend", `<div class="pl">
+<div class="volby" role="group" aria-label="Semester"><span aria-hidden="true">Semester</span>${semestre.map((k) => `<button class="volba" data-sem="${esc(k)}" aria-pressed="${k === stav.sem}">${esc(nazovSem(k))}</button>`).join("")}</div>
+<div class="pl-dvoje">
+<div class="pl-predmety">
+<p class="pl-sucet" role="status"><b>${sucet}</b> z odporúčaných 30 kreditov · ${hodiny(tyzdenne)} týždenne${sucet < 30 ? ` · chýba ${kredity(30 - sucet)}` : ""}</p>
+<div class="pl-meter" aria-hidden="true"><i style="--p:${Math.min(sucet / 30, 1.2)}"></i></div>
+${([["povinný", "Povinné"], ["povinne voliteľný", "Povinne voliteľné"], ["výberový", "Výberové"]] as const).map(([typ, nadpis]) => {
+        const z2 = v.filter((x) => x.typ === typ);
+        return z2.length ? `<h3>${nadpis}</h3><ul class="pl-zoznam">${z2.map((x) => `<li><label><input type="checkbox" data-kod="${esc(x.kod)}"${typ === "povinný" || stav.vybrane.includes(x.kod) ? " checked" : ""}${typ === "povinný" ? " disabled" : ""}> <span>${esc(x.nazov)}<small>${x.kredity} kr · ${DRUHY.filter(([k]) => x.hodiny[k] > 0).map(([k]) => `${k}${x.hodiny[k]}`).join(" ") || "bez výučby"} · ${esc(x.ukoncenie.toLowerCase())}</small></span></label></li>`).join("")}</ul>` : "";
+      }).join("")}
+</div>
+<div class="pl-casy"><h3>Časy blokov</h3>
+<p><button class="tlacidlo" data-akcia="rozloz">Rozložiť za mňa</button> <button class="volba" data-akcia="vymaz">Vymazať časy</button></p>
+${bezCasu ? `<p class="pl-pozor">${sklonuj(bezCasu, "blok je", "bloky sú", "blokov je")} ešte bez času.</p>` : ""}
+${zle.size ? `<p class="pl-pozor">Niektoré bloky sa prekrývajú (červený okraj).</p>` : ""}
+<ul class="pl-bloky">${b.map((x) => {
+        const c = stav.casy[x.id];
+        return `<li${zle.has(x.id) ? ` class="kolizia"` : ""}><span><b>${esc(meno(x.predmet))}</b> ${druh(x.druh)}, ${x.dlzka} h</span>
+<label class="vh" for="d-${esc(x.id)}">Deň pre ${esc(meno(x.predmet))}, ${druh(x.druh)}</label><select class="pole" id="d-${esc(x.id)}" data-den="${esc(x.id)}"><option value="">deň</option>${DNI.map((n, i) => `<option value="${i}"${c?.den === i ? " selected" : ""}>${n.slice(0, 2)}</option>`).join("")}</select>
+<label class="vh" for="h-${esc(x.id)}">Začiatok</label><select class="pole" id="h-${esc(x.id)}" data-od="${esc(x.id)}"><option value="">od</option>${Array.from({ length: DO - OD - x.dlzka + 1 }, (_, i) => OD + i).map((h) => `<option value="${h}"${c?.od === h ? " selected" : ""}>${casText(h)}</option>`).join("")}</select></li>`;
+      }).join("")}</ul></div></div>
+<div class="mr-obal"><div class="mr" style="--n:${DO - OD}"><h3 class="vh">Skúšobný týždeň</h3>
+<div class="mr-hlava" aria-hidden="true"><span></span><ol>${Array.from({ length: DO - OD }, (_, i) => `<li><b>${OD + i}:00</b></li>`).join("")}</ol></div>
+${DNI.map((n, d) => {
+        const den = b.filter((x) => stav.casy[x.id]?.den === d).sort((a, c) => stav.casy[a.id]!.od - stav.casy[c.id]!.od);
+        return `<section class="mr-den"><h3>${n}</h3><ul>${den.length ? den.map((x) => {
+          const c = stav.casy[x.id]!;
+          return `<li class="pl-${x.druh}${zle.has(x.id) ? " kolizia" : ""}" style="--c:${c.od - OD + 1};--w:${x.dlzka}"><span class="kedy"><b>${casText(c.od)}–${casText(c.od + x.dlzka)}</b></span> <span class="sk" title="${esc(x.predmet.nazov)}">${esc(meno(x.predmet))}</span> <span class="dalsie">${druh(x.druh)}</span></li>`;
+        }).join("") : `<li class="volno">voľno</li>`}</ul></section>`;
+      }).join("")}</div></div>
+<p class="legenda"><span><i class="st pl-p"></i>prednáška</span><span><i class="st pl-c"></i>cvičenie</span><span><i class="st pl-l"></i>laboratórne cvičenie</span><span>Výber sa pamätá len v tomto prehliadači.</span></p>
+</div>`);
+    };
+
+    planovac.addEventListener("click", (e) => {
+      const t = (e.target as HTMLElement).closest<HTMLElement>("[data-sem],[data-akcia]");
+      if (!t) return;
+      if (t.dataset.sem) stav.sem = t.dataset.sem;
+      else if (t.dataset.akcia === "rozloz") rozloz();
+      else if (t.dataset.akcia === "vymaz") for (const x of bloky()) delete stav.casy[x.id];
+      uloz(); vykresli();
+      planovac.querySelector<HTMLElement>(t.dataset.sem ? `[data-sem="${CSS.escape(stav.sem)}"]` : `[data-akcia="${t.dataset.akcia}"]`)?.focus();
+    });
+    planovac.addEventListener("change", (e) => {
+      const t = e.target as HTMLInputElement | HTMLSelectElement;
+      if (t instanceof HTMLInputElement && t.dataset.kod) {
+        stav.vybrane = t.checked ? [...new Set([...stav.vybrane, t.dataset.kod])] : stav.vybrane.filter((k) => k !== t.dataset.kod);
+      } else if (t.dataset.den !== undefined || t.dataset.od !== undefined) {
+        const id = t.dataset.den ?? t.dataset.od!;
+        const c = stav.casy[id] ?? { den: 0, od: 8 };
+        if (t.value === "") delete stav.casy[id];
+        else stav.casy[id] = t.dataset.den !== undefined ? { ...c, den: Number(t.value) } : { ...c, od: Number(t.value) };
+      } else return;
+      const kde = t.id || (t instanceof HTMLInputElement ? `[data-kod="${t.dataset.kod}"]` : "");
+      uloz(); vykresli();
+      (t.id ? document.getElementById(kde) : planovac.querySelector<HTMLElement>(kde))?.focus();
+    });
+    vykresli();
+  };
+
+  fetch(zdroj).then(async (o) => {
+    if (!o.ok) throw new Error(String(o.status));
+    zobraz((await o.json()) as VsProgram);
+  }).catch(() => planovac.insertAdjacentHTML("beforeend", `<p class="stav-nacitania">Predmety sa nepodarilo načítať. Sú v tabuľkách nižšie.</p>`));
 }

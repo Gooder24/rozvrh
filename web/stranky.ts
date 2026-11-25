@@ -38,6 +38,14 @@ export type StrankaSkoly = {
   susedia: (SkolaKratko & { cesta: string })[];
 };
 export type Api = { hlava: Hlava };
+
+/** Vysoká škola (beta): študijný program z informačných listov predmetov fakulty, data/vs/<id>.json (prieskum/vs.ts). */
+export type VsPredmet = { kod: string; nazov: string; skratka: string | null; typ: "povinný" | "povinne voliteľný" | "výberový";
+  ukoncenie: string; kredity: number; rocnik: number; semester: "zimný" | "letný"; hodiny: { P: number; C: number; L: number } };
+export type VsProgram = { id: string; skola: string; skratkaSkoly: string; fakulta: string; program: string; stupen: string;
+  forma: string; roky: number; zdroj: string; stiahnute: string; predmety: VsPredmet[] };
+export type VysokeSkoly = { hlava: Hlava; omrvinky: Omrvinka[]; programy: (VsProgram & { cesta: string })[] };
+export type VsStranka = { hlava: Hlava; omrvinky: Omrvinka[]; program: VsProgram; dataCesta: string };
 export type OProjekte = { hlava: Hlava; vytvorene: string; celkom: Domov["celkom"] };
 
 /** Čo musí web/ui/render.ts exportovať. */
@@ -48,5 +56,7 @@ export type Render = {
   skola(d: StrankaSkoly): string;
   api(d: Api): string;
   oProjekte(d: OProjekte): string;
+  vysokeSkoly(d: VysokeSkoly): string;
+  vsProgram(d: VsStranka): string;
   chyba404(d: { hlava: Hlava }): string;
 };

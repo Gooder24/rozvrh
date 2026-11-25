@@ -267,3 +267,35 @@ pre{background:var(--list);box-shadow:0 0 0 1px var(--stvorcek);border-radius:va
   body{background:none}
   .hladaj-male,.volby,.preskoc{display:none}
 }
+
+/* Vysoké školy (beta): štítok, plánovač skúšobného týždňa */
+.beta-znak{display:inline-block;font-size:.75rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--pero);border:1.5px solid var(--pero);border-radius:999px;padding:0 7px;vertical-align:.15em;line-height:1.5}
+h2 .beta-znak{font-size:.7rem}
+.beta-box{max-width:46rem;margin-top:1.25rem;padding:10px 14px;border-left:3px solid var(--pero);background:var(--list);border-radius:0 var(--r-pole) var(--r-pole) 0;box-shadow:0 0 0 1px var(--stvorcek)}
+.beta-box p{margin:0}
+.pl{margin-top:1rem}
+.pl-dvoje{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:16px 28px;margin-top:.5rem}
+.pl-predmety h3,.pl-casy h3{margin-top:1.1rem;font-size:.9375rem}
+.pl-sucet{margin:.4rem 0 0}
+.pl-sucet b{font-size:1.25rem;color:var(--atrament)}
+.pl-meter{height:8px;border-radius:999px;background:var(--stvorcek);margin-top:6px;overflow:hidden;max-width:24rem}
+.pl-meter i{display:block;height:100%;width:calc(min(var(--p),1)*100%);background:var(--hodina)}
+.pl-zoznam,.pl-bloky{list-style:none;margin:.4rem 0 0;padding:0}
+.pl-zoznam li{border-top:1px solid var(--stvorcek);padding-block:5px}
+.pl-zoznam label{display:flex;gap:8px;align-items:baseline;cursor:pointer}
+.pl-zoznam small{display:block}
+.pl-zoznam input{accent-color:var(--hodina)}
+.pl-bloky li{display:grid;grid-template-columns:minmax(0,1fr) 4.2rem 5rem;gap:6px;align-items:center;border-top:1px solid var(--stvorcek);padding-block:4px;font-size:.9375rem}
+.pl-bloky .pole{padding:3px 6px}
+.pl-bloky li.kolizia{box-shadow:inset 3px 0 0 var(--pero);padding-left:8px}
+.pl-pozor{color:var(--pero);margin-top:.4rem}
+.mr-den ul li.pl-C{background:var(--hodina-slaba)}
+.mr-den ul li.pl-L{background:var(--list);box-shadow:inset 0 0 0 1.5px var(--hodina)}
+.mr-den ul li.kolizia{box-shadow:inset 0 0 0 2px var(--pero)}
+.st.pl-p{background:var(--bunka);box-shadow:inset 0 0 0 1px var(--stvorcek)}
+.st.pl-c{background:var(--hodina-slaba)}
+.st.pl-l{box-shadow:inset 0 0 0 1.5px var(--hodina)}
+.vs-predmety{margin-bottom:1.5rem}
+.vs-predmety td small{margin-left:4px}
+.pl .mr-den .kedy{position:static;width:auto;height:auto;clip-path:none;font-size:.75rem;color:var(--ceruzka)}
+@media (max-width:820px){.pl-dvoje{grid-template-columns:minmax(0,1fr)}}
