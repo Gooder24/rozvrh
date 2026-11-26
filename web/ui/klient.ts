@@ -71,7 +71,7 @@ if (pole && formular && vysledky && stavHladania) {
   });
   const odkazy = () => [...vysledky.querySelectorAll<HTMLAnchorElement>("a")];
 
-  // Zoznam alebo mapa (mapa je ukážka: prepínač je na stránke len pri MAPA=1). Mapa ukazuje všetky nájdené školy,
+  // Zoznam alebo mapa. Mapa ukazuje všetky nájdené školy,
   // zoznam prvých 40; bez hľadania ukáže mapa všetky školy.
   const mapaEl = document.querySelector<HTMLElement>("#mapa");
   const prepinace = [...document.querySelectorAll<HTMLButtonElement>("[data-zobraz]")];

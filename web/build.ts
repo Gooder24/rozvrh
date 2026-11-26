@@ -13,8 +13,6 @@ const render: Render = ui;
 const VON = "site/public";
 const vytvorene = new Date().toISOString();
 const INDEXNOW_KLUC = "3f6c1e0b9a7d4c2e8b5a1f0d6e9c7b24";
-/** Mapa škôl pri hľadaní (ukážka): len `MAPA=1 bun web/build.ts`, ostrý web ju zatiaľ nemá. */
-const MAPA = process.env.MAPA === "1";
 /** Dlaždice mapy: OpenFreeMap (zadarmo, bez kľúča, údaje OpenStreetMap). */
 const DLAZDICE = "https://tiles.openfreemap.org";
 
@@ -85,7 +83,7 @@ await zapis("/data/hladanie.json", JSON.stringify(index.map((s) => [s.nazov, s.m
 // Body na mape v poradí hladanie.json. Poloha je adresa školy z data/mapa/adresy-gps.json (prieskum/geokoduj.ts,
 // OpenStreetMap); škola bez nej dostane stred obce (data/mapa/obce-gps.json, Wikidata, kľúč „obec|okres“, lebo rovnaké
 // názvy obcí sú v rôznych okresoch). Viac škôl v jednom bode sa rozloží do malej špirály, aby sa dali rozkliknúť.
-if (MAPA) {
+{
   const adresy = await Bun.file("data/mapa/adresy-gps.json").json() as Record<string, [number, number, string]>;
   const stredy = await Bun.file("data/mapa/obce-gps.json").json() as Record<string, [number, number]>;
   const poradie = new Map<string, number>();
@@ -179,7 +177,7 @@ await stranka("/", render.domov, {
     "@context": "https://schema.org", "@type": "WebSite", name: "Rozvrhy škôl", url: ADRESA + "/",
     potentialAction: { "@type": "SearchAction", target: `${ADRESA}/?q={q}`, "query-input": "required name=q" },
   }),
-  vytvorene, celkom, mapa: MAPA,
+  vytvorene, celkom,
   kraje: kraje.map(([kraj, z]) => ({ nazov: kraj, cesta: cestaKraja(kraj), pocty: pocty(z) })),
   mesta: [...podlaMesta].map(([, z]) => ({ nazov: z[0]!.miesto, cesta: cestaMesta(z[0]!), pocet: z.length })).sort((a, b) => b.pocet - a.pocet).slice(0, 24),
 });
@@ -209,7 +207,7 @@ if (await Bun.file("web/ui/klient.ts").exists()) {
   const b = await Bun.build({ entrypoints: ["web/ui/klient.ts"], outdir: `${VON}/assets`, minify: true, target: "browser", naming: "klient.js", external: ["/assets/*"] });
   if (!b.success) throw new AggregateError(b.logs, "klient.ts sa nedá zostaviť");
 }
-if (MAPA) {
+{
   for (const f of ["maplibre-gl.mjs", "maplibre-gl-worker.mjs", "maplibre-gl.css"]) await cp(`node_modules/maplibre-gl/dist/${f}`, `${VON}/assets/${f}`);
   const b = await Bun.build({ entrypoints: ["web/ui/mapa.ts"], outdir: `${VON}/assets`, minify: true, target: "browser", format: "esm", naming: "mapa.js", external: ["/assets/*"] });
   if (!b.success) throw new AggregateError(b.logs, "mapa.ts sa nedá zostaviť");
@@ -255,7 +253,7 @@ await zapis("/_headers", `/*
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=()
-  Content-Security-Policy: default-src 'self'; img-src 'self' data:${MAPA ? " blob:" : ""}; style-src 'self' 'unsafe-inline'; script-src 'self'; connect-src 'self'${MAPA ? ` ${DLAZDICE}` : ""};${MAPA ? " worker-src 'self' blob:;" : ""} object-src 'none'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'
+  Content-Security-Policy: default-src 'self'; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; script-src 'self'; connect-src 'self' ${DLAZDICE}; worker-src 'self' blob:; object-src 'none'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'
   X-Frame-Options: DENY
   Strict-Transport-Security: max-age=31536000
 /data/*

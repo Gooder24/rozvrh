@@ -1,4 +1,4 @@
-// Mapa škôl pri hľadaní na domovskej stránke (ukážka, zostaví sa len pri MAPA=1).
+// Mapa škôl pri hľadaní na domovskej stránke.
 // klient.ts ju načíta až po prepnutí na „Mapa“: MapLibre (/assets/maplibre-gl.mjs) má vyše 1 MB a zoznamu netreba.
 // Dlaždice: OpenFreeMap (rovnaká adresa je v CSP vo web/build.ts).
 import type * as ML from "maplibre-gl";

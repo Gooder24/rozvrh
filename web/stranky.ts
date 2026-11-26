@@ -20,8 +20,6 @@ export type Domov = {
   kraje: { nazov: string; cesta: string; pocty: Pocty }[];
   /** Najväčšie mestá (podľa počtu škôl), na rýchle preklikanie. */
   mesta: { nazov: string; cesta: string; pocet: number }[];
-  /** Prepínač zoznam/mapa pri hľadaní (ukážka, len pri MAPA=1). */
-  mapa?: boolean;
 };
 export type Kraj = {
   hlava: Hlava; omrvinky: Omrvinka[]; nazov: string; pocty: Pocty;
