@@ -163,9 +163,9 @@ export const skola = (d: StrankaSkoly) => {
 <dl class="udaje"><dt>Zdroj zvonenia</dt><dd>${s.zvonenie.url ? `<a href="${esc(s.zvonenie.url)}" rel="nofollow noopener ugc">${esc(s.zvonenie.zdroj)}</a>` : esc(s.zvonenie.zdroj)}</dd><dt>Skontrolované</dt><dd>${datum(s.skontrolovane)}</dd>${s.stav === "len_zvonenie" ? `<dt>Rozvrh tried</dt><dd>škola ho verejne neukazuje</dd>` : ""}</dl></div></section>` : "";
   const rz = s.rozvrh;
   const fakt = (co: string, kolko: string | number) => `<div><dt>${co}</dt><dd>${kolko}</dd></div>`;
-  const rozvrh = rz && s.triedy.length ? `<section id="rozvrh" data-src="${esc(d.dataCesta)}"><h2>Rozvrh tried</h2>
+  const rozvrh = rz && s.triedy.length ? `<section id="rozvrh" data-src="${esc(d.dataCesta)}"${d.historia ? ` data-historia="${esc(d.historia.cesta)}" data-verzii="${d.historia.pocet}"${rz.od ? ` data-od="${esc(rz.od)}"` : ""}` : ""}><h2>Rozvrh tried</h2>
 <dl class="fakty">${fakt("Triedy", rz.triedy)}${fakt("Učebne", rz.ucebne)}${fakt("Dvojhodiny v týždni", rz.dvojhodiny)}${fakt(rz.dni.length > 5 ? "Dni v cykle rozvrhu" : "Vyučovacie dni", rz.dni.length)}${rz.od ? fakt("Platí od", datum(rz.od)) : ""}</dl>
-${rz.nazov ? `<p><small>Rozvrh v EduPage: ${esc(rz.nazov)}</small></p>` : ""}
+${rz.nazov ? `<p class="rozvrh-nazov"><small>Rozvrh v EduPage: ${esc(rz.nazov)}</small></p>` : ""}
 <ul class="triedy" aria-label="Triedy">${s.triedy.map((t) => `<li>${esc(t.nazov)}</li>`).join("")}</ul>
 <noscript><p>Rozvrh vybranej triedy sa zobrazí so zapnutým JavaScriptom. Rozvrhy všetkých tried sú aj v <a href="${esc(d.dataCesta)}">údajoch školy (JSON)</a>.</p></noscript>
 <div id="mriezka"></div></section>` : "";

@@ -38,6 +38,8 @@ export type StrankaSkoly = {
   susedia: (SkolaKratko & { cesta: string })[];
   /** Letecký výrez okolo budovy (prieskum/letecky.ts), len keď poznáme presnú polohu budovy. */
   letecky?: string;
+  /** Staršie verzie rozvrhu (web/historia.ts): cesta k /data/historia/<id>.json a ich počet. */
+  historia?: { cesta: string; pocet: number };
 };
 export type Api = { hlava: Hlava };
 

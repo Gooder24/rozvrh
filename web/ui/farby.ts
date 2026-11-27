@@ -35,8 +35,9 @@ export const DALSIE = Array.from({ length: 24 }, (_, i) => i * 15).flatMap((h) =
   .filter((f): f is Farba => f !== null && KELLY.every((k) => rozdiel(k, f.bg) > 0.04));
 
 const farbySkol = new WeakMap<Trieda[], Map<string, Farba>>();
-/** Skratka predmetu → farba pre všetky triedy jednej školy. */
-export const farbyPredmetov = (triedy: Trieda[]) => {
+/** Skratka predmetu → farba pre všetky triedy jednej školy. `pevne`: farby, ktoré predmety už majú (staršia verzia
+ *  rozvrhu si berie farby z dnešného, aby sa predmet pri prepnutí verzie neprefarbil); nové predmety sa im vyhnú. */
+export const farbyPredmetov = (triedy: Trieda[], pevne?: Map<string, Farba>) => {
   const hotove = farbySkol.get(triedy);
   if (hotove) return hotove;
   const pocet = new Map<string, number>(), stretne = new Map<string, Set<string>>();
@@ -45,8 +46,8 @@ export const farbyPredmetov = (triedy: Trieda[]) => {
     for (const b of t.bloky) pocet.set(b.skratka, (pocet.get(b.skratka) ?? 0) + 1);
     for (const a of v) { const z = stretne.get(a) ?? stretne.set(a, new Set()).get(a)!; for (const b of v) if (b !== a) z.add(b); }
   }
-  const f = new Map<string, Farba>();
-  for (const a of [...pocet.keys()].sort((x, y) => pocet.get(y)! - pocet.get(x)! || x.localeCompare(y, "sk"))) {
+  const f = new Map<string, Farba>([...pocet.keys()].flatMap((a) => { const c = pevne?.get(a); return c ? [[a, c] as const] : []; }));
+  for (const a of [...pocet.keys()].filter((x) => !f.has(x)).sort((x, y) => pocet.get(y)! - pocet.get(x)! || x.localeCompare(y, "sk"))) {
     const susedne = [...stretne.get(a)!].flatMap((b) => { const c = f.get(b); return c ? [c.bg] : []; });
     const kelly = KELLYHO.find((k) => !susedne.includes(k.bg));
     if (kelly) { f.set(a, kelly); continue; }

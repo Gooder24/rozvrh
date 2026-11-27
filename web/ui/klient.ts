@@ -6,6 +6,8 @@ import type { VsPredmet, VsProgram } from "../stranky";
 import { druhObce } from "../obce";
 import { farbyPredmetov } from "./farby";
 import { jeSkupina, tyzdne } from "./tyzdne";
+import { miestoBloku, porovnaj } from "./zmeny";
+import { rozbal, type Historia } from "./verzie";
 
 const esc = (s: unknown) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c] ?? c);
 const bezDiakritiky = (s: string) => s.normalize("NFD").replace(/\p{M}/gu, "").toLowerCase();
@@ -249,31 +251,86 @@ if (osi.length || zvon.length) {
   document.addEventListener("visibilitychange", () => { if (!document.hidden) obnov(); });
 }
 
-// Týždenná mriežka triedy -------------------------------------------------------------------------------------
+// Týždenná mriežka triedy a staršie verzie rozvrhu -------------------------------------------------------------
+// Verzia 0 je dnešný rozvrh (data-src, /data/skoly/<id>.json), ďalšie sú staršie, od najnovšej (data-historia,
+// /data/historia/<id>.json zo web/historia.ts). Adresa #trieda=II.A&od=2025-09-02 otvorí triedu v staršej verzii.
 const sekcia = document.querySelector<HTMLElement>("#rozvrh");
 const zoznamTried = sekcia?.querySelector<HTMLUListElement>(".triedy");
 const mriezka = sekcia?.querySelector<HTMLElement>("#mriezka");
 if (sekcia && zoznamTried && mriezka) {
   const zdroj = sekcia.dataset.src ?? "";
+  const zdrojHistorie = sekcia.dataset.historia ?? "";
+  const pocetStarsich = Number(sekcia.dataset.verzii) || 0;
+  const odDnes = sekcia.dataset.od || null;
   const pamat = `trieda:${zdroj}`;
   const nazvy = [...zoznamTried.children].map((li) => li.textContent ?? "");
-  zoznamTried.innerHTML = nazvy.map((n) => `<li><button class="volba" aria-pressed="false">${esc(n)}</button></li>`).join("");
+  const tlacidlaTried = (z: string[]) => z.map((n) => `<li><button class="volba" aria-pressed="false">${esc(n)}</button></li>`).join("");
+  zoznamTried.innerHTML = tlacidlaTried(nazvy);
+  if (zdrojHistorie && pocetStarsich) zoznamTried.insertAdjacentHTML("beforebegin", `<div class="verzia" role="group" aria-labelledby="verzia-popis">
+<span id="verzia-popis">Rozvrh platný</span>
+<div class="verzia-krok"><button id="starsi">‹ Starší</button><button id="verzia-vyber" class="verzia-vyber" aria-haspopup="listbox" aria-expanded="false" aria-controls="verzie"></button><button id="novsi" disabled>Novší ›</button></div>
+<label class="verzia-zmeny" hidden><input type="checkbox" id="zmeny"> <span id="zmeny-text"></span></label>
+<div class="verzie" id="verzie" role="listbox" tabindex="-1" aria-label="Verzie rozvrhu" hidden></div>
+</div><div class="stary" id="stary" role="status" hidden></div>`);
   zoznamTried.insertAdjacentHTML("beforebegin", `<p id="vyber-triedy">Vyberte triedu a ukáže sa jej týždenný rozvrh.</p>`);
-  const tlacidla = [...zoznamTried.querySelectorAll<HTMLButtonElement>("button")];
   mriezka.setAttribute("aria-live", "polite");
+  const $ = <T extends HTMLElement>(sel: string) => sekcia.querySelector<T>(sel);
 
   let udaje: Promise<Skola> | null = null;
   const nacitaj = () => udaje ??= fetch(zdroj).then(async (o) => {
     if (!o.ok) throw new Error(String(o.status));
     return (await o.json()) as Skola;
   });
+  let historia: Promise<Historia> | null = null;
+  const nacitajHistoriu = () => historia ??= fetch(zdrojHistorie).then(async (o) => {
+    if (!o.ok) throw new Error(String(o.status));
+    return (await o.json()) as Historia;
+  }).catch((e: unknown) => { historia = null; throw e; });
   const kluc = (n: string) => n.trim().replace(/\.$/, "");
+  const datum = (iso: string) => { const [r, m, d] = iso.split("-").map(Number); return `${d}. ${m}. ${r}`; };
+  const rokOd = (iso: string | null) => {
+    const d = iso ? new Date(`${iso}T12:00:00Z`) : new Date();
+    const r = d.getUTCMonth() >= 7 ? d.getUTCFullYear() : d.getUTCFullYear() - 1;
+    return `${r}/${String((r + 1) % 100).padStart(2, "0")}`;
+  };
 
+  // Verzie: 0 je dnešná; staršie sú tá istá škola s triedami, zvonením a dňami danej verzie.
+  type Verzia = { s: Skola; od: string | null; do: string | null; rok: string };
+  let verzie: Verzia[] = [];
+  const zostav = (dnes: Skola, h: Historia | null): Verzia[] => [
+    { s: dnes, od: dnes.rozvrh?.od ?? null, do: null, rok: rokOd(dnes.rozvrh?.od ?? null) },
+    ...(h?.verzie ?? []).map((v) => {
+      const hodiny = h!.hodiny[v.hodiny] ?? [];
+      const s: Skola = {
+        ...dnes,
+        zvonenie: hodiny.length ? { hodiny, zdroj: "EduPage", url: "", predvolene: false } : null,
+        rozvrh: dnes.rozvrh ? { ...dnes.rozvrh, dni: h!.dni[v.dni] ?? dnes.rozvrh.dni } : null,
+        triedy: v.triedy.map(([nazov, r]) => ({ nazov, bloky: rozbal(h!, r) })),
+      };
+      return { s, od: v.od, do: v.do, rok: v.rok };
+    }),
+  ];
+  let verzia = 0, zmeny = false, otvorene = false, vybrana = "";
+  const triedaVo = (i: number, nazov: string) => verzie[i]?.s.triedy.find((t) => t.nazov === nazov) ?? null;
+  const novyRok = (i: number) => !verzie[i + 1] || verzie[i + 1]!.rok !== verzie[i]!.rok;
+  /** Predchádzajúca verzia toho istého školského roka, s ktorou sa dá trieda porovnať. */
+  const predosla = (i: number, nazov: string) => {
+    const t = !novyRok(i) ? triedaVo(i + 1, nazov) : null;
+    return t ? { bloky: t.bloky, od: verzie[i + 1]!.od } : null;
+  };
+  const pocetZmien = (i: number, nazov: string) => {
+    const a = triedaVo(i, nazov), p = predosla(i, nazov);
+    return a && p ? porovnaj(a.bloky, p.bloky).pocet : null;
+  };
+
+  // Farby: staršia verzia si berie farby predmetov z dnešného rozvrhu.
   const farbaStyl = (s: Skola, skratka: string) => {
-    const c = farbyPredmetov(s.triedy).get(skratka);
+    const dnes = verzie[0]?.s;
+    const c = (dnes && s.triedy !== dnes.triedy ? farbyPredmetov(s.triedy, farbyPredmetov(dnes.triedy)) : farbyPredmetov(s.triedy)).get(skratka);
     return c ? ` style="--bg:${c.bg};--fg:${c.fg}"` : "";
   };
-  const vykresli = (s: Skola, nazov: string) => {
+  type BlokZ = Blok & { zmena?: true; zrusene?: true };
+  const vykresli = (s: Skola, nazov: string, stare: { bloky: Blok[]; od: string | null } | null) => {
     const trieda = s.triedy.find((t) => t.nazov === nazov);
     if (!trieda) return `<p class="stav-nacitania">Trieda ${esc(nazov)} v rozvrhu nie je.</p>`;
     // Stĺpce sú hodiny školy v rozsahu, ktorý používa aspoň jedna trieda, aby mriežka pri prepnutí triedy neskákala.
@@ -284,8 +341,15 @@ if (sekcia && zoznamTried && mriezka) {
     if (!s.zvonenie) stlpce.sort((a, b) => Number(a.n) - Number(b.n) || a.n.localeCompare(b.n, "sk"));
     const kde = new Map(stlpce.map((h, i) => [h.n, i]));
     const miesto = (b: Blok) => kde.get(kluc(b.hodina)) ?? 0;
-    const prvy = Math.min(...vsetky.map(miesto));
-    const posledny = Math.min(Math.max(...vsetky.map((b) => miesto(b) + Math.max(b.trvanie, 1) - 1)), stlpce.length - 1);
+    // Zmeny oproti staršej verzii: zmenené hodiny sa označia, zrušené pribudnú ako prázdne miesto s prečiarknutým predmetom.
+    const roz = stare ? porovnaj(trieda.bloky, stare.bloky) : null;
+    const bloky: BlokZ[] = roz ? [
+      ...trieda.bloky.map((b) => (roz.zmenene.has(miestoBloku(b)) ? { ...b, zmena: true as const } : b)),
+      ...roz.zrusene.filter((b) => kde.has(kluc(b.hodina))).map((b) => ({ ...b, zrusene: true as const })),
+    ] : trieda.bloky;
+    const rozsah = [...vsetky, ...bloky];
+    const prvy = Math.min(...rozsah.map(miesto));
+    const posledny = Math.min(Math.max(...rozsah.map((b) => miesto(b) + Math.max(b.trvanie, 1) - 1)), stlpce.length - 1);
     const vidno = stlpce.slice(prvy, posledny + 1);
     const cisloHodiny = (n: string) => (/^\d+$/.test(n) ? `${n}.` : n);
     const kedy = (b: Blok) => {
@@ -312,10 +376,17 @@ if (sekcia && zoznamTried && mriezka) {
     };
     // Bloky, ktoré sa začínajú v tú istú hodinu a trvajú rovnako (skupiny, semináre), sú jedna bunka:
     // vedľa seba (na počítači po dvoch v rade, na mobile v jednom riadku).
-    const bunky = (bloky: Blok[]) => {
-      const m = new Map<string, Blok[]>();
-      for (const b of bloky) { const k = `${miesto(b)}|${Math.max(b.trvanie, 1)}`; (m.get(k) ?? m.set(k, []).get(k)!).push(b); }
+    const bunky = (z: BlokZ[]) => {
+      const m = new Map<string, BlokZ[]>();
+      for (const b of z) { const k = `${miesto(b)}|${Math.max(b.trvanie, 1)}`; (m.get(k) ?? m.set(k, []).get(k)!).push(b); }
       return [...m.values()].sort((x, y) => miesto(x[0]!) - miesto(y[0]!));
+    };
+    const bunka = (g: BlokZ[]) => {
+      const styl = `style="--c:${miesto(g[0]!) - prvy + 1};--w:${Math.max(g[0]!.trvanie, 1)}"`;
+      const ostali = g.filter((b) => !b.zrusene);
+      if (!ostali.length) return `<li class="g zrusene" ${styl}><span>zrušené <s>${esc([...new Set(g.map((b) => b.skratka))].join(", "))}</s></span></li>`;
+      const zmenena = ostali.length < g.length || ostali.some((b) => b.zmena);
+      return `<li class="g${ostali.length > 2 ? " vela" : ""}${zmenena ? " zmena" : ""}" ${styl}>${zmenena ? `<span class="vh">Zmenené: </span>` : ""}${kedy(ostali[0]!)}<ul>${ostali.map(blok).join("")}</ul></li>`;
     };
     const predmety = new Map(trieda.bloky.map((b) => [b.skratka, b]));
     const odhady = [...predmety.values()].some((b) => odhad(b));
@@ -324,49 +395,179 @@ if (sekcia && zoznamTried && mriezka) {
       ? `<p class="odhad-pozn"><span class="beta-znak">beta</span> Názvy so znakom ≈ škola v rozvrhu neuvádza, píše len skratku. Doplnili sme ich podľa toho, ako tú skratku píše väčšina ostatných škôl, a môžu sa mýliť.${vlastne ? " Ostatné názvy uvádza škola." : ""}</p>`
       : vlastne ? `<p class="odhad-pozn">Názvy predmetov uvádza škola v rozvrhu.</p>` : "";
     // Dvojtýždňový rozvrh: každý týždeň vo vlastnej tabuľke s nadpisom, dni v nej majú nadpis o úroveň nižšie.
-    const tabulky = tyzdne(dni, trieda.bloky);
+    const tabulky = tyzdne(dni, bloky);
     const hlava = `<div class="mr-hlava" aria-hidden="true"><span></span><ol>${vidno.map((h) => `<li><b>${esc(h.n)}</b>${h.od && h.do ? `${esc(cas(h.od))}–${esc(cas(h.do))}` : ""}</li>`).join("")}</ol></div>`;
     const tabulka = (t: (typeof tabulky)[number]) => {
       const h = t.nazov ? "h4" : "h3";
       return `${t.nazov ? `<h3 class="mr-tyzden"><span class="vh">Rozvrh triedy ${esc(nazov)}, </span>${esc(t.nazov)}</h3>` : ""}<div class="mr-obal"><div class="mr" style="--n:${vidno.length}">${t.nazov ? "" : `<h3 class="vh">Rozvrh triedy ${esc(nazov)}</h3>`}
 ${hlava}
-${t.dni.map((d) => `<section class="mr-den"><${h}>${esc(d.nazov)}</${h}><ul>${d.bloky.length ? bunky(d.bloky).map((g) =>
-        `<li class="g${g.length > 2 ? " vela" : ""}" style="--c:${miesto(g[0]!) - prvy + 1};--w:${Math.max(g[0]!.trvanie, 1)}">${kedy(g[0]!)}<ul>${g.map(blok).join("")}</ul></li>`).join("")
+${t.dni.map((d) => `<section class="mr-den"><${h}>${esc(d.nazov)}</${h}><ul>${d.bloky.length ? bunky(d.bloky).map(bunka).join("")
         : `<li class="volno">bez vyučovania</li>`}</ul></section>`).join("")}</div></div>`;
     };
-    return `${tabulky.map(tabulka).join("\n")}
+    const legenda = roz ? `<p class="legenda-zmien"><span><i class="z"></i>zmenená alebo nová hodina</span><span><i class="r"></i>zrušená hodina</span><span>${roz.pocet ? sklonuj(roz.pocet, "zmena", "zmeny", "zmien") : "Bez zmeny"} oproti rozvrhu${stare?.od ? ` od ${datum(stare.od)}` : ""}</span></p>` : "";
+    return `${tabulky.map(tabulka).join("\n")}${legenda}
 <ul class="predmety" aria-label="Skratky predmetov">${[...predmety].sort((a, b) => a[0].localeCompare(b[0], "sk")).map(([sk, b]) =>
       `<li><i class="fz"${farbaStyl(s, sk)} aria-hidden="true"></i><b>${esc(sk)}</b>${bezNazvu(b) ? `<span class="bez">škola názov neuvádza</span>` : `${esc(nazovP(b))}${odhad(b) ? ` ${ODHAD}` : ""}`}</li>`).join("")}</ul>${pozn}`;
   };
 
-  let vybrana = "";
+  // Výber verzie: tlačidlá Starší a Novší, zoznam verzií podľa školských rokov, upozornenie pri staršom rozvrhu.
+  const prvaHodina = (s: Skola) => {
+    const pouzite = new Set(s.triedy.flatMap((t) => t.bloky.map((b) => kluc(b.hodina))));
+    return s.zvonenie?.hodiny.find((h) => pouzite.has(kluc(h.n)))?.od ?? null;
+  };
+  const kresliVyber = () => {
+    const vyber = $("#verzia-vyber");
+    if (!vyber) return;
+    const v = verzie[verzia];
+    const dnes = verzia === 0;
+    const od = v ? v.od : odDnes;
+    vyber.innerHTML = `${od ? `od ${datum(od)}` : "dnes"} <small>${dnes ? "aktuálny" : `do ${datum(v!.do!)}`}</small><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2 4l4 4 4-4"/></svg>`;
+    vyber.setAttribute("aria-expanded", String(otvorene));
+    $<HTMLButtonElement>("#starsi")!.disabled = verzie.length > 1 ? verzia >= verzie.length - 1 : false;
+    $<HTMLButtonElement>("#novsi")!.disabled = dnes;
+    // Vyznačiť zmeny sa dá, keď má vybraná trieda staršiu verziu v tom istom školskom roku.
+    const p = vybrana ? predosla(verzia, vybrana) : null;
+    const zm = $("label.verzia-zmeny")!;
+    zm.hidden = !p || !triedaVo(verzia, vybrana);
+    $("#zmeny-text")!.textContent = p?.od ? `Vyznačiť zmeny oproti rozvrhu od ${datum(p.od)}` : "Vyznačiť zmeny oproti predchádzajúcemu rozvrhu";
+    $<HTMLInputElement>("#zmeny")!.checked = zmeny && !zm.hidden;
+    // Dnešné údaje (počty, názov rozvrhu v EduPage) pri staršej verzii neplatia.
+    for (const el of sekcia.querySelectorAll<HTMLElement>("dl.fakty, .rozvrh-nazov")) el.hidden = !dnes;
+    const stary = $("#stary")!;
+    stary.hidden = dnes || !v;
+    if (!dnes && v) {
+      const a = prvaHodina(v.s), b = prvaHodina(verzie[0]!.s);
+      stary.innerHTML = `<p><b>Starší rozvrh</b>, platil od ${datum(v.od!)} do ${datum(v.do!)}.${a && b && a !== b ? ` Prvá hodina sa vtedy začínala o ${esc(cas(a))}, dnes o ${esc(cas(b))}.` : ""}</p><button class="tlacidlo" id="na-aktualny">Aktuálny rozvrh</button>`;
+    } else stary.innerHTML = "";
+    const zoznam = $("#verzie")!;
+    zoznam.hidden = !otvorene;
+    if (!otvorene) { zoznam.innerHTML = ""; return; }
+    let html = "", rok = "";
+    verzie.forEach((x, i) => {
+      if (x.rok !== rok) {
+        // Medzera v rokoch: z tých rokov EduPage žiadnu verziu nemá.
+        const r0 = Number(rok.slice(0, 4)), r1 = Number(x.rok.slice(0, 4));
+        if (rok && r0 - r1 > 1) html += `</ul><p class="medzera">${r0 - r1 === 2 ? `Z roku ${r1 + 1}/${String((r1 + 2) % 100).padStart(2, "0")}` : `Z rokov ${r1 + 1}/${String((r1 + 2) % 100).padStart(2, "0")} až ${r0 - 1}/${String(r0 % 100).padStart(2, "0")}`} EduPage rozvrh nemá.</p><ul role="presentation">`;
+        html += `${rok ? "</ul>" : ""}<h3 id="rok-${i}">${esc(x.rok)}</h3><ul role="group" aria-labelledby="rok-${i}">`;
+        rok = x.rok;
+      }
+      const ma = !vybrana || !!triedaVo(i, vybrana);
+      const n = vybrana && i > 0 ? pocetZmien(i, vybrana) : null;
+      const novy = i > 0 && novyRok(i) && ma;
+      const pozn = i === 0 ? "aktuálny" : !ma ? `${vybrana} tu nie je` : novy ? "nový školský rok" : n === null ? "" : n === 0 ? `${vybrana} bez zmeny` : `${vybrana}: ${sklonuj(n, "zmena", "zmeny", "zmien")}`;
+      const trieda = !ma ? "chyba" : novy ? "novy-rok" : n === 0 ? "rovnaky" : "";
+      html += `<li role="option" id="v-${i}" data-i="${i}" aria-selected="${i === verzia}"${trieda ? ` class="${trieda}"` : ""}><span>${novy ? `<b class="stitok">${pozn}</b>` : esc(pozn)}</span><small>${x.od ? `${datum(x.od)}${x.do ? ` – ${datum(x.do)}` : ""}` : "dnes"}</small></li>`;
+    });
+    zoznam.innerHTML = `${html}</ul>`;
+  };
+
   const ukaz = async (nazov: string) => {
     vybrana = nazov;
-    for (const b of tlacidla) b.setAttribute("aria-pressed", String(b.textContent === nazov));
+    for (const b of zoznamTried.querySelectorAll("button")) b.setAttribute("aria-pressed", String(b.textContent === nazov));
     document.querySelector("#vyber-triedy")?.remove();
     if (!udaje) mriezka.innerHTML = `<p class="stav-nacitania">Načítavam rozvrh triedy ${esc(nazov)}.</p>`;
     try {
       const s = await nacitaj();
       if (vybrana !== nazov) return;
-      mriezka.innerHTML = vykresli(s, nazov);
-      history.replaceState(null, "", `#trieda=${encodeURIComponent(nazov)}`);
+      if (!verzie.length) verzie = zostav(s, null);
+      const v = verzie[verzia]!;
+      const p = zmeny ? predosla(verzia, nazov) : null;
+      mriezka.innerHTML = triedaVo(verzia, nazov) ? vykresli(v.s, nazov, p)
+        : `<p class="stav-nacitania">Trieda ${esc(nazov)} v rozvrhu${v.od ? ` od ${datum(v.od)}` : ""} nie je. Škola vtedy mala ${sklonuj(v.s.triedy.length, "triedu", "triedy", "tried")}, vyberte niektorú vyššie.</p>`;
+      history.replaceState(null, "", `#trieda=${encodeURIComponent(nazov)}${verzia && v.od ? `&od=${v.od}` : ""}`);
       try { localStorage.setItem(pamat, nazov); } catch { /* súkromné okno: výber sa len nezapamätá */ }
+      kresliVyber();
+      // Staršie verzie sa načítajú po dnešnom rozvrhu, aby bol výber verzie hneď pripravený.
+      if (zdrojHistorie && pocetStarsich && verzie.length === 1) void pripravHistoriu().catch(() => {});
     } catch {
       udaje = null;
       mriezka.innerHTML = `<p class="stav-nacitania">Rozvrh sa nepodarilo načítať. <button class="volba" id="znova">Skúsiť znova</button></p>`;
       mriezka.querySelector("#znova")?.addEventListener("click", () => void ukaz(nazov));
     }
   };
+  const pripravHistoriu = async () => {
+    const [s, h] = await Promise.all([nacitaj(), nacitajHistoriu()]);
+    if (verzie.length <= 1) { verzie = zostav(s, h); kresliVyber(); }
+  };
+  const vyberVerziu = async (i: number) => {
+    otvorene = false;
+    try { await pripravHistoriu(); } catch {
+      $("#stary")!.hidden = false;
+      $("#stary")!.innerHTML = `<p>Staršie rozvrhy sa nepodarilo načítať. Skontrolujte pripojenie a skúste to znova.</p>`;
+      return;
+    }
+    verzia = Math.max(0, Math.min(i, verzie.length - 1));
+    if (vybrana && !predosla(verzia, vybrana)) zmeny = false;
+    // Zoznam tried podľa verzie; vybraná trieda ostane vybraná.
+    const triedy = verzie[verzia]!.s.triedy.map((t) => t.nazov);
+    zoznamTried.innerHTML = tlacidlaTried(verzia ? triedy : nazvy);
+    for (const b of zoznamTried.querySelectorAll("button")) b.setAttribute("aria-pressed", String(b.textContent === vybrana));
+    if (vybrana) await ukaz(vybrana);
+    else kresliVyber();
+  };
+  const otvor = (ano: boolean) => {
+    otvorene = ano;
+    kresliVyber();
+    const zoznam = $("#verzie");
+    const s = $(`#v-${verzia}`);
+    if (ano && zoznam && s) { s.classList.add("fokus"); zoznam.setAttribute("aria-activedescendant", s.id); zoznam.focus(); s.scrollIntoView({ block: "nearest" }); }
+  };
+
   zoznamTried.addEventListener("click", (e) => {
     const b = (e.target as HTMLElement).closest("button");
     if (b?.textContent) void ukaz(b.textContent);
   });
-  // Trieda z adresy (#trieda=IV.A) alebo naposledy otvorená v tomto prehliadači sa ukáže hneď.
-  const zAdresy = (() => { try { return decodeURIComponent(location.hash.match(/^#trieda=(.+)$/)?.[1] ?? ""); } catch { return ""; } })();
+  sekcia.addEventListener("click", (e) => {
+    const t = e.target as HTMLElement;
+    if (t.closest("#verzia-vyber")) {
+      if (otvorene) { otvor(false); return; }
+      void pripravHistoriu().then(() => otvor(true)).catch(() => void vyberVerziu(verzia));
+      return;
+    }
+    const o = t.closest<HTMLElement>("#verzie [role=option]");
+    if (o) { void vyberVerziu(Number(o.dataset.i)).then(() => $("#verzia-vyber")?.focus()); return; }
+    if (t.closest("#starsi")) { void vyberVerziu(verzia + 1); return; }
+    if (t.closest("#novsi")) { void vyberVerziu(verzia - 1); return; }
+    if (t.closest("#na-aktualny")) { void vyberVerziu(0).then(() => $("#verzia-vyber")?.focus()); }
+  });
+  document.addEventListener("click", (e) => {
+    const t = e.target as HTMLElement;
+    if (otvorene && !t.closest("#verzie, #verzia-vyber")) otvor(false);
+  });
+  $("#zmeny")?.addEventListener("change", (e) => {
+    zmeny = (e.target as HTMLInputElement).checked;
+    if (vybrana) void ukaz(vybrana);
+  });
+  $("#verzie")?.addEventListener("keydown", (e) => {
+    const zoznam = e.currentTarget as HTMLElement;
+    const moznosti = [...zoznam.querySelectorAll<HTMLElement>("[role=option]")];
+    let i = moznosti.findIndex((x) => x.classList.contains("fokus"));
+    if (e.key === "Escape" || e.key === "Tab") { otvor(false); $("#verzia-vyber")?.focus(); if (e.key === "Tab") return; }
+    else if (e.key === "Enter" || e.key === " ") { const m = moznosti[i]; if (m) void vyberVerziu(Number(m.dataset.i)).then(() => $("#verzia-vyber")?.focus()); }
+    else if (["ArrowDown", "ArrowUp", "Home", "End"].includes(e.key)) {
+      i = e.key === "Home" ? 0 : e.key === "End" ? moznosti.length - 1 : Math.max(0, Math.min(moznosti.length - 1, i + (e.key === "ArrowDown" ? 1 : -1)));
+      moznosti.forEach((x) => x.classList.remove("fokus"));
+      const m = moznosti[i];
+      if (m) { m.classList.add("fokus"); zoznam.setAttribute("aria-activedescendant", m.id); m.scrollIntoView({ block: "nearest" }); }
+    } else return;
+    e.preventDefault();
+  });
+
+  // Trieda (a verzia) z adresy (#trieda=IV.A&od=2025-09-02) alebo naposledy otvorená trieda sa ukáže hneď.
+  const adresa = (() => { try { const m = location.hash.match(/^#trieda=([^&]+)(?:&od=(\d{4}-\d{2}-\d{2}))?$/); return m ? { trieda: decodeURIComponent(m[1]!), od: m[2] ?? "" } : null; } catch { return null; } })();
   let zPamate = "";
   try { zPamate = localStorage.getItem(pamat) ?? ""; } catch { /* bez pamäte */ }
-  const prva = [zAdresy, zPamate].find((n) => nazvy.includes(n));
-  if (prva) void ukaz(prva);
+  kresliVyber();
+  if (adresa?.od && zdrojHistorie && pocetStarsich) {
+    vybrana = adresa.trieda;
+    void pripravHistoriu().then(() => {
+      const i = verzie.findIndex((v, j) => j > 0 && v.od === adresa.od);
+      return vyberVerziu(i > 0 ? i : 0);
+    }).catch(() => void ukaz(adresa.trieda));
+  } else {
+    const prva = [adresa?.trieda ?? "", zPamate].find((n) => nazvy.includes(n));
+    if (prva) void ukaz(prva);
+  }
 }
 
 // Vysoké školy (beta): skúšobný rozvrh zo zvolených predmetov --------------------------------------------------

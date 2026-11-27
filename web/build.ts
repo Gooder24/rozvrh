@@ -1,7 +1,8 @@
 // Zostaví celý web do site/public: HTML každej školy, mesta a kraja, dáta pre API, sitemap a hlavičky.
 // bun web/build.ts   (beží po každej obnove dát; nasadenie: web/nasad.ts)
 import { cp, mkdir, rm } from "node:fs/promises";
-import { kratko, nacitajSkoly, slug, type Skola } from "./data";
+import { kratko, nacitajSkolyAKontext, slug, type Skola } from "./data";
+import { historiaSkoly } from "./historia";
 import { ADRESA, type Hlava, type Pocty, type Render, type VsProgram } from "./stranky";
 import * as ui from "./ui/render";
 import { vObci } from "./obce";
@@ -40,12 +41,18 @@ const pocty = (z: { stav: Skola["stav"]; zaciatok: string | null }[]): Pocty => 
 });
 const skupiny = <T, K>(z: T[], k: (x: T) => K) => z.reduce((m, x) => m.set(k(x), [...(m.get(k(x)) ?? []), x]), new Map<K, T[]>());
 
-const skoly = await nacitajSkoly();
+const { skoly, kontext } = await nacitajSkolyAKontext();
+// Staršie verzie rozvrhov z archívu (data/historia), už bez mien.
+const historia = await historiaSkoly(skoly, kontext);
 // Poistka: žiadny text z rozvrhu nesmie mať titul ani „Krstné Priezvisko“ (filter je v web/sukromie.ts).
 {
   const prazdny = { ucitelia: new Set<string>(), vyskyt: new Map<string, number>() };
-  const nalezy = skoly.flatMap((s) => [s.rozvrh?.nazov ?? "", ...s.triedy.flatMap((t) => [t.nazov, ...t.bloky.flatMap((b) => [b.predmet, b.skratka, b.ucebna ?? "", b.skupina ?? ""])])]
-    .filter((x) => x && meno(x, prazdny, false)).map((x) => `${s.id}: ${x}`));
+  const texty = (triedy: Skola["triedy"]) => triedy.flatMap((t) => [t.nazov, ...t.bloky.flatMap((b) => [b.predmet, b.skratka, b.ucebna ?? "", b.skupina ?? ""])]);
+  const nalezy = skoly.flatMap((s) => {
+    const h = historia.get(s.id);
+    const stare = h ? [...h.verzie.flatMap((v) => v.triedy.map(([n]) => n)), ...h.dni.flat(), ...h.texty] : [];
+    return [s.rozvrh?.nazov ?? "", ...texty(s.triedy), ...stare].filter((x) => x && meno(x, prazdny, false)).map((x) => `${s.id}: ${x}`);
+  });
   if (nalezy.length) throw new Error(`mená v údajoch (${nalezy.length}):\n${[...new Set(nalezy)].slice(0, 30).join("\n")}`);
 }
 // Predmety: odhad názvu pri školách, ktoré píšu len skratku.
@@ -66,11 +73,14 @@ const zapis = async (cesta: string, obsah: string) => {
 
 // Dáta: celý záznam školy, index a export.
 await mkdir(`${VON}/data/bez-tried`, { recursive: true });
+await mkdir(`${VON}/data/historia`, { recursive: true });
 for (const s of skoly) {
   await zapis(`/data/skoly/${s.id}.json`, JSON.stringify(s));
   // Malý záznam bez rozvrhov tried: zvonenie a porovnanie v API a MCP nemusia čítať stovky KB.
   const { triedy: _, ...bez } = s;
   await zapis(`/data/bez-tried/${s.id}.json`, JSON.stringify(bez));
+  const h = historia.get(s.id);
+  if (h) await zapis(`/data/historia/${s.id}.json`, JSON.stringify(h));
 }
 const index = skoly.map((s) => ({ ...kratko(s), cesta: cestaSkoly(s) }));
 await zapis("/data/skoly.json", JSON.stringify({ vytvorene, zdroj: ADRESA, podmienky: "Voľne na použitie s uvedením zdroja: rozvrh.dvoriste.xyz a EduPage alebo web školy.", skoly: index }));
@@ -138,6 +148,7 @@ for (const s of skoly) {
     hlava: hlava(`${s.nazov}, ${s.miesto}: rozvrh hodín a zvonenie`, desc, cestaSkoly(s), ld),
     omrvinky: [{ nazov: "Slovensko", cesta: "/" }, { nazov: `${s.kraj} kraj`, cesta: cestaKraja(s.kraj) }, { nazov: s.miesto, cesta: cestaMesta(s) }],
     skola: s, dataCesta: `/data/skoly/${s.id}.json`,
+    historia: historia.has(s.id) ? { cesta: `/data/historia/${s.id}.json`, pocet: historia.get(s.id)!.verzie.length } : undefined,
     susedia: (podlaMesta.get(s.mestoSlug) ?? []).filter((x) => x.id !== s.id).map((x) => ({ ...kratko(x), cesta: cestaSkoly(x) })),
     letecky,
   });

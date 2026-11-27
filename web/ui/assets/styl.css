@@ -356,3 +356,57 @@ h2 .beta-znak{font-size:.7rem}
 .mapa .maplibregl-popup-tip{border-top-color:var(--list);border-bottom-color:var(--list)}
 .mapa-caka{margin:0;padding:1rem;color:var(--ceruzka)}
 @media (max-width:720px){.mapa{height:65vh}}
+
+/* Výber verzie rozvrhu (staršie rozvrhy z archívu, klient.ts). */
+.verzia{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px;margin:1.25rem 0 0;position:relative}
+.verzia>span{font-size:.8125rem;color:var(--ceruzka)}
+.verzia-krok{display:inline-flex;align-items:stretch}
+.verzia-krok>button{font:inherit;color:var(--text);background:var(--list);border:1px solid var(--stvorcek);padding:6px 12px;cursor:pointer;min-height:2.5rem}
+.verzia-krok>button:first-child{border-radius:var(--r-pole) 0 0 var(--r-pole)}
+.verzia-krok>button:last-child{border-radius:0 var(--r-pole) var(--r-pole) 0}
+.verzia-krok>button+button{border-left:0}
+.verzia-krok>button:disabled{color:var(--stvorcek);cursor:default}
+.verzia-vyber{display:inline-flex;align-items:center;gap:8px;font-weight:600}
+.verzia-vyber small{font-weight:400;color:var(--ceruzka)}
+.verzia-vyber svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2}
+.verzia-vyber[aria-expanded="true"]{background:var(--bunka)}
+.verzia-vyber[aria-expanded="true"] svg{transform:rotate(180deg)}
+.verzie{position:absolute;top:calc(100% + 6px);left:0;z-index:5;width:min(30rem,100%);max-height:26rem;overflow:auto;background:var(--list);border-radius:var(--r-list);box-shadow:0 0 0 1px var(--stvorcek),0 12px 28px rgb(20 33 61/.14);padding:6px}
+.verzie h3{font-size:.8125rem;color:var(--ceruzka);font-weight:600;margin:10px 10px 4px}
+.verzie h3:first-child{margin-top:4px}
+.verzie ul{list-style:none;margin:0;padding:0}
+.verzie [role="option"]{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:7px 10px;border-radius:var(--r-pole);cursor:pointer;font-variant-numeric:tabular-nums}
+.verzie [role="option"]:hover,.verzie [role="option"].fokus{background:var(--bunka)}
+.verzie [role="option"][aria-selected="true"]{background:var(--atrament);color:var(--list)}
+.verzie [role="option"][aria-selected="true"] small{color:inherit}
+.verzie [role="option"] small{color:var(--ceruzka);white-space:nowrap}
+.verzie [role="option"].rovnaky{color:var(--ceruzka)}
+.verzie [role="option"].chyba{color:var(--ceruzka);cursor:default}
+.verzie .stitok{display:inline-block;font-weight:700;font-size:.8125rem;padding:1px 8px;border-radius:999px;background:var(--hodina);color:var(--list)}
+.verzie [role="option"][aria-selected="true"] .stitok{background:var(--list);color:var(--atrament)}
+.verzie .medzera{font-size:.8125rem;color:var(--ceruzka);padding:6px 10px;margin:0}
+.verzia-zmeny{display:inline-flex;align-items:center;gap:6px;font-size:.875rem;cursor:pointer}
+.verzia-zmeny input{accent-color:var(--pero);width:1rem;height:1rem}
+
+/* Starší rozvrh: upozornenie nad mriežkou. */
+.stary{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 16px;margin:1rem 0 0;padding:10px 14px;background:var(--bunka);border-radius:var(--r-pole)}
+.stary p{margin:0}
+.stary .tlacidlo{color:var(--na-hodine)}
+
+/* Zmeny oproti predchádzajúcemu rozvrhu: červené pero. */
+.mr-den ul li.g.zmena{outline:2px solid var(--pero);outline-offset:1px;border-radius:var(--r-blok)}
+.mr-den ul li.g.zrusene{border:1.5px dashed var(--pero);border-radius:var(--r-blok);margin:2px 2px 2px 3px;padding:4px 6px;color:var(--pero);font-size:.75rem;display:flex;align-items:center}
+.mr-den ul li.g.zrusene s{font-weight:700}
+.legenda-zmien{font-size:.8125rem;color:var(--ceruzka);margin:.5rem 0 0;display:flex;flex-wrap:wrap;gap:4px 16px}
+.legenda-zmien i{display:inline-block;width:.9em;height:.9em;border-radius:3px;vertical-align:-.1em;margin-right:6px}
+.legenda-zmien .z{outline:2px solid var(--pero);outline-offset:-2px}
+.legenda-zmien .r{border:1.5px dashed var(--pero)}
+
+@media (max-width:720px){
+  .verzia{gap:6px}
+  .verzia>span{flex-basis:100%}
+  .verzia-krok{flex:1 1 100%}
+  .verzia-vyber{flex:1;justify-content:space-between}
+  .verzie{width:100%}
+}
+@media (prefers-color-scheme:dark){.verzie{box-shadow:0 0 0 1px var(--stvorcek)}}

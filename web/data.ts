@@ -27,8 +27,9 @@ async function ciselnik(harok: string) {
   return new Map(rows.filter((r) => r[0] && r[1]).map((r) => [String(r[0]).trim(), String(r[1]).trim()]));
 }
 
-/** Rozvrhy tried zo surových dát EduPage, bez osôb. `ucitelia`: slová zo skratiek učiteľov, len na hľadanie mien. */
-export function triedyZRaw(raw: string): { triedy: Trieda[]; dni: string[]; ucitelia: Set<string> } {
+/** Rozvrhy tried zo surových dát EduPage, bez osôb. `ucitelia`: slová zo skratiek učiteľov, len na hľadanie mien.
+ *  `hodiny`: zvonenie podľa rozvrhu (číslo hodiny a časy), pre staršie verzie, ktoré majú iné zvonenie ako dnes. */
+export function triedyZRaw(raw: string): { triedy: Trieda[]; dni: string[]; ucitelia: Set<string>; hodiny: Hodina[] } {
   const tables = (JSON.parse(raw) as { r: { dbiAccessorRes: { tables: { id: string; data_rows: Row[] }[] } } }).r.dbiAccessorRes.tables;
   const T = Object.fromEntries(tables.map((t) => [t.id, t.data_rows]));
   const podla = (t: string) => new Map((T[t] ?? []).map((r) => [String(r.id), r]));
@@ -68,7 +69,10 @@ export function triedyZRaw(raw: string): { triedy: Trieda[]; dni: string[]; ucit
     return casti.length === 2 ? [casti.map((c) => c[0]).join(""), casti.map((c) => c[0]).reverse().join(""), ...casti.filter((c) => c.length >= 3)].map(zlozene) : [];
   });
   const ucitelia = new Set([...kody("teachers", "short"), ...inicialy].filter((x) => x.length >= 2 && !predmetove.has(x)));
-  return { triedy: triedy.filter((t) => t.bloky.length).map(({ nazov, bloky }) => ({ nazov, bloky })), dni, ucitelia };
+  const cas = /^([01]\d|2[0-3]):[0-5]\d$/;
+  const hodiny = (T.periods ?? []).map((p) => ({ n: cisty(String(p.period ?? p.short ?? ""), 12), od: String(p.starttime ?? "").padStart(5, "0"), do: String(p.endtime ?? "").padStart(5, "0") }))
+    .filter((h) => h.n && cas.test(h.od) && cas.test(h.do) && h.od < h.do);
+  return { triedy: triedy.filter((t) => t.bloky.length).map(({ nazov, bloky }) => ({ nazov, bloky })), dni, ucitelia, hodiny };
 }
 
 /** Odkaz na cudzí web len ako http(s); z „a.sk, b.sk“ prvý, bez schémy doplní https://. */
@@ -82,7 +86,7 @@ export function bezpecnaUrl(raw: string | null | undefined): string | null {
 }
 
 /** Mená von zo všetkých textov školy, ktoré prišli z EduPage. */
-function bezMien(skola: Skola, k: Kontext & { nazvy: Map<string, number> }) {
+export function bezMien(skola: Skola, k: KontextMien) {
   const pouzite = new Set<string>();
   // Skupina alebo učebňa, ktorú tak volá len pár škôl, so začiatkom priezviska („ANJ Hr“, „Hra skupina“)
   // alebo iniciálami („PS“, kým „CH“ či „NJ“ má veľa škôl).
@@ -121,7 +125,13 @@ function bezMien(skola: Skola, k: Kontext & { nazvy: Map<string, number> }) {
   else if (skola.rozvrh?.nazov) skola.rozvrh.nazov = cisty(skola.rozvrh.nazov, 80);
 }
 
-export async function nacitajSkoly(): Promise<Skola[]> {
+export type KontextMien = Kontext & { nazvy: Map<string, number> };
+/** Počty výskytu slov a názvov naprieč školami (z dnešných rozvrhov) a skratky učiteľov každej školy:
+ *  podľa nich bezMien() čistí aj staršie verzie rozvrhov (web/historia.ts). */
+export type KontextSkol = { vyskyt: Map<string, number>; nazvy: Map<string, number>; ucitelia: Map<string, Set<string>> };
+
+export const nacitajSkoly = async () => (await nacitajSkolyAKontext()).skoly;
+export async function nacitajSkolyAKontext(): Promise<{ skoly: Skola[]; kontext: KontextSkol }> {
   const okresy = await ciselnik("Okres");
   const druhy = await ciselnik("Druh školy");
   // Školy, ktoré si neželajú byť v prehľade: data/vyradene.json { eduid: dôvod }.
@@ -180,7 +190,7 @@ export async function nacitajSkoly(): Promise<Skola[]> {
   const nazvy = new Map<string, number>();
   for (const s of skoly) for (const n of new Set(s.triedy.flatMap((t) => t.bloky.flatMap((b) => [`s:${b.skupina?.trim() ?? ""}`, `u:${b.ucebna?.trim() ?? ""}`])))) nazvy.set(n, (nazvy.get(n) ?? 0) + 1);
   for (const s of skoly) bezMien(s, { ucitelia: ucitelia.get(s.id)!, vyskyt, nazvy });
-  return skoly;
+  return { skoly, kontext: { vyskyt, nazvy, ucitelia } };
 }
 
 export const kratko = (s: Skola): SkolaKratko => ({
