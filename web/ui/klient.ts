@@ -530,9 +530,9 @@ ${t.dni.map((d) => `<section class="mr-den"><${h}>${esc(d.nazov)}</${h}><ul>${d.
     if (t.closest("#novsi")) { void vyberVerziu(verzia - 1); return; }
     if (t.closest("#na-aktualny")) { void vyberVerziu(0).then(() => $("#verzia-vyber")?.focus()); }
   });
+  // Cesta udalosti, nie closest(): otvorenie prepíše obsah tlačidla, takže kliknutý dátum či šípka už nie sú v stránke.
   document.addEventListener("click", (e) => {
-    const t = e.target as HTMLElement;
-    if (otvorene && !t.closest("#verzie, #verzia-vyber")) otvor(false);
+    if (otvorene && !e.composedPath().some((n) => n instanceof HTMLElement && (n.id === "verzie" || n.id === "verzia-vyber"))) otvor(false);
   });
   $("#zmeny")?.addEventListener("change", (e) => {
     zmeny = (e.target as HTMLInputElement).checked;
