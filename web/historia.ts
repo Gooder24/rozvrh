@@ -55,8 +55,12 @@ export async function historiaSkoly(skoly: Skola[], kontext: KontextSkol, dnes =
   const von = new Map<string, Historia>();
   for (const s of skoly) {
     if (s.stav !== "verejny_rozvrh" || !s.edupage || !zoznam[s.edupage]) continue;
-    const vsetky = [...zoznam[s.edupage]!].filter((v) => /^\d{4}-\d{2}-\d{2}$/.test(v.datefrom) && v.datefrom <= dnes)
-      .sort((a, b) => a.datefrom.localeCompare(b.datefrom) || Number(a.tt_num) - Number(b.tt_num));
+    // Viac verzií od toho istého dňa: platí posledná (najvyššie číslo), staršie sa nikdy nepoužili a adresa
+    // (#trieda=…&od=dátum) musí určiť verziu jednoznačne.
+    const podlaDna = new Map<string, Verzia>();
+    for (const v of [...zoznam[s.edupage]!].sort((a, b) => Number(a.tt_num) - Number(b.tt_num)))
+      if (/^\d{4}-\d{2}-\d{2}$/.test(v.datefrom) && v.datefrom <= dnes) podlaDna.set(v.datefrom, v);
+    const vsetky = [...podlaDna.values()].sort((a, b) => a.datefrom.localeCompare(b.datefrom));
     // Dnešný rozvrh je verzia, ktorá platí od s.rozvrh.od; bez toho dátumu posledná, ktorá sa už začala.
     const od = s.rozvrh?.od;
     const dnesna = od ? vsetky.findLastIndex((v) => v.datefrom === od) : vsetky.length - 1;
@@ -84,7 +88,10 @@ export async function historiaSkoly(skoly: Skola[], kontext: KontextSkol, dnes =
       const r = raw.get(v.tt_num);
       if (!r || !r.triedy.length) return;
       // Čistenie mien: kópia školy s triedami tejto verzie; skratky učiteľov z verzie aj z dneška.
-      const kopia: Skola = { ...s, triedy: structuredClone(r.triedy), rozvrh: null };
+      const kopia: Skola = {
+        ...s, triedy: structuredClone(r.triedy), zvonenie: { hodiny: structuredClone(r.hodiny), zdroj: "EduPage", url: "", predvolene: false },
+        rozvrh: { nazov: null, od: v.datefrom, dni: [...r.dni], triedy: 0, ucebne: 0, lekcie: 0, karty: 0, dvojhodiny: 0 },
+      };
       bezMien(kopia, { ucitelia: new Set([...r.ucitelia, ...(kontext.ucitelia.get(s.id) ?? [])]), vyskyt: kontext.vyskyt, nazvy: kontext.nazvy });
       const n = dalsia(i);
       const doText = koniecZTextu(v.text);
@@ -93,7 +100,7 @@ export async function historiaSkoly(skoly: Skola[], kontext: KontextSkol, dnes =
       const doDna = n && n.year === v.year ? den(n.datefrom, -1) : doText && doText >= v.datefrom && doText <= koniecRoka ? doText : koniecRoka;
       h.verzie.push({
         od: v.datefrom, do: doDna < v.datefrom ? v.datefrom : doDna, rok: rokText(v.year),
-        hodiny: idx(h.hodiny, mH, r.hodiny), dni: idx(h.dni, mD, r.dni.map((d) => d.slice(0, 30))),
+        hodiny: idx(h.hodiny, mH, kopia.zvonenie!.hodiny), dni: idx(h.dni, mD, kopia.rozvrh!.dni),
         triedy: kopia.triedy.map((t) => [t.nazov, idx(h.rozvrhy, mR, t.bloky.map((b) => idx(h.bloky, mB, kratky(b))))]),
       });
     });

@@ -454,7 +454,7 @@ ${t.dni.map((d) => `<section class="mr-den"><${h}>${esc(d.nazov)}</${h}><ul>${d.
       const ma = !vybrana || !!triedaVo(i, vybrana);
       const n = vybrana && i > 0 ? pocetZmien(i, vybrana) : null;
       const novy = i > 0 && novyRok(i) && ma;
-      const pozn = i === 0 ? "aktuálny" : !ma ? `${vybrana} tu nie je` : novy ? "nový školský rok" : n === null ? "" : n === 0 ? `${vybrana} bez zmeny` : `${vybrana}: ${sklonuj(n, "zmena", "zmeny", "zmien")}`;
+      const pozn = i === 0 ? "aktuálny" : !ma ? `${vybrana} tu nie je` : novy ? "nový školský rok" : n === null ? (vybrana ? `${vybrana} pribudla` : "") : n === 0 ? `${vybrana} bez zmeny` : `${vybrana}: ${sklonuj(n, "zmena", "zmeny", "zmien")}`;
       const trieda = !ma ? "chyba" : novy ? "novy-rok" : n === 0 ? "rovnaky" : "";
       html += `<li role="option" id="v-${i}" data-i="${i}" aria-selected="${i === verzia}"${trieda ? ` class="${trieda}"` : ""}><span>${novy ? `<b class="stitok">${pozn}</b>` : esc(pozn)}</span><small>${x.od ? `${datum(x.od)}${x.do ? ` – ${datum(x.do)}` : ""}` : "dnes"}</small></li>`;
     });

@@ -50,8 +50,8 @@ const historia = await historiaSkoly(skoly, kontext);
   const texty = (triedy: Skola["triedy"]) => triedy.flatMap((t) => [t.nazov, ...t.bloky.flatMap((b) => [b.predmet, b.skratka, b.ucebna ?? "", b.skupina ?? ""])]);
   const nalezy = skoly.flatMap((s) => {
     const h = historia.get(s.id);
-    const stare = h ? [...h.verzie.flatMap((v) => v.triedy.map(([n]) => n)), ...h.dni.flat(), ...h.texty] : [];
-    return [s.rozvrh?.nazov ?? "", ...texty(s.triedy), ...stare].filter((x) => x && meno(x, prazdny, false)).map((x) => `${s.id}: ${x}`);
+    const stare = h ? [...h.verzie.flatMap((v) => v.triedy.map(([n]) => n)), ...h.dni.flat(), ...h.hodiny.flat().map((x) => x.n), ...h.texty] : [];
+    return [s.rozvrh?.nazov ?? "", ...(s.rozvrh?.dni ?? []), ...(s.zvonenie?.hodiny ?? []).map((x) => x.n), ...texty(s.triedy), ...s.triedy.flatMap((t) => t.bloky.map((b) => b.tyzden ?? "")), ...stare].filter((x) => x && meno(x, prazdny, false)).map((x) => `${s.id}: ${x}`);
   });
   if (nalezy.length) throw new Error(`mená v údajoch (${nalezy.length}):\n${[...new Set(nalezy)].slice(0, 30).join("\n")}`);
 }

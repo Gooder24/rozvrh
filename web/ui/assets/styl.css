@@ -377,11 +377,12 @@ h2 .beta-znak{font-size:.7rem}
 .verzie ul{list-style:none;margin:0;padding:0}
 .verzie [role="option"]{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:7px 10px;border-radius:var(--r-pole);cursor:pointer;font-variant-numeric:tabular-nums}
 .verzie [role="option"]:hover,.verzie [role="option"].fokus{background:var(--bunka)}
-.verzie [role="option"][aria-selected="true"]{background:var(--atrament);color:var(--list)}
 .verzie [role="option"][aria-selected="true"] small{color:inherit}
 .verzie [role="option"] small{color:var(--ceruzka);white-space:nowrap}
 .verzie [role="option"].rovnaky{color:var(--ceruzka)}
 .verzie [role="option"].chyba{color:var(--ceruzka);cursor:default}
+/* Vybraná verzia je čitateľná aj keď je sivá („bez zmeny“): pravidlo stojí až za sivými. */
+.verzie [role="option"][aria-selected="true"]{background:var(--atrament);color:var(--list)}
 .verzie .stitok{display:inline-block;font-weight:700;font-size:.8125rem;padding:1px 8px;border-radius:999px;background:var(--hodina);color:var(--list)}
 .verzie [role="option"][aria-selected="true"] .stitok{background:var(--list);color:var(--atrament)}
 .verzie .medzera{font-size:.8125rem;color:var(--ceruzka);padding:6px 10px;margin:0}

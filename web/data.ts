@@ -88,6 +88,7 @@ export function bezpecnaUrl(raw: string | null | undefined): string | null {
 /** Mená von zo všetkých textov školy, ktoré prišli z EduPage. */
 export function bezMien(skola: Skola, k: KontextMien) {
   const pouzite = new Set<string>();
+  const bezPoctov = { ucitelia: k.ucitelia, vyskyt: new Map<string, number>() };
   // Skupina alebo učebňa, ktorú tak volá len pár škôl, so začiatkom priezviska („ANJ Hr“, „Hra skupina“)
   // alebo iniciálami („PS“, kým „CH“ či „NJ“ má veľa škôl).
   // Učebne z dvoch veľkých písmen („KS“, „PM“) sú bežné označenia miestností, tie ostanú.
@@ -117,10 +118,15 @@ export function bezMien(skola: Skola, k: KontextMien) {
           ucebna: b.ucebna && !meno(b.ucebna, k, true) && !skratkaMena(b.ucebna, "u") ? cisty(b.ucebna, 40) : null,
           skupina: b.skupina && !specialnaTrieda && !SPECIALNE.test(b.predmet) && !meno(b.skupina, k, true, true) && !skratkaMena(b.skupina, "s")
             ? cisty(b.skupina, 40) : null,
+          tyzden: b.tyzden && !meno(b.tyzden, bezPoctov, false) ? cisty(b.tyzden, 20) : null,
         };
       }),
     };
   });
+  // Dni a hodiny pomenúva škola tiež sama („Deň 1“, „Párny pondelok“, „Pondelok - Hétfő“); s menom dostanú poradové
+  // číslo. Bez pravidiel o zriedkavých slovách (bezPoctov): názvy dní sú zriedkavé, ale mená nie sú.
+  if (skola.rozvrh) skola.rozvrh.dni = skola.rozvrh.dni.map((d, i) => (meno(d, bezPoctov, false) ? `Deň ${i + 1}` : cisty(d, 30)));
+  if (skola.zvonenie) skola.zvonenie.hodiny = skola.zvonenie.hodiny.map((h, i) => (meno(h.n, bezPoctov, false) ? { ...h, n: String(i + 1) } : h));
   if (skola.rozvrh?.nazov && meno(skola.rozvrh.nazov, k, true)) skola.rozvrh.nazov = null;
   else if (skola.rozvrh?.nazov) skola.rozvrh.nazov = cisty(skola.rozvrh.nazov, 80);
 }
