@@ -35,10 +35,12 @@ export const vytvor = async (el: HTMLElement, riadky: Riadok[], body: ([number, 
   };
   // Body pribudnú, len čo je štýl mapy načítaný; dlaždice sa môžu ešte dokresľovať.
   // Keď sa štýl nestiahne (dlaždice nedostupné), mapa sa zruší a klient ponúkne zoznam; ďalší klik na „Mapa“ skúsi znova.
+  // Len chyba pred načítaním štýlu; neskoršia chyba dlaždice (slabý signál pri posune) mapu nezruší.
   await new Promise<void>((hotovo, zle) => {
+    const chyba = (e: ML.ErrorEvent) => { mapa.remove(); zle(e.error); };
     if (mapa.isStyleLoaded()) return hotovo();
-    mapa.once("style.load", () => hotovo());
-    mapa.on("error", (e) => { if (!mapa.isStyleLoaded()) { mapa.remove(); zle(e.error); } });
+    mapa.once("style.load", () => { mapa.off("error", chyba); hotovo(); });
+    mapa.on("error", chyba);
   }).catch((e: unknown) => {
     if (caka) caka.textContent = "Mapu sa nepodarilo načítať. Skúste to znova alebo prepnite na zoznam.";
     throw e;

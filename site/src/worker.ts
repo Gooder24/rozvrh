@@ -29,7 +29,8 @@ const chyba = (status: number, sprava: string) => json({ chyba: sprava }, status
 // stále platí); dlhý reťazec parametrov sa ani nečíta (tisíce parametrov stoja viac CPU ako hľadanie).
 app.use("*", async (c, next) => {
   if (new URL(c.req.url).search.length > 1000) return chyba(414, "Adresa je dlhšia ako 1000 znakov.");
-  const success = await c.env.LIMIT.limit({ key: kluc(c.req.header("cf-connecting-ip") ?? "nezname") }).then((r) => r.success, () => true);
+  let success = true;
+  try { success = (await c.env.LIMIT.limit({ key: kluc(c.req.header("cf-connecting-ip") ?? "nezname") })).success; } catch { /* prejde */ }
   if (!success) return new Response(JSON.stringify({ chyba: "Príliš veľa požiadaviek, skúste o minútu. Celé dáta naraz: /data/skoly.json" }), {
     status: 429, headers: { ...HLAVICKY, "content-type": "application/json; charset=utf-8", "retry-after": "60", "cache-control": "no-store" },
   });

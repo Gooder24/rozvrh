@@ -108,23 +108,25 @@ export function bezMien(skola: Skola, k: KontextMien) {
   // označenia týždňa („Pondelok PT“ je párny týždeň, aj keď má niekto skratku PT). Len s veľkým prvým písmenom („Jh“,
   // „JH“): malé „sk“ v týždni „1.sk“ je skupina.
   const sMenom = (x: string) => !!meno(x, bezPoctov, false)
-    || x.split(/[^\p{L}]+/u).some((w) => /^\p{Lu}\p{L}$/u.test(w) && !/^(?:PT|NT|TP|TN|[IVX]{2})$/i.test(w) && k.ucitelia.has(zlozene(w)));
+    || x.split(/[^\p{L}]+/u).some((w) => /^\p{Lu}\p{L}$/u.test(w) && !/^(?:PT|NT|TP|TN|[IVX]{2})$/.test(w) && k.ucitelia.has(zlozene(w)));
   if (skola.rozvrh) skola.rozvrh.dni = skola.rozvrh.dni.map((d, i) => (sMenom(d) ? `Deň ${i + 1}` : cisty(d, 30)));
   // Hodina s menom dostane poradové číslo, ktoré žiadna iná hodina nemá (pri nultej hodine je „2“ už obsadené).
   const novaHodina = new Map<string, string>();
+  const kluc = (n: string) => cisty(n, 12).trim();
   if (skola.zvonenie) {
-    const obsadene = new Set(skola.zvonenie.hodiny.filter((h) => !sMenom(h.n)).map((h) => h.n));
+    // Obsadené sú aj čísla hodín v blokoch, ktoré v zvonení nie sú.
+    const obsadene = new Set([...new Set([...skola.zvonenie.hodiny.map((h) => h.n), ...skola.triedy.flatMap((t) => t.bloky.map((b) => cisty(b.hodina, 12)))])].filter((n) => !sMenom(n)));
     skola.zvonenie.hodiny = skola.zvonenie.hodiny.map((h, i) => {
       if (!sMenom(h.n)) return h;
       let c = i + 1;
       while (obsadene.has(String(c))) c++;
       obsadene.add(String(c));
-      novaHodina.set(h.n, String(c));
+      novaHodina.set(kluc(h.n), String(c));
       return { ...h, n: String(c) };
     });
   }
   // Bloky nesú celý názov hodiny, zvonenie skrátený na 12 znakov (triedyZRaw): porovnáva sa skrátený.
-  const hodina = (h: string) => novaHodina.get(cisty(h, 12)) ?? (sMenom(h) ? "?" : h);
+  const hodina = (h: string) => novaHodina.get(kluc(h)) ?? (sMenom(h) ? "?" : h);
   skola.triedy = skola.triedy.map((t, i) => {
     // „V.ST“ v ZŠ je špeciálna trieda; „II.ST“ v SOŠ je stavebníctvo.
     const specialnaTrieda = specialnaSkola || SPECIALNE.test(t.nazov) || (skola.stupen === "ZŠ" && /(?:^|[^\p{L}])ST[AB]?(?![\p{L}])/u.test(t.nazov));
@@ -146,7 +148,7 @@ export function bezMien(skola: Skola, k: KontextMien) {
       }),
     };
   });
-  if (skola.rozvrh?.nazov && meno(skola.rozvrh.nazov, k, true)) skola.rozvrh.nazov = null;
+  if (skola.rozvrh?.nazov && (meno(skola.rozvrh.nazov, k, true) || sMenom(skola.rozvrh.nazov))) skola.rozvrh.nazov = null;
   else if (skola.rozvrh?.nazov) skola.rozvrh.nazov = cisty(skola.rozvrh.nazov, 80);
 }
 

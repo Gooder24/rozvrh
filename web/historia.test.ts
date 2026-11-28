@@ -44,3 +44,20 @@ test("hodina s menom dostane voľné číslo aj pri nultej hodine; skratky učit
   expect(s.rozvrh?.dni).toEqual(["Deň 1", "Utorok", "Streda pt", "Po", "Piatok 1.sk"]);
   expect(s.triedy[0]!.bloky.map((b) => b.tyzden)).toEqual([null, null, null, null, "A"]);
 });
+
+test("voľné číslo hodiny berie do úvahy aj hodiny blokov; názov rozvrhu so skratkou učiteľa sa nezverejní", async () => {
+  const { bezMien } = await import("./data");
+  const blok = (hodina: string): import("./typy").Blok => ({ den: 0, hodina, trvanie: 1, predmet: "MAT", skratka: "MAT", ucebna: null, skupina: null, tyzden: null });
+  const s: import("./typy").Skola = {
+    id: "1", slug: "x", nazov: "Gymnázium", stupen: "SŠ", typ: "", druh: "Gymnázium", kraj: "", okres: "", miesto: "", ulica: "", mestoSlug: "",
+    zriadovatel: "", ziaci: 0, stav: "verejny_rozvrh", edupage: null, zaciatok: null, koniec: null, pocetHodin: null, psc: "", web: null,
+    zvonenie: { hodiny: [{ n: "0", od: "07:00", do: "07:45" }, { n: "1", od: "08:00", do: "08:45" }, { n: "Xy", od: "08:55", do: "09:40" }], zdroj: "EduPage", url: "", predvolene: false },
+    rozvrh: { nazov: "2026/27 bez Xy (01. 10. 2026-?)", od: null, dni: ["Pondelok", "Utorok Pt"], triedy: 1, ucebne: 0, lekcie: 0, karty: 0, dvojhodiny: 0 },
+    triedy: [{ nazov: "I.A", bloky: [blok("Xy"), blok("3")] }], skontrolovane: "",
+  };
+  bezMien(s, { ucitelia: new Set(["xy", "pt"]), vyskyt: new Map(), nazvy: new Map() });
+  expect(s.zvonenie!.hodiny.map((h) => h.n)).toEqual(["0", "1", "4"]);
+  expect(s.triedy[0]!.bloky.map((b) => b.hodina)).toEqual(["4", "3"]);
+  expect(s.rozvrh?.nazov).toBeNull();
+  expect(s.rozvrh?.dni).toEqual(["Pondelok", "Deň 2"]);
+});

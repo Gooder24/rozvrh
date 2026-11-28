@@ -1,8 +1,8 @@
 // Ochrana pred Workerom (na okraji Cloudflare, nemíňa denný limit 100 000 behov Workera):
 //   1. obmedzenie rýchlosti pre /api/v1/ a /mcp: 10 požiadaviek za 10 s z jednej IP, potom 10 s blok (Free plán nedovolí
 //      dlhšie okno; jedna IP tak spustí Worker najviac asi 86 000-krát za deň),
-//   2. blok metód: mimo /mcp len GET, HEAD a OPTIONS (POST na ľubovoľnú cestu by inak spúšťal Worker), na /mcp len POST
-//      a OPTIONS (GET, PUT či DELETE by spustili Worker len kvôli odpovedi 405).
+//   2. blok metód: mimo /mcp len GET, HEAD a OPTIONS (POST na ľubovoľnú cestu by inak spúšťal Worker), na /mcp len GET
+//      (klienti MCP ním skúšajú SSE a čakajú 405 od Workera), POST a OPTIONS; PUT či DELETE by spustili Worker zbytočne.
 // Pravidlá pridá do zóny dvoriste.xyz, ak tam ešte nie sú (podľa ref), iné pravidlá zóny nemení.
 //   bun web/cloudflare.ts            nastaví pravidlá
 //   bun web/cloudflare.ts --ukaz     len vypíše, čo v zóne je
@@ -22,8 +22,8 @@ const PRAVIDLA: Record<string, Pravidlo> = {
     ratelimit: { characteristics: ["ip.src", "cf.colo.id"], period: 10, requests_per_period: 10, mitigation_timeout: 10 },
   },
   http_request_firewall_custom: {
-    ref: "rozvrh-len-citanie", description: "rozvrh: mimo /mcp len GET, HEAD a OPTIONS, na /mcp len POST a OPTIONS",
-    expression: `(http.host eq "${HOST}" and ((http.request.uri.path ne "/mcp" and not http.request.method in {"GET" "HEAD" "OPTIONS"}) or (http.request.uri.path eq "/mcp" and not http.request.method in {"POST" "OPTIONS"})))`,
+    ref: "rozvrh-len-citanie", description: "rozvrh: mimo /mcp len GET, HEAD a OPTIONS, na /mcp len GET, POST a OPTIONS",
+    expression: `(http.host eq "${HOST}" and ((http.request.uri.path ne "/mcp" and not http.request.method in {"GET" "HEAD" "OPTIONS"}) or (http.request.uri.path eq "/mcp" and not http.request.method in {"GET" "POST" "OPTIONS"})))`,
     action: "block",
   },
 };

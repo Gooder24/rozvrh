@@ -98,6 +98,7 @@ if (pole && formular && vysledky && stavHladania) {
     mapaSa ??= (async () => {
       const [riadky, body, m] = await priprav();
       ukazNaMape = await m.vytvor(mapaEl, riadky.map((z) => z.r), body);
+      if (stavHladania.textContent?.startsWith("Mapu sa nepodarilo")) stavHladania.textContent = "";
     })().catch(() => { mapaSa = null; stavHladania.textContent = "Mapu sa nepodarilo načítať. Skúste to znova alebo zostaňte pri zozname."; });
     await mapaSa;
     ukazNaMape?.(vybrane);
@@ -473,7 +474,7 @@ ${t.dni.map((d) => `<section class="mr-den"><${h}>${esc(d.nazov)}</${h}><ul>${d.
       const v = verzie[verzia]!;
       const p = zmeny ? predosla(verzia, nazov) : null;
       mriezka.innerHTML = triedaVo(verzia, nazov) ? vykresli(v.s, nazov, p)
-        : `<p class="stav-nacitania">Trieda ${esc(nazov.length > 40 ? `${nazov.slice(0, 40)}…` : nazov)} v rozvrhu${v.od ? ` od ${datum(v.od)}` : ""} nie je. Škola vtedy mala ${sklonuj(v.s.triedy.length, "triedu", "triedy", "tried")}, vyberte niektorú vyššie.</p>`;
+        : `<p class="stav-nacitania">Trieda ${esc([...nazov].length > 40 ? `${[...nazov].slice(0, 40).join("")}…` : nazov)} v rozvrhu${v.od ? ` od ${datum(v.od)}` : ""} nie je. Škola vtedy mala ${sklonuj(v.s.triedy.length, "triedu", "triedy", "tried")}, vyberte niektorú vyššie.</p>`;
       history.replaceState(null, "", `#trieda=${encodeURIComponent(nazov)}${verzia && v.od ? `&od=${v.od}` : ""}`);
       try { localStorage.setItem(pamat, nazov); } catch { /* súkromné okno: výber sa len nezapamätá */ }
       kresliVyber();
@@ -554,7 +555,7 @@ ${t.dni.map((d) => `<section class="mr-den"><${h}>${esc(d.nazov)}</${h}><ul>${d.
   });
 
   // Trieda (a verzia) z adresy (#trieda=IV.A&od=2025-09-02) alebo naposledy otvorená trieda sa ukáže hneď.
-  const adresa = (() => { try { const m = location.hash.match(/^#trieda=([^&]+)(?:&od=(\d{4}-\d{2}-\d{2}))?$/); return m ? { trieda: decodeURIComponent(m[1]!), od: m[2] ?? "" } : null; } catch { return null; } })();
+  const adresa = (() => { try { const m = location.hash.match(/^#trieda=([^&]+)(?:&od=(\d{4}-\d{2}-\d{2}))?$/); const trieda = m ? decodeURIComponent(m[1]!) : ""; return trieda && trieda.length <= 50 ? { trieda, od: m![2] ?? "" } : null; } catch { return null; } })();
   let zPamate = "";
   try { zPamate = localStorage.getItem(pamat) ?? ""; } catch { /* bez pamäte */ }
   kresliVyber();
