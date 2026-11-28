@@ -31,7 +31,7 @@ const SKRATKY: Record<string, string[]> = {
 };
 const moznosti = (slovo: string) => {
   const hole = slovo.replace(/\.$/, "");
-  return [slovo, ...(SKRATKY[hole] ?? []), ...(hole.length > 3 && hole.startsWith("svat") ? ["sv."] : [])];
+  return [slovo, ...(Object.hasOwn(SKRATKY, hole) ? SKRATKY[hole]! : []), ...(hole.length > 3 && hole.startsWith("svat") ? ["sv."] : [])];
 };
 /** Text s podčiarknutým tým, čo človek napísal (bez ohľadu na diakritiku a veľké písmená). */
 const zvyrazni = (text: string, hladane: string[]) => {
@@ -473,7 +473,7 @@ ${t.dni.map((d) => `<section class="mr-den"><${h}>${esc(d.nazov)}</${h}><ul>${d.
       const v = verzie[verzia]!;
       const p = zmeny ? predosla(verzia, nazov) : null;
       mriezka.innerHTML = triedaVo(verzia, nazov) ? vykresli(v.s, nazov, p)
-        : `<p class="stav-nacitania">Trieda ${esc(nazov)} v rozvrhu${v.od ? ` od ${datum(v.od)}` : ""} nie je. Škola vtedy mala ${sklonuj(v.s.triedy.length, "triedu", "triedy", "tried")}, vyberte niektorú vyššie.</p>`;
+        : `<p class="stav-nacitania">Trieda ${esc(nazov.length > 40 ? `${nazov.slice(0, 40)}…` : nazov)} v rozvrhu${v.od ? ` od ${datum(v.od)}` : ""} nie je. Škola vtedy mala ${sklonuj(v.s.triedy.length, "triedu", "triedy", "tried")}, vyberte niektorú vyššie.</p>`;
       history.replaceState(null, "", `#trieda=${encodeURIComponent(nazov)}${verzia && v.od ? `&od=${v.od}` : ""}`);
       try { localStorage.setItem(pamat, nazov); } catch { /* súkromné okno: výber sa len nezapamätá */ }
       kresliVyber();

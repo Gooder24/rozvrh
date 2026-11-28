@@ -105,17 +105,26 @@ export function bezMien(skola: Skola, k: KontextMien) {
   // Dni a hodiny pomenúva škola tiež sama („Deň 1“, „Párny pondelok“, „Pondelok - Hétfő“); s menom dostanú poradové
   // číslo, a to isté číslo dostane hodina v blokoch, aby sedela so zvonením. Bez pravidiel o zriedkavých slovách
   // (bezPoctov): názvy dní sú zriedkavé, ale mená nie sú. Dvojpísmenová skratka učiteľa („JH“) je meno, okrem
-  // označenia týždňa („Pondelok PT“ je párny týždeň, aj keď má niekto skratku PT).
+  // označenia týždňa („Pondelok PT“ je párny týždeň, aj keď má niekto skratku PT). Len s veľkým prvým písmenom („Jh“,
+  // „JH“): malé „sk“ v týždni „1.sk“ je skupina.
   const sMenom = (x: string) => !!meno(x, bezPoctov, false)
-    || x.split(/[^\p{L}]+/u).some((w) => /^\p{Lu}{2}$/u.test(w) && !/^(?:PT|NT|TP|TN|[IVX]{2})$/.test(w) && k.ucitelia.has(zlozene(w)));
+    || x.split(/[^\p{L}]+/u).some((w) => /^\p{Lu}\p{L}$/u.test(w) && !/^(?:PT|NT|TP|TN|[IVX]{2})$/i.test(w) && k.ucitelia.has(zlozene(w)));
   if (skola.rozvrh) skola.rozvrh.dni = skola.rozvrh.dni.map((d, i) => (sMenom(d) ? `Deň ${i + 1}` : cisty(d, 30)));
+  // Hodina s menom dostane poradové číslo, ktoré žiadna iná hodina nemá (pri nultej hodine je „2“ už obsadené).
   const novaHodina = new Map<string, string>();
-  if (skola.zvonenie) skola.zvonenie.hodiny = skola.zvonenie.hodiny.map((h, i) => {
-    if (!sMenom(h.n)) return h;
-    novaHodina.set(h.n, String(i + 1));
-    return { ...h, n: String(i + 1) };
-  });
-  const hodina = (h: string) => novaHodina.get(h) ?? (sMenom(h) ? "?" : h);
+  if (skola.zvonenie) {
+    const obsadene = new Set(skola.zvonenie.hodiny.filter((h) => !sMenom(h.n)).map((h) => h.n));
+    skola.zvonenie.hodiny = skola.zvonenie.hodiny.map((h, i) => {
+      if (!sMenom(h.n)) return h;
+      let c = i + 1;
+      while (obsadene.has(String(c))) c++;
+      obsadene.add(String(c));
+      novaHodina.set(h.n, String(c));
+      return { ...h, n: String(c) };
+    });
+  }
+  // Bloky nesú celý názov hodiny, zvonenie skrátený na 12 znakov (triedyZRaw): porovnáva sa skrátený.
+  const hodina = (h: string) => novaHodina.get(cisty(h, 12)) ?? (sMenom(h) ? "?" : h);
   skola.triedy = skola.triedy.map((t, i) => {
     // „V.ST“ v ZŠ je špeciálna trieda; „II.ST“ v SOŠ je stavebníctvo.
     const specialnaTrieda = specialnaSkola || SPECIALNE.test(t.nazov) || (skola.stupen === "ZŠ" && /(?:^|[^\p{L}])ST[AB]?(?![\p{L}])/u.test(t.nazov));
@@ -132,7 +141,7 @@ export function bezMien(skola: Skola, k: KontextMien) {
           ucebna: b.ucebna && !meno(b.ucebna, k, true) && !skratkaMena(b.ucebna, "u") ? cisty(b.ucebna, 40) : null,
           skupina: b.skupina && !specialnaTrieda && !SPECIALNE.test(b.predmet) && !meno(b.skupina, k, true, true) && !skratkaMena(b.skupina, "s")
             ? cisty(b.skupina, 40) : null,
-          tyzden: b.tyzden && !meno(b.tyzden, bezPoctov, false) ? cisty(b.tyzden, 20) : null,
+          tyzden: b.tyzden && !sMenom(b.tyzden) ? cisty(b.tyzden, 20) : null,
         };
       }),
     };

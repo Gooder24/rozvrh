@@ -23,6 +23,8 @@ document.head.append(
 
 /** Vytvorí mapu v prvku; vrátená funkcia ukáže len zadané školy (indexy do hladanie.json) alebo všetky (null). */
 export const vytvor = async (el: HTMLElement, riadky: Riadok[], body: ([number, number] | null)[]) => {
+  const caka = el.querySelector(".mapa-caka");
+  if (caka) caka.textContent = "Načítavam mapu…";
   const [ml, s] = await Promise.all([kniznica, styl]);
   const farba = getComputedStyle(document.documentElement).getPropertyValue("--hodina").trim() || "#2f5bd3";
   const mapa = new ml.Map({ container: el, style: s, bounds: SLOVENSKO, fitBoundsOptions: { padding: 20 }, attributionControl: { compact: true }, cooperativeGestures: matchMedia("(pointer: coarse)").matches });
@@ -32,8 +34,16 @@ export const vytvor = async (el: HTMLElement, riadky: Riadok[], body: ([number, 
     features: body.flatMap((b, i) => (b ? [{ type: "Feature" as const, id: i, geometry: { type: "Point" as const, coordinates: b }, properties: { i } }] : [])),
   };
   // Body pribudnú, len čo je štýl mapy načítaný; dlaždice sa môžu ešte dokresľovať.
-  await new Promise<void>((hotovo) => (mapa.isStyleLoaded() ? hotovo() : mapa.once("style.load", () => hotovo())));
-  el.querySelector(".mapa-caka")?.remove();
+  // Keď sa štýl nestiahne (dlaždice nedostupné), mapa sa zruší a klient ponúkne zoznam; ďalší klik na „Mapa“ skúsi znova.
+  await new Promise<void>((hotovo, zle) => {
+    if (mapa.isStyleLoaded()) return hotovo();
+    mapa.once("style.load", () => hotovo());
+    mapa.on("error", (e) => { if (!mapa.isStyleLoaded()) { mapa.remove(); zle(e.error); } });
+  }).catch((e: unknown) => {
+    if (caka) caka.textContent = "Mapu sa nepodarilo načítať. Skúste to znova alebo prepnite na zoznam.";
+    throw e;
+  });
+  caka?.remove();
   mapa.addSource("skoly", { type: "geojson", data });
   // Názvy obcí a štátov po slovensky, kde ich OpenStreetMap má.
   for (const l of mapa.getStyle().layers) if (l.type === "symbol" && "source-layer" in l && l["source-layer"] === "place")
