@@ -1,16 +1,15 @@
 // Spoločná logika API a MCP: údaje sa čítajú zo statických súborov webu (/data/…) cez väzbu ASSETS.
 import type { Skola, SkolaKratko, Stav, Stupen } from "../../web/typy";
+import { bezDiakritiky, textyHladania, type TextyHladania } from "./texty";
 
 export type Env = {
   ASSETS: Fetcher;
   LIMIT: { limit(o: { key: string }): Promise<{ success: boolean }> };
 };
 type Index = { vytvorene: string; skoly: (SkolaKratko & { cesta: string })[] };
-/** Index s textami na hľadanie pripravenými raz za život izolátu (normalize na tisíckach škôl stojí CPU). */
-type Pripraveny = Index & { hladanie: { text: string; miesto: string; kraj: string }[] };
-
 const ZAKLAD = "https://assets.local";
-let index: Promise<Pripraveny> | null = null;
+let index: Promise<Index> | null = null;
+let hladanie: Promise<TextyHladania> | null = null;
 
 async function nacitaj<T>(env: Env, cesta: string): Promise<T | null> {
   const r = await env.ASSETS.fetch(new Request(ZAKLAD + cesta));
@@ -19,14 +18,18 @@ async function nacitaj<T>(env: Env, cesta: string): Promise<T | null> {
 export function nacitajIndex(env: Env) {
   index ??= nacitaj<Index>(env, "/data/skoly.json").then((i) => {
     if (!i) throw new Error("index chýba");
-    return { ...i, hladanie: i.skoly.map((s) => ({
-      text: bezDiakritiky(`${s.nazov} ${s.miesto} ${s.okres} ${s.edupage ?? ""}`), miesto: bezDiakritiky(s.miesto), kraj: bezDiakritiky(s.kraj),
-    })) };
+    return i;
   }).catch((e: unknown) => { index = null; throw e; });
   return index;
 }
+/** Texty na hľadanie: zo zostavenia, a keď súbor chýba alebo nesedí s indexom, vypočítané tu. */
+function nacitajHladanie(env: Env, i: Index) {
+  hladanie ??= nacitaj<TextyHladania>(env, "/data/api-hladanie.json")
+    .then((t) => (t && t.length === i.skoly.length ? t : textyHladania(i.skoly)))
+    .catch((e: unknown) => { hladanie = null; throw e; });
+  return hladanie;
+}
 
-const bezDiakritiky = (s: string) => s.normalize("NFD").replace(/\p{M}/gu, "").toLowerCase();
 export const ID = /^[a-z0-9-]{1,100}$/i;
 
 // IPv6: jeden pripojený počítač má celú /64, limit sa počíta na ňu (aj pri skrátenom zápise 2001:db8::1).
@@ -54,16 +57,17 @@ export async function najdi(env: Env, id: string, triedy = true): Promise<Skola 
 export type Filter = { q?: string; mesto?: string; kraj?: string; stupen?: Stupen; stav?: Stav; limit?: number };
 export async function hladaj(env: Env, f: Filter) {
   const i = await nacitajIndex(env);
+  const texty = await nacitajHladanie(env, i);
   const q = f.q ? bezDiakritiky(f.q).split(/\s+/).filter(Boolean) : [];
   const mesto = f.mesto ? bezDiakritiky(f.mesto) : null;
   const kraj = f.kraj ? bezDiakritiky(f.kraj).replace(/ kraj$/, "") : null;
   const vysledok = i.skoly.filter((s, n) => {
-    const h = i.hladanie[n]!;
+    const [text, miesto, krajS] = texty[n]!;
     if (f.stupen && s.stupen !== f.stupen) return false;
     if (f.stav && s.stav !== f.stav) return false;
-    if (mesto && h.miesto !== mesto && s.mestoSlug !== mesto) return false;
-    if (kraj && !h.kraj.startsWith(kraj)) return false;
-    if (q.length && !q.every((w) => h.text.includes(w))) return false;
+    if (mesto && miesto !== mesto && s.mestoSlug !== mesto) return false;
+    if (kraj && !krajS.startsWith(kraj)) return false;
+    if (q.length && !q.every((w) => text.includes(w))) return false;
     return true;
   });
   const limit = Math.min(Math.max(f.limit ?? 50, 1), 500);

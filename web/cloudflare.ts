@@ -1,6 +1,8 @@
 // Ochrana pred Workerom (na okraji Cloudflare, nemíňa denný limit 100 000 behov Workera):
-//   1. obmedzenie rýchlosti pre /api/v1/ a /mcp: 20 požiadaviek za 10 s z jednej IP, potom 10 s blok,
-//   2. blok metód okrem GET, HEAD a OPTIONS mimo /mcp (POST na ľubovoľnú cestu by inak spúšťal Worker).
+//   1. obmedzenie rýchlosti pre /api/v1/ a /mcp: 10 požiadaviek za 10 s z jednej IP, potom 10 s blok (Free plán nedovolí
+//      dlhšie okno; jedna IP tak spustí Worker najviac asi 86 000-krát za deň),
+//   2. blok metód: mimo /mcp len GET, HEAD a OPTIONS (POST na ľubovoľnú cestu by inak spúšťal Worker), na /mcp len POST
+//      a OPTIONS (GET, PUT či DELETE by spustili Worker len kvôli odpovedi 405).
 // Pravidlá pridá do zóny dvoriste.xyz, ak tam ešte nie sú (podľa ref), iné pravidlá zóny nemení.
 //   bun web/cloudflare.ts            nastaví pravidlá
 //   bun web/cloudflare.ts --ukaz     len vypíše, čo v zóne je
@@ -14,14 +16,14 @@ const HOST = new URL(ADRESA).host;
 type Pravidlo = { id?: string; ref: string; description: string; expression: string; action: string; ratelimit?: Record<string, unknown> };
 const PRAVIDLA: Record<string, Pravidlo> = {
   http_ratelimit: {
-    ref: "rozvrh-api-limit", description: "rozvrh: API a MCP najviac 20 požiadaviek za 10 s z jednej IP",
+    ref: "rozvrh-api-limit", description: "rozvrh: API a MCP najviac 10 požiadaviek za 10 s z jednej IP",
     expression: `(http.host eq "${HOST}" and (starts_with(http.request.uri.path, "/api/v1/") or http.request.uri.path eq "/mcp"))`,
     action: "block",
-    ratelimit: { characteristics: ["ip.src", "cf.colo.id"], period: 10, requests_per_period: 20, mitigation_timeout: 10 },
+    ratelimit: { characteristics: ["ip.src", "cf.colo.id"], period: 10, requests_per_period: 10, mitigation_timeout: 10 },
   },
   http_request_firewall_custom: {
-    ref: "rozvrh-len-citanie", description: "rozvrh: mimo /mcp len GET, HEAD a OPTIONS",
-    expression: `(http.host eq "${HOST}" and not http.request.method in {"GET" "HEAD" "OPTIONS"} and http.request.uri.path ne "/mcp")`,
+    ref: "rozvrh-len-citanie", description: "rozvrh: mimo /mcp len GET, HEAD a OPTIONS, na /mcp len POST a OPTIONS",
+    expression: `(http.host eq "${HOST}" and ((http.request.uri.path ne "/mcp" and not http.request.method in {"GET" "HEAD" "OPTIONS"}) or (http.request.uri.path eq "/mcp" and not http.request.method in {"POST" "OPTIONS"})))`,
     action: "block",
   },
 };

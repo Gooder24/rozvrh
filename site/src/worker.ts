@@ -16,15 +16,20 @@ const HLAVICKY = {
   "access-control-max-age": "86400",
   "x-content-type-options": "nosniff",
   "referrer-policy": "no-referrer",
+  // _headers platí len pre statické súbory, odpovede Workera ich potrebujú samy.
+  "strict-transport-security": "max-age=31536000",
+  "x-robots-tag": "noindex",
 };
 const json = (data: unknown, status = 200, cache = "public, max-age=300") =>
   new Response(JSON.stringify(data), { status, headers: { ...HLAVICKY, "content-type": "application/json; charset=utf-8", "cache-control": cache } });
 const chyba = (status: number, sprava: string) => json({ chyba: sprava }, status, "no-store");
 
 
-// Limit na IP, pred akoukoľvek prácou (aj pre OPTIONS).
+// Limit na IP, pred akoukoľvek prácou (aj pre OPTIONS). Keď väzba LIMIT zlyhá, požiadavka prejde (WAF pred Workerom
+// stále platí); dlhý reťazec parametrov sa ani nečíta (tisíce parametrov stoja viac CPU ako hľadanie).
 app.use("*", async (c, next) => {
-  const { success } = await c.env.LIMIT.limit({ key: kluc(c.req.header("cf-connecting-ip") ?? "nezname") });
+  if (new URL(c.req.url).search.length > 1000) return chyba(414, "Adresa je dlhšia ako 1000 znakov.");
+  const success = await c.env.LIMIT.limit({ key: kluc(c.req.header("cf-connecting-ip") ?? "nezname") }).then((r) => r.success, () => true);
   if (!success) return new Response(JSON.stringify({ chyba: "Príliš veľa požiadaviek, skúste o minútu. Celé dáta naraz: /data/skoly.json" }), {
     status: 429, headers: { ...HLAVICKY, "content-type": "application/json; charset=utf-8", "retry-after": "60", "cache-control": "no-store" },
   });
@@ -43,7 +48,7 @@ app.get("/api/v1/schools", async (c) => {
   const stav = STAVY.find((s) => s === q.stav);
   if (q.stupen && !stupen) return chyba(400, "stupen je SŠ alebo ZŠ.");
   if (q.stav && !stav) return chyba(400, `stav je jeden z: ${STAVY.join(", ")}.`);
-  const limit = q.limit ? Number(q.limit) : undefined;
+  const limit = q.limit === undefined ? undefined : /^\d{1,3}$/.test(q.limit) ? Number(q.limit) : NaN;
   if (limit !== undefined && !(Number.isInteger(limit) && limit >= 1 && limit <= 500)) return chyba(400, "limit je celé číslo 1 až 500.");
   return json(await hladaj(c.env, { q: kratky(q.q), mesto: kratky(q.mesto), kraj: kratky(q.kraj), stupen, stav, limit }));
 });
@@ -116,7 +121,8 @@ function mcpServer(env: Env) {
 }
 // MCP: jedna správa na požiadavku (dávky by obišli limit), telo do 64 KB, žiadne dlhé SSE odbery.
 const MAX_TELO = 64_000;
-async function teloSLimitom(req: Request): Promise<string | null> {
+/** Telo ako text; null pri tele nad 64 KB, undefined pri neplatnom UTF-8. */
+async function teloSLimitom(req: Request): Promise<string | null | undefined> {
   if (!req.body) return "";
   const citac = req.body.getReader();
   const casti: Uint8Array[] = [];
@@ -128,21 +134,27 @@ async function teloSLimitom(req: Request): Promise<string | null> {
     if (spolu > MAX_TELO) { await citac.cancel(); return null; }
     casti.push(value);
   }
-  return new TextDecoder().decode(await new Blob(casti).arrayBuffer());
+  try { return new TextDecoder("utf-8", { fatal: true, ignoreBOM: false }).decode(await new Blob(casti).arrayBuffer()); } catch { return undefined; }
 }
+// Jeden handler na izolát (pri každej požiadavke nový by zakaždým zapísal varovanie do logu); server je stále nový.
+let mcp: ReturnType<typeof createMcpHandler> | null = null;
+let mcpEnv: Env | null = null;
 const rpcChyba = (status: number, sprava: string) => json({ jsonrpc: "2.0", id: null, error: { code: -32600, message: sprava } }, status, "no-store");
 app.all("/mcp", async (c) => {
   let req = c.req.raw;
   if (req.method === "POST") {
     const telo = await teloSLimitom(req);
     if (telo === null) return rpcChyba(413, "Požiadavka je väčšia ako 64 KB.");
+    if (telo === undefined) return rpcChyba(400, "Telo nie je platné UTF-8.");
     let sprava: unknown;
     try { sprava = JSON.parse(telo); } catch { return rpcChyba(400, "Telo nie je JSON."); }
     if (Array.isArray(sprava)) return rpcChyba(400, "Dávky (JSON-RPC batch) nepodporujeme, pošlite jednu správu.");
     if ((sprava as { method?: unknown } | null)?.method === "subscriptions/listen") return rpcChyba(400, "Odbery zmien nepodporujeme.");
     req = new Request(req.url, { method: "POST", headers: req.headers, body: telo });
   }
-  const r = await createMcpHandler(() => mcpServer(c.env), { maxRequestBodySize: MAX_TELO, responseMode: "json", keepAliveMs: 0, maxSubscriptions: 1 }).fetch(req);
+  mcpEnv = c.env;
+  mcp ??= createMcpHandler(() => mcpServer(mcpEnv!), { maxRequestBodySize: MAX_TELO, responseMode: "json", keepAliveMs: 0, maxSubscriptions: 1 });
+  const r = await mcp.fetch(req);
   const h = new Headers(r.headers);
   for (const [k, v] of Object.entries(HLAVICKY)) h.set(k, v);
   h.set("cache-control", "no-store");

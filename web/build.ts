@@ -9,6 +9,7 @@ import { vObci } from "./obce";
 import { predmetySkoly, slovnik } from "./predmety";
 import { openapi } from "./openapi";
 import { meno } from "./sukromie";
+import { textyHladania } from "../site/src/texty";
 
 const render: Render = ui;
 const VON = "site/public";
@@ -88,6 +89,8 @@ const stlpce = ["id", "nazov", "stupen", "typ", "druh", "kraj", "okres", "miesto
 // Bunka, ktorá začína =, +, -, @, by sa v Exceli vykonala ako vzorec: predradí sa apostrof.
 const csvBunka = (v: unknown) => { const t = (v == null ? "" : String(v)).replace(/^[=+\-@\t\r]/, "'$&"); return /[",\r\n;]/.test(t) ? `"${t.replace(/"/g, '""')}"` : t; };
 await zapis("/data/skoly.csv", "\ufeff" + [stlpce.join(","), ...index.map((s) => stlpce.map((k) => csvBunka(s[k])).join(","))].join("\n"));
+// Texty na hľadanie v API a MCP, už bez diakritiky (Worker ich pri studenom štarte nemusí počítať).
+await zapis("/data/api-hladanie.json", JSON.stringify(textyHladania(index)));
 // Malý index na hľadanie v prehliadači: [nazov, miesto, cesta, stav, ulica].
 await zapis("/data/hladanie.json", JSON.stringify(index.map((s) => [s.nazov, s.miesto, s.cesta, s.stav === "verejny_rozvrh" ? 2 : s.stav === "len_zvonenie" ? 1 : 0, s.ulica])));
 // Body na mape v poradí hladanie.json. Poloha je adresa školy z data/mapa/adresy-gps.json (prieskum/geokoduj.ts,
